@@ -14,14 +14,18 @@ module.exports = (function () {
 
     ClassVariable = (function () {
 
-        var CSS_STYLES = {
-            INFO: "info",
-            CONTEXT: "context",
-            NEW: "insert",
-            DELETED: "delete"
-        };
+        var LINE_TYPE = {
+            INSERTS: "d2h-ins",
+            ALL_NEW: "d2h-all-ins",
 
-        var BLOCK_HEADER_LINE = "...";
+            DELETES: "d2h-del",
+            ALL_DELETED: "d2h-all-del",
+
+            INSERTS_AND_DELETES: "d2h-ins-and-del",
+            CONTEXT: "d2h-cntx",
+
+            INFO: "d2h-info"
+        };
 
         function Diff2Html() {
         }
@@ -31,7 +35,7 @@ module.exports = (function () {
          */
         Diff2Html.prototype.getPrettyHtmlFromDiff = function (diffInput) {
             var diffJson = generateDiffJson(diffInput);
-            return generateJsonHtml(diffJson);
+            return generateJsonHtml(diffJson, generateFileHtml);
         };
 
         /*
@@ -45,7 +49,22 @@ module.exports = (function () {
          * Generates pretty html from a json object
          */
         Diff2Html.prototype.getPrettyHtmlFromJson = function (diffJson) {
-            return generateJsonHtml(diffJson);
+            return generateJsonHtml(diffJson, generateFileHtml);
+        };
+
+        /*
+         * Generates pretty html from string diff input
+         */
+        Diff2Html.prototype.getPrettySideBySideHtmlFromDiff = function (diffInput) {
+            var diffJson = generateDiffJson(diffInput);
+            return generateJsonHtml(diffJson, generateSideBySideFileHtml);
+        };
+
+        /*
+         * Generates pretty html from a json object
+         */
+        Diff2Html.prototype.getPrettySideBySideHtmlFromJson = function (diffJson) {
+            return generateJsonHtml(diffJson, generateSideBySideFileHtml);
         };
 
         var generateDiffJson = function (diffInput) {
@@ -97,67 +116,77 @@ module.exports = (function () {
                 currentBlock.lines = [];
                 currentBlock.oldStartLine = oldLine = values[2];
                 currentBlock.newStartLine = newLine = values[4];
-
-                /* create block header line */
-                var currentLine = {};
-                currentLine.type = CSS_STYLES.INFO;
-                currentLine.content = line;
-                currentLine.oldNumber = BLOCK_HEADER_LINE;
-                currentLine.newNumber = BLOCK_HEADER_LINE;
-
-                /* add line to block */
-                currentBlock.lines.push(currentLine);
+                currentBlock.header = line;
             };
 
             var createLine = function (line) {
+                /* Line Types */
                 var isLineWithInserts = /{\+.*?\+}/.exec(line);
-                var isLineWithDeletes = /\[-.*?-\]/.exec(line);
                 var isNewLine = /^{\+.*?\+}$/.exec(line);
+
+                var isLineWithDeletes = /\[-.*?-\]/.exec(line);
+                var isRemovedLine = /^\[-.*?-\]$/.exec(line);
+
+                var isLineWithBoth = isLineWithInserts && isLineWithDeletes;
                 var isContextLine = !isLineWithInserts && !isLineWithDeletes;
 
                 var currentLine = {};
+                currentLine.content = line;
 
-                if (isContextLine) {
-                    currentLine = {};
-                    currentLine.type = CSS_STYLES.CONTEXT;
+                /* fill the line data */
+                if (isLineWithBoth) {
+                    currentFile.deletedLines++;
+                    currentFile.addedLines++;
+
+                    currentLine.type = LINE_TYPE.INSERTS_AND_DELETES;
                     currentLine.oldNumber = oldLine++;
                     currentLine.newNumber = newLine++;
-                    currentLine.content = line;
 
                     currentBlock.lines.push(currentLine);
-                } else {
 
-                    if (isLineWithDeletes) {
-                        currentFile.deletedLines++;
+                } else if (isContextLine) {
 
-                        currentLine = {};
-                        currentLine.type = CSS_STYLES.DELETED;
-                        currentLine.oldNumber = oldLine++;
-                        currentLine.newNumber = null;
-                        currentLine.content = line;
+                    currentLine.type = LINE_TYPE.CONTEXT;
+                    currentLine.oldNumber = oldLine++;
+                    currentLine.newNumber = newLine++;
 
-                        currentBlock.lines.push(currentLine);
+                    currentBlock.lines.push(currentLine);
 
-                    }
+                } else if (isNewLine) {
+                    currentFile.addedLines++;
 
-                    if (isLineWithInserts) {
-                        currentFile.addedLines++;
+                    currentLine.type = LINE_TYPE.ALL_NEW;
+                    currentLine.oldNumber = null;
+                    currentLine.newNumber = newLine++;
 
-                        currentLine = {};
-                        currentLine.type = CSS_STYLES.NEW;
-                        currentLine.oldNumber = null;
-                        currentLine.newNumber = newLine++;
-                        currentLine.content = line;
+                    currentBlock.lines.push(currentLine);
 
-                        /* fix line numbers when new chars but no deletes and no whole new line  */
-                        if (isLineWithInserts && !isLineWithDeletes && !isNewLine) {
-                            currentFile.deletedLines++;
+                } else if (isRemovedLine) {
+                    currentFile.deletedLines++;
 
-                            currentLine.oldNumber = oldLine++;
-                        }
+                    currentLine.type = LINE_TYPE.ALL_DELETED;
+                    currentLine.oldNumber = oldLine++;
+                    currentLine.newNumber = null;
 
-                        currentBlock.lines.push(currentLine);
-                    }
+                    currentBlock.lines.push(currentLine);
+
+                } else if (isLineWithInserts) {
+                    currentFile.addedLines++;
+
+                    currentLine.type = LINE_TYPE.INSERTS;
+                    currentLine.oldNumber = oldLine++;
+                    currentLine.newNumber = newLine++;
+
+                    currentBlock.lines.push(currentLine);
+
+                } else if (isLineWithDeletes) {
+                    currentFile.deletedLines++;
+
+                    currentLine.type = LINE_TYPE.DELETES;
+                    currentLine.oldNumber = oldLine++;
+                    currentLine.newNumber = newLine++;
+
+                    currentBlock.lines.push(currentLine);
 
                 }
             };
@@ -188,22 +217,26 @@ module.exports = (function () {
             return files;
         };
 
-        var generateJsonHtml = function (diffFiles) {
-            return "<div id=\"wrapper\">\n" +
+        /*
+         * Line By Line HTML
+         */
+
+        var generateJsonHtml = function (diffFiles, htmlTypeFunction) {
+            return "<div class=\"d2h-wrapper\">\n" +
                 diffFiles.map(function (file) {
-                    return "<div class=\"file-wrapper\">\n" +
-                        "     <div class=\"file-header\">\n" +
-                        "       <div class=\"file-stats\">\n" +
-                        "         <span class=\"lines-added\">+" + file.addedLines + "</span>\n" +
-                        "         <span class=\"lines-deleted\">-" + file.deletedLines + "</span>\n" +
+                    return "<div class=\"d2h-file-wrapper\">\n" +
+                        "     <div class=\"d2h-file-header\">\n" +
+                        "       <div class=\"d2h-file-stats\">\n" +
+                        "         <span class=\"d2h-lines-added\">+" + file.addedLines + "</span>\n" +
+                        "         <span class=\"d2h-lines-deleted\">-" + file.deletedLines + "</span>\n" +
                         "       </div>\n" +
-                        "       <div class=\"file-name\">" + getDiffName(file.oldName, file.newName) + "</div>\n" +
+                        "       <div class=\"d2h-file-name\">" + getDiffName(file.oldName, file.newName) + "</div>\n" +
                         "     </div>\n" +
-                        "     <div class=\"file-diff\">\n" +
-                        "       <div class=\"code-wrapper\">\n" +
-                        "         <table class=\"diff-table\">\n" +
-                        "           <tbody>\n" +
-                        "         " + generateFileHtml(file) +
+                        "     <div class=\"d2h-file-diff\">\n" +
+                        "       <div class=\"d2h-code-wrapper\">\n" +
+                        "         <table class=\"d2h-diff-table\">\n" +
+                        "           <tbody class=\"d2h-diff-tbody\">\n" +
+                        "         " + htmlTypeFunction(file) +
                         "           </tbody>\n" +
                         "         </table>\n" +
                         "       </div>\n" +
@@ -213,42 +246,226 @@ module.exports = (function () {
                 "</div>\n";
         };
 
+        var generateFileHtml = function (file) {
+            return file.blocks.map(function (block) {
+
+                return "<tr>\n" +
+                    "  <td class=\"d2h-code-linenumber " + LINE_TYPE.INFO + "\" colspan=\"2\"></td>\n" +
+                    "  <td class=\"" + LINE_TYPE.INFO + "\">" +
+                    "    <div class=\"d2h-code-line " + LINE_TYPE.INFO + "\">" + escape(block.header) + "</div>" +
+                    "  </td>\n" +
+                    "</tr>\n" +
+
+                    block.lines.map(function (line) {
+
+                        var newLine = function () {
+                            var lineData = {};
+                            lineData.oldLine = valueOrEmpty(line.oldNumber);
+                            lineData.newLine = valueOrEmpty(line.newNumber);
+
+                            return lineData;
+                        };
+
+                        var escapedLine = escape(line.content);
+
+                        var lines = [];
+                        var lineData = {};
+
+                        switch (line.type) {
+                            case LINE_TYPE.INSERTS:
+                            case LINE_TYPE.ALL_NEW:
+                                lineData = newLine();
+                                lineData.content = generateLineInsertions(escapedLine);
+                                lineData.type = LINE_TYPE.INSERTS;
+                                lines.push(lineData);
+                                break;
+                            case LINE_TYPE.DELETES:
+                            case LINE_TYPE.ALL_DELETED:
+                                lineData = newLine();
+                                lineData.content = generateLineDeletions(escapedLine);
+                                lineData.type = LINE_TYPE.DELETES;
+                                lines.push(lineData);
+                                break;
+                            case LINE_TYPE.INSERTS_AND_DELETES:
+                                lineData = newLine();
+                                lineData.content = generateLineDeletions(escapedLine);
+                                lineData.type = LINE_TYPE.DELETES;
+                                lines.push(lineData);
+
+                                lineData = newLine();
+                                lineData.content = generateLineInsertions(escapedLine);
+                                lineData.type = LINE_TYPE.INSERTS;
+                                lines.push(lineData);
+                                break;
+                            default:
+                                lineData = newLine();
+                                lineData.content = escapedLine;
+                                lineData.type = LINE_TYPE.CONTEXT;
+                                lines.push(lineData);
+                                break;
+                        }
+
+                        return lines.map(generateLineHtml).join("\n");
+                    }).join("\n");
+            }).join("\n");
+        };
+
+        var generateLineHtml = function (line) {
+            return "<tr>\n" +
+                "  <td class=\"d2h-code-linenumber " + line.type + "\">" + line.oldLine + "</td>\n" +
+                "  <td class=\"d2h-code-linenumber " + line.type + "\">" + line.newLine + "</td>\n" +
+                "  <td class=\"" + line.type + "\">" +
+                "    <div class=\"d2h-code-line " + line.type + "\">" + line.content + "</div>" +
+                "  </td>\n" +
+                "</tr>\n";
+        };
+
+        /*
+         * Side By Side HTML (work in progress)
+         */
+
+        var generateSideBySideFileHtml = function (file) {
+            return file.blocks.map(function (block) {
+
+                return "<tr>\n" +
+                    "  <td class=\"d2h-code-linenumber " + LINE_TYPE.INFO + "\"></td>\n" +
+                    "  <td class=\"" + LINE_TYPE.INFO + "\" colspan=\"3\">" +
+                    "    <div class=\"d2h-code-line " + LINE_TYPE.INFO + "\">" + escape(block.header) + "</div>" +
+                    "  </td>\n" +
+                    "</tr>\n" +
+
+                    block.lines.map(function (line) {
+
+                        var emptyLine = function () {
+                            var lineData = {};
+                            lineData.number = "";
+                            lineData.content = "";
+                            lineData.type = LINE_TYPE.CONTEXT;
+
+                            return lineData;
+                        };
+
+                        var escapedLine = escape(line.content);
+
+                        var lines = [];
+                        var lineData = {};
+
+                        switch (line.type) {
+                            case LINE_TYPE.INSERTS:
+                                lineData = {};
+                                lineData.number = valueOrEmpty(line.oldNumber);
+                                lineData.content = removeInserts(escapedLine);
+                                lineData.type = LINE_TYPE.CONTEXT;
+                                lines.push(lineData);
+
+                                lineData = {};
+                                lineData.number = valueOrEmpty(line.newNumber);
+                                lineData.content = generateLineInsertions(escapedLine);
+                                lineData.type = LINE_TYPE.INSERTS;
+                                lines.push(lineData);
+                                break;
+                            case LINE_TYPE.ALL_NEW:
+                                lines.push(new emptyLine());
+
+                                lineData = {};
+                                lineData.number = valueOrEmpty(line.newNumber);
+                                lineData.content = generateLineInsertions(escapedLine);
+                                lineData.type = LINE_TYPE.INSERTS;
+                                lines.push(lineData);
+                                break;
+                            case LINE_TYPE.DELETES:
+                                lineData = {};
+                                lineData.number = valueOrEmpty(line.oldNumber);
+                                lineData.content = generateLineDeletions(escapedLine);
+                                lineData.type = LINE_TYPE.DELETES;
+                                lines.push(lineData);
+
+                                lineData = {};
+                                lineData.number = valueOrEmpty(line.newNumber);
+                                lineData.content = removeDeletes(escapedLine);
+                                lineData.type = LINE_TYPE.CONTEXT;
+                                lines.push(lineData);
+                                break;
+                            case LINE_TYPE.ALL_DELETED:
+                                lineData = {};
+                                lineData.number = valueOrEmpty(line.oldNumber);
+                                lineData.content = generateLineDeletions(escapedLine);
+                                lineData.type = LINE_TYPE.DELETES;
+                                lines.push(lineData);
+
+                                lines.push(new emptyLine());
+                                break;
+                            case LINE_TYPE.INSERTS_AND_DELETES:
+                                lineData = {};
+                                lineData.number = valueOrEmpty(line.oldNumber);
+                                lineData.content = generateLineDeletions(escapedLine);
+                                lineData.type = LINE_TYPE.DELETES;
+                                lines.push(lineData);
+
+                                lineData = {};
+                                lineData.number = valueOrEmpty(line.newNumber);
+                                lineData.content = generateLineInsertions(escapedLine);
+                                lineData.type = LINE_TYPE.INSERTS;
+                                lines.push(lineData);
+                                break;
+                            default:
+                                lineData = {};
+                                lineData.number = valueOrEmpty(line.oldNumber);
+                                lineData.content = escapedLine;
+                                lineData.type = LINE_TYPE.CONTEXT;
+                                lines.push(lineData);
+
+                                lineData = {};
+                                lineData.number = valueOrEmpty(line.newNumber);
+                                lineData.content = escapedLine;
+                                lineData.type = LINE_TYPE.CONTEXT;
+                                lines.push(lineData);
+                                break;
+                        }
+
+                        return "<tr>\n" + lines.map(generateSingleLineHtml).join("\n") + "</tr>\n";
+                    }).join("\n");
+            }).join("\n");
+        };
+
+        var generateSingleLineHtml = function (line) {
+            return "<td class=\"d2h-code-linenumber " + line.type + "\">" + line.number + "</td>\n" +
+                "   <td class=\"" + line.type + "\">" +
+                "     <div class=\"d2h-code-line " + line.type + "\">" + line.content + "</div>" +
+                "   </td>\n";
+        };
+
+        /*
+         * HTML Helpers
+         */
+
         var getDiffName = function (oldFilename, newFilename) {
             return oldFilename === newFilename ? newFilename : oldFilename + " -> " + newFilename;
         };
 
-        var generateFileHtml = function (file) {
-            return file.blocks.map(function (block) {
-                return block.lines.map(function (line) {
-
-                    var oldLine = valueOrEmpty(line.oldNumber);
-                    var newLine = valueOrEmpty(line.newNumber);
-
-                    var escapedLine = escape(line.content);
-
-                    if (line.type === CSS_STYLES.NEW) {
-                        escapedLine = generateLineInsertions(escapedLine);
-                    } else if (line.type === CSS_STYLES.DELETED) {
-                        escapedLine = generateLineDeletions(escapedLine);
-                    }
-
-                    return "<tr>\n" +
-                        "  <td class=\"code-linenumber " + line.type + "\">" + oldLine + "</td>\n" +
-                        "  <td class=\"code-linenumber " + line.type + "\">" + newLine + "</td>\n" +
-                        "  <td class=\"code-line " + line.type + "\"><pre class=\"" + line.type + "\">" + escapedLine + "</pre></td>\n" +
-                        "</tr>\n";
-                }).join("\n");
-            }).join("\n");
-        };
-
         var generateLineInsertions = function (line) {
-            return line.replace(/(\[-.*?-\])/g, "").
+            return line.slice(0).replace(/(\[-.*?-\])/g, "").
                 replace(/({\+(.*?)\+})/g, "<ins>$2</ins>");
         };
 
         var generateLineDeletions = function (line) {
-            return line.replace(/({\+.*?\+})/g, "").
+            return line.slice(0).replace(/({\+.*?\+})/g, "").
                 replace(/(\[-(.*?)-\])/g, "<del>$2</del>");
+        };
+
+        var removeDeletes = function (line) {
+            return line.slice(0).replace(/({\+.*?\+})/g, "").
+                replace(/(\[-.*?-\])/g, "");
+        };
+
+        var removeInserts = function (line) {
+            return line.slice(0).replace(/({\+.*?\+})/g, "").
+                replace(/(\[-.*?-\])/g, "");
+        };
+
+        var cleanLine = function (line) {
+            return line.slice(0).replace(/({\+(.*?)\+})/g, "$2").
+                replace(/(\[-(.*?)-\])/g, "$2");
         };
 
         /*
@@ -256,7 +473,7 @@ module.exports = (function () {
          */
 
         function escape(str) {
-            return str
+            return str.slice(0)
                 .replace(/&/g, "&amp;")
                 .replace(/</g, "&lt;")
                 .replace(/>/g, "&gt;")

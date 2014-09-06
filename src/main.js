@@ -8,10 +8,12 @@ program.usage('[git-diff options]');
 
 program
     .option('-i, --input [file]', 'Diff input file.')
-    .option('-o, --output [file]', 'Output to file path. Defaults to stdout.');
+    .option('-o, --output [file]', 'Output to file path. Defaults to stdout.')
+    .option('-l, --line', 'Line by Line diff.')
+    .option('-s, --side', 'Side by Side diff.');
 
 program.on('--help', function () {
-    console.log('For support, check out github.com/rtfpessoa/diff2html-node');
+    console.log('For support, check out https://github.com/rtfpessoa/diff2html-nodejs');
 });
 
 program.parse(process.argv);
@@ -20,11 +22,10 @@ main(program);
 
 function main(program) {
     var fs = require('fs');
-    var diff2html = require('./diff2html.js');
 
     var input = getInput(program);
     if (input) {
-        var content = diff2html.getPrettyHtmlFromDiff(input);
+        var content = getHtml(program, input);
 
         if (program.output) {
             fs.writeFileSync(program.output, content);
@@ -47,5 +48,15 @@ function getInput(program) {
         var result = sh.exec(command);
 
         return result.stdout;
+    }
+}
+
+function getHtml(program, input) {
+    var diff2html = require('./diff2html.js');
+
+    if (program.side) {
+        return diff2html.getPrettySideBySideHtmlFromDiff(input);
+    } else {
+        return diff2html.getPrettyHtmlFromDiff(input);
     }
 }
