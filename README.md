@@ -18,7 +18,7 @@ This project uses [diff2html](https://github.com/rtfpessoa/diff2html) as base.
 
 * GitHub like style
 
-## Real Example
+## Online Example
 
 > Go to [Diff2HTML](http://rtfpessoa.github.io/diff2html/)
 
@@ -38,12 +38,14 @@ This project uses [diff2html](https://github.com/rtfpessoa/diff2html) as base.
 
     Options:
 
-    -h, --help           output usage information
-    -V, --version        output the version number
-    -i, --input [file]   Diff input file.
-    -o, --output [file]  Output to file path. Defaults to stdout.
-    -l, --line           Line by Line diff.
-    -s, --side           Side by Side diff.
+        -h, --help           output usage information
+        -V, --version        output the version number
+        -i, --input [file]   Diff input file.
+        -o, --output [file]  Output to file path. Defaults to stdout.
+        -p, --preview        Open preview in the browser.
+        -l, --line           Line by Line diff.
+        -s, --side           Side by Side diff.
+        -j, --json           Export diff in json format.
 
 ## Contribution
 

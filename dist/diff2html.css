@@ -3,7 +3,7 @@
  * Diff to HTML (diff2html.css)
  * Author: rtfpessoa
  * Date: Friday 29 August 2014
- * Last Update: Saturday 6 September 2014
+ * Last Update: Sunday 14 September 2014
  *
  */
 
@@ -28,7 +28,7 @@
 }
 
 .d2h-file-stats {
-    display: inline-block;
+    display: inline;
     font-size: 12px;
     text-align: center;
     max-width: 15%;
@@ -53,7 +53,7 @@
 }
 
 .d2h-file-name {
-    display: inline-flex;
+    display: inline;
     height: 33px;
     line-height: 33px;
     max-width: 80%;
@@ -68,6 +68,22 @@
     font-size: 12px;
     height: 18px;
     line-height: 18px;
+    width: 100%;
+}
+
+.d2h-files-diff {
+    width: 100%;
+}
+
+.d2h-file-diff {
+    overflow-x: scroll;
+}
+
+.d2h-file-side-diff {
+    display: inline-block;
+    overflow-x: scroll;
+    width: 50%;
+    margin-right: -4px;
 }
 
 .d2h-code-line {
@@ -76,11 +92,20 @@
     padding-right: 10px;
     height: 18px;
     line-height: 18px;
-    width: 557px;
-    overflow: scroll;
+    margin-left: 80px;
 }
 
-.d2h-code-line del {
+.d2h-code-side-line {
+    white-space: pre;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 18px;
+    line-height: 18px;
+    margin-left: 50px;
+}
+
+.d2h-code-line del,
+.d2h-code-side-line del {
     display: inline-block;
     margin-top: -1px;
     text-decoration: none;
@@ -89,7 +114,8 @@
     border-radius: 0.2em;
 }
 
-.d2h-code-line ins {
+.d2h-code-line ins,
+.d2h-code-side-line ins {
     display: inline-block;
     margin-top: -1px;
     text-decoration: none;
@@ -98,22 +124,53 @@
     border-radius: 0.2em;
 }
 
+.line-num1 {
+    display: inline-block;
+    float: left;
+    width: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.line-num2 {
+    display: inline-block;
+    float: right;
+    width: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .d2h-code-linenumber {
-    width: 1%;
-    min-width: 30px;
+    position: absolute;
+    width: 2%;
+    min-width: 65px;
     padding-left: 10px;
     padding-right: 10px;
     height: 18px;
     line-height: 18px;
+    background-color: #fff;
     color: rgba(0, 0, 0, 0.3);
     text-align: right;
     border: solid #eeeeee;
-    border-width: 0 1px 0 0;
+    border-width: 0 1px 0 1px;
     cursor: pointer;
 }
 
-.d2h-code-linenumber:not(:first-child) {
+.d2h-code-side-linenumber {
+    position: absolute;
+    width: 35px;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 18px;
+    line-height: 18px;
+    background-color: #fff;
+    color: rgba(0, 0, 0, 0.3);
+    text-align: right;
+    border: solid #eeeeee;
     border-width: 0 1px 0 1px;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .d2h-del {

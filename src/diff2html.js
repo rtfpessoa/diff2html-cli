@@ -3,7 +3,7 @@
  * Diff to HTML (diff2html.js)
  * Author: rtfpessoa
  * Date: Friday 29 August 2014
- * Last Update: Saturday 30 August 2014
+ * Last Update: Sunday 14 September 2014
  *
  * Diff command:
  *   git diff --word-diff-regex=. HEAD~1
@@ -35,7 +35,7 @@ module.exports = (function () {
          */
         Diff2Html.prototype.getPrettyHtmlFromDiff = function (diffInput) {
             var diffJson = generateDiffJson(diffInput);
-            return generateJsonHtml(diffJson, generateFileHtml);
+            return generateJsonHtml(diffJson);
         };
 
         /*
@@ -49,22 +49,22 @@ module.exports = (function () {
          * Generates pretty html from a json object
          */
         Diff2Html.prototype.getPrettyHtmlFromJson = function (diffJson) {
-            return generateJsonHtml(diffJson, generateFileHtml);
+            return generateJsonHtml(diffJson);
         };
 
         /*
-         * Generates pretty html from string diff input
+         * Generates pretty side by side html from string diff input
          */
         Diff2Html.prototype.getPrettySideBySideHtmlFromDiff = function (diffInput) {
             var diffJson = generateDiffJson(diffInput);
-            return generateJsonHtml(diffJson, generateSideBySideFileHtml);
+            return generateSideBySideJsonHtml(diffJson);
         };
 
         /*
-         * Generates pretty html from a json object
+         * Generates pretty side by side html from a json object
          */
         Diff2Html.prototype.getPrettySideBySideHtmlFromJson = function (diffJson) {
-            return generateJsonHtml(diffJson, generateSideBySideFileHtml);
+            return generateSideBySideJsonHtml(diffJson);
         };
 
         var generateDiffJson = function (diffInput) {
@@ -109,13 +109,20 @@ module.exports = (function () {
             var startBlock = function (line) {
                 saveBlock();
 
-                var values = /^(@@ -(\d+),(\d+) \+(\d+),(\d+) @@).*/.exec(line);
+                var values;
+                if (values = /^(@@ -(\d+),(\d+) \+(\d+),(\d+) @@).*/.exec(line)) {
+                    oldLine = values[2];
+                    newLine = values[4];
+                } else {
+                    oldLine = 0;
+                    newLine = 0;
+                }
 
                 /* create block metadata */
                 currentBlock = {};
                 currentBlock.lines = [];
-                currentBlock.oldStartLine = oldLine = values[2];
-                currentBlock.newStartLine = newLine = values[4];
+                currentBlock.oldStartLine = oldLine;
+                currentBlock.newStartLine = newLine;
                 currentBlock.header = line;
             };
 
@@ -221,7 +228,7 @@ module.exports = (function () {
          * Line By Line HTML
          */
 
-        var generateJsonHtml = function (diffFiles, htmlTypeFunction) {
+        var generateJsonHtml = function (diffFiles) {
             return "<div class=\"d2h-wrapper\">\n" +
                 diffFiles.map(function (file) {
                     return "<div class=\"d2h-file-wrapper\">\n" +
@@ -236,7 +243,7 @@ module.exports = (function () {
                         "       <div class=\"d2h-code-wrapper\">\n" +
                         "         <table class=\"d2h-diff-table\">\n" +
                         "           <tbody class=\"d2h-diff-tbody\">\n" +
-                        "         " + htmlTypeFunction(file) +
+                        "         " + generateFileHtml(file) +
                         "           </tbody>\n" +
                         "         </table>\n" +
                         "       </div>\n" +
@@ -312,8 +319,10 @@ module.exports = (function () {
 
         var generateLineHtml = function (line) {
             return "<tr>\n" +
-                "  <td class=\"d2h-code-linenumber " + line.type + "\">" + line.oldLine + "</td>\n" +
-                "  <td class=\"d2h-code-linenumber " + line.type + "\">" + line.newLine + "</td>\n" +
+                "  <td class=\"d2h-code-linenumber " + line.type + "\">" +
+                "    <div class=\"line-num1\">" + line.oldLine + "</div>" +
+                "    <div class=\"line-num2\">" + line.newLine + "</div>" +
+                "  </td>\n" +
                 "  <td class=\"" + line.type + "\">" +
                 "    <div class=\"d2h-code-line " + line.type + "\">" + line.content + "</div>" +
                 "  </td>\n" +
@@ -324,13 +333,49 @@ module.exports = (function () {
          * Side By Side HTML (work in progress)
          */
 
-        var generateSideBySideFileHtml = function (file) {
+        var generateSideBySideJsonHtml = function (diffFiles) {
+            return "<div class=\"d2h-wrapper\">\n" +
+                diffFiles.map(function (file) {
+                    return "<div class=\"d2h-file-wrapper\">\n" +
+                        "     <div class=\"d2h-file-header\">\n" +
+                        "       <div class=\"d2h-file-stats\">\n" +
+                        "         <span class=\"d2h-lines-added\">+" + file.addedLines + "</span>\n" +
+                        "         <span class=\"d2h-lines-deleted\">-" + file.deletedLines + "</span>\n" +
+                        "       </div>\n" +
+                        "       <div class=\"d2h-file-name\">" + getDiffName(file.oldName, file.newName) + "</div>\n" +
+                        "     </div>\n" +
+                        "     <div class=\"d2h-files-diff\">\n" +
+                        "       <div class=\"d2h-file-side-diff\">\n" +
+                        "         <div class=\"d2h-code-wrapper\">\n" +
+                        "           <table class=\"d2h-diff-table\">\n" +
+                        "             <tbody class=\"d2h-diff-tbody\">\n" +
+                        "           " + generateLeftSideFileHtml(file) +
+                        "             </tbody>\n" +
+                        "           </table>\n" +
+                        "         </div>\n" +
+                        "       </div>\n" +
+                        "       <div class=\"d2h-file-side-diff\">\n" +
+                        "         <div class=\"d2h-code-wrapper\">\n" +
+                        "           <table class=\"d2h-diff-table\">\n" +
+                        "             <tbody class=\"d2h-diff-tbody\">\n" +
+                        "           " + generateRightSideFileHtml(file) +
+                        "             </tbody>\n" +
+                        "           </table>\n" +
+                        "         </div>\n" +
+                        "       </div>\n" +
+                        "     </div>\n" +
+                        "   </div>\n";
+                }).join("\n") +
+                "</div>\n";
+        };
+
+        var generateLeftSideFileHtml = function (file) {
             return file.blocks.map(function (block) {
 
                 return "<tr>\n" +
-                    "  <td class=\"d2h-code-linenumber " + LINE_TYPE.INFO + "\"></td>\n" +
+                    "  <td class=\"d2h-code-side-linenumber " + LINE_TYPE.INFO + "\"></td>\n" +
                     "  <td class=\"" + LINE_TYPE.INFO + "\" colspan=\"3\">" +
-                    "    <div class=\"d2h-code-line " + LINE_TYPE.INFO + "\">" + escape(block.header) + "</div>" +
+                    "    <div class=\"d2h-code-side-line " + LINE_TYPE.INFO + "\">" + escape(block.header) + "</div>" +
                     "  </td>\n" +
                     "</tr>\n" +
 
@@ -357,33 +402,15 @@ module.exports = (function () {
                                 lineData.content = removeInserts(escapedLine);
                                 lineData.type = LINE_TYPE.CONTEXT;
                                 lines.push(lineData);
-
-                                lineData = {};
-                                lineData.number = valueOrEmpty(line.newNumber);
-                                lineData.content = generateLineInsertions(escapedLine);
-                                lineData.type = LINE_TYPE.INSERTS;
-                                lines.push(lineData);
                                 break;
                             case LINE_TYPE.ALL_NEW:
                                 lines.push(new emptyLine());
-
-                                lineData = {};
-                                lineData.number = valueOrEmpty(line.newNumber);
-                                lineData.content = generateLineInsertions(escapedLine);
-                                lineData.type = LINE_TYPE.INSERTS;
-                                lines.push(lineData);
                                 break;
                             case LINE_TYPE.DELETES:
                                 lineData = {};
                                 lineData.number = valueOrEmpty(line.oldNumber);
                                 lineData.content = generateLineDeletions(escapedLine);
                                 lineData.type = LINE_TYPE.DELETES;
-                                lines.push(lineData);
-
-                                lineData = {};
-                                lineData.number = valueOrEmpty(line.newNumber);
-                                lineData.content = removeDeletes(escapedLine);
-                                lineData.type = LINE_TYPE.CONTEXT;
                                 lines.push(lineData);
                                 break;
                             case LINE_TYPE.ALL_DELETED:
@@ -392,20 +419,12 @@ module.exports = (function () {
                                 lineData.content = generateLineDeletions(escapedLine);
                                 lineData.type = LINE_TYPE.DELETES;
                                 lines.push(lineData);
-
-                                lines.push(new emptyLine());
                                 break;
                             case LINE_TYPE.INSERTS_AND_DELETES:
                                 lineData = {};
                                 lineData.number = valueOrEmpty(line.oldNumber);
                                 lineData.content = generateLineDeletions(escapedLine);
                                 lineData.type = LINE_TYPE.DELETES;
-                                lines.push(lineData);
-
-                                lineData = {};
-                                lineData.number = valueOrEmpty(line.newNumber);
-                                lineData.content = generateLineInsertions(escapedLine);
-                                lineData.type = LINE_TYPE.INSERTS;
                                 lines.push(lineData);
                                 break;
                             default:
@@ -414,7 +433,73 @@ module.exports = (function () {
                                 lineData.content = escapedLine;
                                 lineData.type = LINE_TYPE.CONTEXT;
                                 lines.push(lineData);
+                                break;
+                        }
 
+                        return "<tr>\n" + lines.map(generateSingleLineHtml).join("\n") + "</tr>\n";
+                    }).join("\n");
+            }).join("\n");
+        };
+
+        var generateRightSideFileHtml = function (file) {
+            return file.blocks.map(function (block) {
+
+                return "<tr>\n" +
+                    "  <td class=\"d2h-code-side-linenumber " + LINE_TYPE.INFO + "\"></td>\n" +
+                    "  <td class=\"" + LINE_TYPE.INFO + "\" colspan=\"3\">" +
+                    "    <div class=\"d2h-code-side-line " + LINE_TYPE.INFO + "\"></div>" +
+                    "  </td>\n" +
+                    "</tr>\n" +
+
+                    block.lines.map(function (line) {
+
+                        var emptyLine = function () {
+                            var lineData = {};
+                            lineData.number = "";
+                            lineData.content = "";
+                            lineData.type = LINE_TYPE.CONTEXT;
+
+                            return lineData;
+                        };
+
+                        var escapedLine = escape(line.content);
+
+                        var lines = [];
+                        var lineData = {};
+
+                        switch (line.type) {
+                            case LINE_TYPE.INSERTS:
+                                lineData = {};
+                                lineData.number = valueOrEmpty(line.newNumber);
+                                lineData.content = generateLineInsertions(escapedLine);
+                                lineData.type = LINE_TYPE.INSERTS;
+                                lines.push(lineData);
+                                break;
+                            case LINE_TYPE.ALL_NEW:
+                                lineData = {};
+                                lineData.number = valueOrEmpty(line.newNumber);
+                                lineData.content = generateLineInsertions(escapedLine);
+                                lineData.type = LINE_TYPE.INSERTS;
+                                lines.push(lineData);
+                                break;
+                            case LINE_TYPE.DELETES:
+                                lineData = {};
+                                lineData.number = valueOrEmpty(line.newNumber);
+                                lineData.content = removeDeletes(escapedLine);
+                                lineData.type = LINE_TYPE.CONTEXT;
+                                lines.push(lineData);
+                                break;
+                            case LINE_TYPE.ALL_DELETED:
+                                lines.push(new emptyLine());
+                                break;
+                            case LINE_TYPE.INSERTS_AND_DELETES:
+                                lineData = {};
+                                lineData.number = valueOrEmpty(line.newNumber);
+                                lineData.content = generateLineInsertions(escapedLine);
+                                lineData.type = LINE_TYPE.INSERTS;
+                                lines.push(lineData);
+                                break;
+                            default:
                                 lineData = {};
                                 lineData.number = valueOrEmpty(line.newNumber);
                                 lineData.content = escapedLine;
@@ -429,9 +514,9 @@ module.exports = (function () {
         };
 
         var generateSingleLineHtml = function (line) {
-            return "<td class=\"d2h-code-linenumber " + line.type + "\">" + line.number + "</td>\n" +
+            return "<td class=\"d2h-code-side-linenumber " + line.type + "\">" + line.number + "</td>\n" +
                 "   <td class=\"" + line.type + "\">" +
-                "     <div class=\"d2h-code-line " + line.type + "\">" + line.content + "</div>" +
+                "     <div class=\"d2h-code-side-line " + line.type + "\">" + line.content + "</div>" +
                 "   </td>\n";
         };
 
@@ -461,11 +546,6 @@ module.exports = (function () {
         var removeInserts = function (line) {
             return line.slice(0).replace(/({\+.*?\+})/g, "").
                 replace(/(\[-.*?-\])/g, "");
-        };
-
-        var cleanLine = function (line) {
-            return line.slice(0).replace(/({\+(.*?)\+})/g, "$2").
-                replace(/(\[-(.*?)-\])/g, "$2");
         };
 
         /*
