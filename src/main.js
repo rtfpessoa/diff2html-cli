@@ -61,10 +61,9 @@ function getInput(program) {
         return fs.readFileSync(program.input, "utf8");
     } else {
         var sh = require('execSync');
-        var command = 'git diff --word-diff-regex=. ' + program.args;
-        var result = sh.exec(command);
+        var lineDiffCommand = 'git diff ' + program.args;
 
-        return result.stdout;
+        return sh.exec(lineDiffCommand).stdout;
     }
 }
 
