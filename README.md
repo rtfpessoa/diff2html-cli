@@ -10,8 +10,6 @@ This project uses [diff2html](https://github.com/rtfpessoa/diff2html) as base.
 
 * `line-by-line` and `side-by-side` diff
 
-* char-by-char highlight
-
 * new and old line numbers
 
 * inserted and removed lines

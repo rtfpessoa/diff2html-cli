@@ -213,7 +213,7 @@ module.exports = (function () {
             return file.blocks.map(function (block) {
 
                 var lines = "<tr>\n" +
-                    "  <td class=\"d2h-code-linenumber " + LINE_TYPE.INFO + "\" colspan=\"2\"></td>\n" +
+                    "  <td class=\"d2h-code-linenumber " + LINE_TYPE.INFO + "\"></td>\n" +
                     "  <td class=\"" + LINE_TYPE.INFO + "\">" +
                     "    <div class=\"d2h-code-line " + LINE_TYPE.INFO + "\">" + escape(block.header) + "</div>" +
                     "  </td>\n" +
@@ -314,14 +314,14 @@ module.exports = (function () {
 
                 fileHtml.left += "<tr>\n" +
                 "  <td class=\"d2h-code-side-linenumber " + LINE_TYPE.INFO + "\"></td>\n" +
-                "  <td class=\"" + LINE_TYPE.INFO + "\" colspan=\"3\">" +
+                "  <td class=\"" + LINE_TYPE.INFO + "\">" +
                 "    <div class=\"d2h-code-side-line " + LINE_TYPE.INFO + "\">" + escape(block.header) + "</div>" +
                 "  </td>\n" +
                 "</tr>\n";
 
                 fileHtml.right += "<tr>\n" +
                 "  <td class=\"d2h-code-side-linenumber " + LINE_TYPE.INFO + "\"></td>\n" +
-                "  <td class=\"" + LINE_TYPE.INFO + "\" colspan=\"3\">" +
+                "  <td class=\"" + LINE_TYPE.INFO + "\">" +
                 "    <div class=\"d2h-code-side-line " + LINE_TYPE.INFO + "\"></div>" +
                 "  </td>\n" +
                 "</tr>\n";
