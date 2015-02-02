@@ -8,18 +8,25 @@
         Diff to HTML (template.html)
         Author: rtfpessoa
         Date: Friday 29 August 2014
-        Last Update: Sunday 25 January 2015
+        Last Update: Sunday 2 February 2015
     -->
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/default.min.css">
     <link rel="stylesheet" type="text/css" href="{{css}}">
-
 
     <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/languages/scala.min.js"></script>
     <script>
         $(document).ready(function () {
+            var languages = $(".d2h-file-wrapper").map(function (i, file) {
+                return $(file).data("lang");
+            });
+            var uniqueLanguages = languages.filter(function (i, v) {
+                return $.inArray(v, languages) == i;
+            });
+            hljs.configure({languages: uniqueLanguages.toArray()});
+
             var code = $(".d2h-code-line");
             code.map(function (i, line) {
                 hljs.highlightBlock(line);
