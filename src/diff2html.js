@@ -165,7 +165,7 @@ module.exports = (function () {
                     startFile();
                 } else if (currentFile && !currentFile.oldName && (values = /^--- a\/(\S+).*$/.exec(line))) {
                     currentFile.oldName = values[1];
-                } else if (currentFile && !currentFile.newName && (values = /^\+\+\+ b\/(\S+).*$/.exec(line))) {
+                } else if (currentFile && !currentFile.newName && (values = /^\+\+\+ [b]?\/(\S+).*$/.exec(line))) {
                     currentFile.newName = values[1];
 
                     var fileSplit = currentFile.newName.split(".");
