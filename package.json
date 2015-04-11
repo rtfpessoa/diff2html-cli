@@ -1,8 +1,8 @@
 {
-  "name":     "diff2html",
-  "version":  "0.1.9",
+  "name":     "diff2html-cli",
+  "version":  "0.1.0",
 
-  "homepage": "https://www.github.com/rtfpessoa/diff2html-nodejs",
+  "homepage": "https://www.github.com/rtfpessoa/diff2html-nodejs-cli",
   "description": "Fast Diff to colorized HTML",
   "keywords": [
       "git",
@@ -29,15 +29,15 @@
 
   "repository": {
     "type": "git",
-    "url": "https://www.github.com/rtfpessoa/diff2html-nodejs.git"
+    "url": "https://www.github.com/rtfpessoa/diff2html-nodejs-cli.git"
   },
 
   "bugs": {
-    "url": "https://www.github.com/rtfpessoa/diff2html-nodejs/issues"
+    "url": "https://www.github.com/rtfpessoa/diff2html-nodejs-cli/issues"
   },
 
   "engines": {
-      "node": ">=0.10"
+      "node": ">=0.12.2"
   },
 
   "preferGlobal": "true",
@@ -50,12 +50,13 @@
     "diff2html": "./bin/diff2html"
   },
 
-  "main": "./src/diff2html.js",
+  "main": "./src/main.js",
 
   "dependencies": {
     "commander": "2.7.1",
     "extend": "2.0.0",
-    "pkginfo": "0.3.0"
+    "pkginfo": "0.3.0",
+    "diff2html": "0.1.9"
   },
 
   "devDependencies": {
@@ -64,7 +65,7 @@
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/rtfpessoa/diff2html-node/blob/master/LICENSE"
+      "url": "https://github.com/rtfpessoa/diff2html-node-cli/blob/master/LICENSE"
     }
   ],
 

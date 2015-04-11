@@ -36,6 +36,7 @@ function main(program) {
       console.log(content);
     }
   } else {
+    console.error("Input is empty");
     program.help();
   }
 
@@ -60,18 +61,15 @@ function getInput(program) {
   if (program.input) {
     return fs.readFileSync(program.input, "utf8");
   } else {
-    console.error("Input is required.");
-    process.exit(1);
+    var childProcess = require('child_process');
+    var lineDiffCommand = 'git diff ' + program.args;
 
-    //var childProcess = require('child_process');
-    //var lineDiffCommand = 'git diff ' + program.args;
-    //
-    //return childProcess.execSync(lineDiffCommand).toString('utf8');
+    return childProcess.execSync(lineDiffCommand).toString('utf8');
   }
 }
 
 function getHtml(program, input) {
-  var Diff2Html = require('./diff2html.js').Diff2Html;
+  var Diff2Html = require('diff2html').Diff2Html;
 
   if (program.side) {
     return Diff2Html.getPrettySideBySideHtmlFromDiff(input);

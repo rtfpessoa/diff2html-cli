@@ -1,10 +1,10 @@
-# Diff to Html Node Module by [rtfpessoa](https://github.com/rtfpessoa)
+# Diff to Html Node Module (CLI) by [rtfpessoa](https://github.com/rtfpessoa)
 
 Diff to Html generates pretty HTML diffs.
 
 ### Inspiration
 
-This project uses [diff2html](https://github.com/rtfpessoa/diff2html) as base.
+This project is just a CLI for [diff2html-nodejs](https://github.com/rtfpessoa/diff2html-nodejs).
 
 ## Features
 
@@ -26,9 +26,11 @@ This project uses [diff2html](https://github.com/rtfpessoa/diff2html) as base.
 
 * Manually download and import [diff2html.js](https://github.com/rtfpessoa/diff2html) into your page
 
+* Import Node library [diff2html-nodejs](https://github.com/rtfpessoa/diff2html-nodejs) into your package.json
+
 ## Setup
 
-    sudo npm install -g diff2html
+    sudo npm install -g diff2html-cli
 
 ## Usage
 
