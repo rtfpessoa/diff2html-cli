@@ -1,6 +1,6 @@
 {
   "name":     "diff2html",
-  "version":  "0.1.8",
+  "version":  "0.1.9",
 
   "homepage": "https://www.github.com/rtfpessoa/diff2html-nodejs",
   "description": "Fast Diff to colorized HTML",
@@ -53,10 +53,9 @@
   "main": "./src/diff2html.js",
 
   "dependencies": {
-    "commander": "2.6.0",
+    "commander": "2.7.1",
     "extend": "2.0.0",
-    "pkginfo": "0.3.0",
-    "execSync": "1.0.2"
+    "pkginfo": "0.3.0"
   },
 
   "devDependencies": {

@@ -8,15 +8,15 @@ program.version(appVersion);
 program.usage('[git-diff options]');
 
 program
-    .option('-i, --input [file]', 'Diff input file.')
-    .option('-o, --output [file]', 'Output to file path. Defaults to stdout.')
-    .option('-p, --preview', 'Open preview in the browser.')
-    .option('-l, --line', 'Line by Line diff.')
-    .option('-s, --side', 'Side by Side diff.')
-    .option('-j, --json', 'Export diff in json format.');
+  .option('-i, --input [file]', 'Diff input file.')
+  .option('-o, --output [file]', 'Output to file path. Defaults to stdout.')
+  .option('-p, --preview', 'Open preview in the browser.')
+  .option('-l, --line', 'Line by Line diff.')
+  .option('-s, --side', 'Side by Side diff.')
+  .option('-j, --json', 'Export diff in json format.');
 
 program.on('--help', function () {
-    console.log('For support, check out https://github.com/rtfpessoa/diff2html-nodejs');
+  console.log('For support, check out https://github.com/rtfpessoa/diff2html-nodejs');
 });
 
 program.parse(process.argv);
@@ -24,57 +24,60 @@ program.parse(process.argv);
 main(program);
 
 function main(program) {
-    var input = getInput(program);
-    if (input) {
-        var content = getHtml(program, input);
+  var input = getInput(program);
+  if (input) {
+    var content = getHtml(program, input);
 
-        if (program.output) {
-            fs.writeFileSync(program.output, content);
-        } else if (!program.json && program.preview) {
-            preview(content)
-        } else {
-            console.log(content);
-        }
+    if (program.output) {
+      fs.writeFileSync(program.output, content);
+    } else if (!program.json && program.preview) {
+      preview(content)
     } else {
-        program.help();
+      console.log(content);
     }
+  } else {
+    program.help();
+  }
 
-    process.exit(0);
+  process.exit(0);
 }
 
 function preview(diffHTML) {
-    var exec = require("child_process").exec;
+  var exec = require("child_process").exec;
 
-    var template = fs.readFileSync(__dirname + "/../dist/template.html", "utf8");
+  var template = fs.readFileSync(__dirname + "/../dist/template.html", "utf8");
 
-    var cssDir = __dirname + "/../dist/diff2html.css";
+  var cssDir = __dirname + "/../dist/diff2html.css";
 
-    var template = template.replace("{{css}}", cssDir).replace("{{diff}}", diffHTML);
+  var template = template.replace("{{css}}", cssDir).replace("{{diff}}", diffHTML);
 
-    fs.writeFileSync("/tmp/diff.html", template);
+  fs.writeFileSync("/tmp/diff.html", template);
 
-    exec("open /tmp/diff.html");
+  exec("open /tmp/diff.html");
 }
 
 function getInput(program) {
-    if (program.input) {
-        return fs.readFileSync(program.input, "utf8");
-    } else {
-        var sh = require('execSync');
-        var lineDiffCommand = 'git diff ' + program.args;
+  if (program.input) {
+    return fs.readFileSync(program.input, "utf8");
+  } else {
+    console.error("Input is required.");
+    process.exit(1);
 
-        return sh.exec(lineDiffCommand).stdout;
-    }
+    //var childProcess = require('child_process');
+    //var lineDiffCommand = 'git diff ' + program.args;
+    //
+    //return childProcess.execSync(lineDiffCommand).toString('utf8');
+  }
 }
 
 function getHtml(program, input) {
-    var diff2html = require('./diff2html.js');
+  var Diff2Html = require('./diff2html.js').Diff2Html;
 
-    if (program.side) {
-        return diff2html.getPrettySideBySideHtmlFromDiff(input);
-    } else if (program.json) {
-        return JSON.stringify(diff2html.getJsonFromDiff(input));
-    } else {
-        return diff2html.getPrettyHtmlFromDiff(input);
-    }
+  if (program.side) {
+    return Diff2Html.getPrettySideBySideHtmlFromDiff(input);
+  } else if (program.json) {
+    return JSON.stringify(Diff2Html.getJsonFromDiff(input));
+  } else {
+    return Diff2Html.getPrettyHtmlFromDiff(input);
+  }
 }
