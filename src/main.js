@@ -13,6 +13,8 @@ program
   .option('-p, --preview', 'Open preview in the browser.')
   .option('-l, --line', 'Line by Line diff.')
   .option('-s, --side', 'Side by Side diff.')
+  .option('-w, --word', 'Word by Word highlight.')
+  .option('-c, --char', 'Char by Char highlight.')
   .option('-j, --json', 'Export diff in json format.');
 
 program.on('--help', function () {
@@ -71,11 +73,15 @@ function getInput(program) {
 function getHtml(program, input) {
   var diff2Html = require('diff2html').Diff2Html;
 
+  var config = {};
+  config.wordByWord = program.word;
+  config.charByChar = program.char;
+
   if (program.side) {
-    return diff2Html.getPrettySideBySideHtmlFromDiff(input);
+    return diff2Html.getPrettySideBySideHtmlFromDiff(input, config);
   } else if (program.json) {
-    return JSON.stringify(diff2Html.getJsonFromDiff(input));
+    return JSON.stringify(diff2Html.getJsonFromDiff(input, config));
   } else {
-    return diff2Html.getPrettyHtmlFromDiff(input);
+    return diff2Html.getPrettyHtmlFromDiff(input, config);
   }
 }
