@@ -36,7 +36,7 @@ function main(program) {
       console.log(content);
     }
   } else {
-    console.error("Input is empty");
+    console.error("The diff is empty. Try another command.");
     program.help();
   }
 
@@ -69,13 +69,13 @@ function getInput(program) {
 }
 
 function getHtml(program, input) {
-  var Diff2Html = require('diff2html').Diff2Html;
+  var diff2Html = require('diff2html').Diff2Html;
 
   if (program.side) {
-    return Diff2Html.getPrettySideBySideHtmlFromDiff(input);
+    return diff2Html.getPrettySideBySideHtmlFromDiff(input);
   } else if (program.json) {
-    return JSON.stringify(Diff2Html.getJsonFromDiff(input));
+    return JSON.stringify(diff2Html.getJsonFromDiff(input));
   } else {
-    return Diff2Html.getPrettyHtmlFromDiff(input);
+    return diff2Html.getPrettyHtmlFromDiff(input);
   }
 }
