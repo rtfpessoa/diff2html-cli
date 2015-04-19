@@ -13,6 +13,8 @@ program
   .option('-p, --preview', 'Open preview in the browser.')
   .option('-l, --line', 'Line by Line diff.')
   .option('-s, --side', 'Side by Side diff.')
+  .option('-w, --word', 'Word by Word highlight.')
+  .option('-c, --char', 'Char by Char highlight.')
   .option('-j, --json', 'Export diff in json format.');
 
 program.on('--help', function () {
@@ -36,6 +38,7 @@ function main(program) {
       console.log(content);
     }
   } else {
+    console.error("The diff is empty. Try another command.");
     program.help();
   }
 
@@ -60,24 +63,25 @@ function getInput(program) {
   if (program.input) {
     return fs.readFileSync(program.input, "utf8");
   } else {
-    console.error("Input is required.");
-    process.exit(1);
+    var childProcess = require('child_process');
+    var lineDiffCommand = 'git diff ' + program.args;
 
-    //var childProcess = require('child_process');
-    //var lineDiffCommand = 'git diff ' + program.args;
-    //
-    //return childProcess.execSync(lineDiffCommand).toString('utf8');
+    return childProcess.execSync(lineDiffCommand).toString('utf8');
   }
 }
 
 function getHtml(program, input) {
-  var Diff2Html = require('./diff2html.js').Diff2Html;
+  var diff2Html = require('diff2html').Diff2Html;
+
+  var config = {};
+  config.wordByWord = program.word;
+  config.charByChar = program.char;
 
   if (program.side) {
-    return Diff2Html.getPrettySideBySideHtmlFromDiff(input);
+    return diff2Html.getPrettySideBySideHtmlFromDiff(input, config);
   } else if (program.json) {
-    return JSON.stringify(Diff2Html.getJsonFromDiff(input));
+    return JSON.stringify(diff2Html.getJsonFromDiff(input, config));
   } else {
-    return Diff2Html.getPrettyHtmlFromDiff(input);
+    return diff2Html.getPrettyHtmlFromDiff(input, config);
   }
 }
