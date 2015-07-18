@@ -1,6 +1,6 @@
 {
   "name":     "diff2html-cli",
-  "version":  "0.2.3",
+  "version":  "0.2.4",
 
   "homepage": "https://www.github.com/rtfpessoa/diff2html-nodejs-cli",
   "description": "Fast Diff to colorized HTML",
@@ -53,8 +53,8 @@
   "main": "./src/main.js",
 
   "dependencies": {
-    "commander": "2.7.1",
-    "extend": "2.0.0",
+    "commander": "2.8.1",
+    "extend": "3.0.0",
     "pkginfo": "0.3.0",
     "diff2html": "*"
   },
