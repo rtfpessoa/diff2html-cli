@@ -1,10 +1,6 @@
-# Diff to Html Node Module (CLI) by [rtfpessoa](https://github.com/rtfpessoa)
+# Diff to Html CLI by [rtfpessoa](https://github.com/rtfpessoa)
 
-Diff to Html generates pretty HTML diffs.
-
-### Inspiration
-
-This project is just a CLI for [diff2html-nodejs](https://github.com/rtfpessoa/diff2html-nodejs).
+Diff to Html generates pretty HTML diffs from git diff output in your terminal
 
 ## Features
 
@@ -16,17 +12,23 @@ This project is just a CLI for [diff2html-nodejs](https://github.com/rtfpessoa/d
 
 * GitHub like style
 
+* Code syntax highlight
+
 ## Online Example
 
 > Go to [Diff2HTML](http://rtfpessoa.github.io/diff2html/)
 
-## Other Distributions
+## Distributions
 
 * [WebJar](http://www.webjars.org/)
 
-* Manually download and import [diff2html.js](https://github.com/rtfpessoa/diff2html) into your page
+* [Node Module](https://www.npmjs.org/package/diff2html)
 
-* Import Node library [diff2html-nodejs](https://github.com/rtfpessoa/diff2html-nodejs) into your package.json
+* [Bower Package](http://bower.io/search/?q=diff2html)
+
+* [Node CLI](https://www.npmjs.org/package/diff2html-cli)
+
+* Manually download and import `rtfpessoa/diff2html/dist/diff2html.min.js` into your page
 
 ## Setup
 
@@ -47,14 +49,24 @@ This project is just a CLI for [diff2html-nodejs](https://github.com/rtfpessoa/d
         -s, --side           Side by Side diff.
         -j, --json           Export diff in json format.
 
-## Contribution
+    Example:
 
-All contributions are welcome.
+        diff2html -p -l "HEAD~1"
 
-To contribute just send a pull request with your feature,fix,... and it will be reviewed asap.
+> NOTE: notice the " in the example
+
+## Contributions
+
+All the contributions are welcome.
+
+To contribute just send a pull request with your changes and I will review it asap.
 
 ## License
 
 Copyright 2014 Rodrigo Fernandes. Released under the terms of the MIT license.
+
+## Thanks
+
+This project is inspired in [pretty-diff](https://github.com/scottgonzalez/pretty-diff) by [Scott González](https://github.com/scottgonzalez).
 
 ---

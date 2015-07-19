@@ -1,8 +1,8 @@
 {
   "name":     "diff2html-cli",
-  "version":  "0.2.4",
+  "version":  "0.2.4-1",
 
-  "homepage": "https://www.github.com/rtfpessoa/diff2html-nodejs-cli",
+  "homepage": "https://www.github.com/rtfpessoa/diff2html-cli",
   "description": "Fast Diff to colorized HTML",
   "keywords": [
       "git",
@@ -29,11 +29,11 @@
 
   "repository": {
     "type": "git",
-    "url": "https://www.github.com/rtfpessoa/diff2html-nodejs-cli.git"
+    "url": "https://www.github.com/rtfpessoa/diff2html-cli.git"
   },
 
   "bugs": {
-    "url": "https://www.github.com/rtfpessoa/diff2html-nodejs-cli/issues"
+    "url": "https://www.github.com/rtfpessoa/diff2html-cli/issues"
   },
 
   "engines": {

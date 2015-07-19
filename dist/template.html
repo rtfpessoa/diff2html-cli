@@ -12,21 +12,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/github.min.css">
     <link rel="stylesheet" type="text/css" href="{{css}}">
 
-    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/languages/scala.min.js"></script>
     <script>
-        $(document).ready(function () {
-            var allFileLanguages = $(".d2h-file-wrapper").map(function (i, file) {
-                return $(file).data("lang");
+        document.addEventListener("DOMContentLoaded", function () {
+            // collect all the distinct languages in the HTML
+            var distinctLanguages = [];
+            [].forEach.call(document.getElementsByClassName("d2h-file-wrapper"), function (file) {
+                distinctLanguages.indexOf(file.dataset.lang) === -1 && distinctLanguages.push(file.dataset.lang);
             });
-            var distinctLanguages = allFileLanguages.filter(function (i, v) {
-                return $.inArray(v, allFileLanguages) == i;
-            });
-            hljs.configure({languages: distinctLanguages.toArray()});
 
-            var code = $(".d2h-code-line-ctn");
-            code.map(function (i, line) {
+            // pass the languages to the highlightjs plugin
+            hljs.configure({languages: distinctLanguages});
+
+            // collect all the code lines and execute the highlight on them
+            var codeLines = document.getElementsByClassName("d2h-code-line-ctn");
+            [].forEach.call(codeLines, function (line) {
                 hljs.highlightBlock(line);
             });
         });
