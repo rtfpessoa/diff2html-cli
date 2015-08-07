@@ -1,6 +1,6 @@
 /*
  *
- * diff2html CLI (main.js)
+ * Diff to HTML CLI (main.js)
  * Author: rtfpessoa
  *
  */
@@ -66,11 +66,12 @@ var argv = require('yargs')
     }
   })
   .example('diff2html -s line -f html -d word -i command -o preview -- -M HEAD~1',
-  'diff last commit, line by line, word comparison between lines, previewed in the browser and input from git diff command')
+  'diff last commit, line by line, word comparison between lines,' +
+  'previewed in the browser and input from git diff command')
   .example('diff2html -i file -- my-file-diff.diff', 'reading the input from a file')
   .example('diff2html -f json -o stdout -- -M HEAD~1', 'print json format to stdout')
   .example('diff2html -F my-pretty-diff.html -- -M HEAD~1', 'print to file')
-  .version(function () {
+  .version(function() {
     return require('../package').version;
   })
   .help('h')
@@ -94,7 +95,7 @@ function main() {
       print(content);
     }
   } else {
-    error("The input is empty. Try again.");
+    error('The input is empty. Try again.');
     argv.help();
   }
 
@@ -107,9 +108,9 @@ function getInput() {
   } else {
     var gitArgs;
     if (argv._.length && argv._[0]) {
-      gitArgs = argv._.join(" ");
+      gitArgs = argv._.join(' ');
     } else {
-      gitArgs = "-M HEAD~1"
+      gitArgs = '-M HEAD~1'
     }
 
     var diffCommand = 'git diff ' + gitArgs;
@@ -139,17 +140,17 @@ function getOutput(input) {
 }
 
 function preview(content) {
-  var filePath = "/tmp/diff." + argv.format;
+  var filePath = '/tmp/diff.' + argv.format;
   writeFile(filePath, content);
-  runCmd("open " + filePath);
+  runCmd('open ' + filePath);
 }
 
 function prepareHTML(content) {
-  var template = readFile(__dirname + "/../dist/template.html", "utf8");
-  var css = readFile(__dirname + "/../dist/diff2html.css", "utf8");
+  var template = readFile(__dirname + '/../dist/template.html', 'utf8');
+  var css = readFile(__dirname + '/../dist/diff2html.css', 'utf8');
   return template
-    .replace("{{css}}", css)
-    .replace("{{diff}}", content);
+    .replace('<!--css-->', '<style>\n' + css + '\n</style>')
+    .replace('<!--diff-->', content);
 }
 
 function prepareJSON(content) {
@@ -166,7 +167,7 @@ function error(msg) {
 
 function readFile(filePath) {
   var fs = require('fs');
-  return fs.readFileSync(filePath, "utf8");
+  return fs.readFileSync(filePath, 'utf8');
 }
 
 function writeFile(filePath, content) {

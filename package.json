@@ -53,7 +53,7 @@
   "main": "./src/main.js",
 
   "dependencies": {
-    "yargs": "3.17.*",
+    "yargs": "3.18.*",
     "extend": "3.0.0",
     "diff2html": "*"
   },
