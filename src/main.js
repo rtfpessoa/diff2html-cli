@@ -76,7 +76,7 @@ var argv = require('yargs')
   })
   .help('h')
   .alias('h', 'help')
-  .epilog('Copyright 2015\n' +
+  .epilog('© 2015 rtfpessoa\n' +
   'For support, check out https://github.com/rtfpessoa/diff2html-cli')
   .argv;
 

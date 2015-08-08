@@ -36,24 +36,39 @@ Diff to Html generates pretty HTML diffs from git diff output in your terminal
 
 ## Usage
 
-    Usage: diff2html [git-diff options]
+    diff2html [options]
+
 
     Options:
+      -s, --style   Output style
+                                [string] [choices: "line", "side"] [default: "line"]
+      -f, --format  Output format
+                                [string] [choices: "html", "json"] [default: "html"]
+      -d, --diff    Diff style  [string] [choices: "word", "char"] [default: "word"]
+      -i, --input   Diff input source
+                          [string] [choices: "file", "command"] [default: "command"]
+      -o, --output  Output destination
+                        [string] [choices: "preview", "stdout"] [default: "preview"]
+      -F, --file    Send output to file (overrides output option)           [string]
+      --version     Show version number                                    [boolean]
+      -h, --help    Show help                                              [boolean]
 
-        -h, --help           output usage information
-        -V, --version        output the version number
-        -i, --input [file]   Diff input file.
-        -o, --output [file]  Output to file path. Defaults to stdout.
-        -p, --preview        Open preview in the browser.
-        -l, --line           Line by Line diff.
-        -s, --side           Side by Side diff.
-        -j, --json           Export diff in json format.
 
-    Example:
+    Examples:
+      diff2html -s line -f html -d word -i      diff last commit, line by line, word
+      command -o preview -- -M HEAD~1           comparison between lines,previewed
+                                                in the browser and input from git
+                                                diff command
+      diff2html -i file -- my-file-diff.diff    reading the input from a file
+      diff2html -f json -o stdout -- -M HEAD~1  print json format to stdout
+      diff2html -F my-pretty-diff.html -- -M    print to file
+      HEAD~1
 
-        diff2html -p -l "HEAD~1"
 
-> NOTE: notice the " in the example
+    © 2015 rtfpessoa
+    For support, check out https://github.com/rtfpessoa/diff2html-cli
+
+> NOTE: notice the `--` in the examples
 
 ## Contributions
 
