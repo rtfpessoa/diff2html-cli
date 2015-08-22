@@ -87,9 +87,9 @@ function main() {
   if (input) {
     var content = getOutput(input);
 
-    if (argv.F) {
-      writeFile(argv.F, content);
-    } else if (argv.output == 'preview') {
+    if (argv.file) {
+      writeFile(argv.file, content);
+    } else if (argv.output === 'preview') {
       preview(content);
     } else {
       print(content);
@@ -103,7 +103,7 @@ function main() {
 }
 
 function getInput() {
-  if (argv.input == 'file') {
+  if (argv.input === 'file') {
     return readFile(argv._[0]);
   } else {
     var gitArgs;
