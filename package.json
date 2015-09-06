@@ -1,69 +1,55 @@
 {
-  "name":     "diff2html-cli",
-  "version":  "0.2.4-1",
-
+  "name": "diff2html-cli",
+  "version": "1.0.0",
   "homepage": "https://www.github.com/rtfpessoa/diff2html-cli",
   "description": "Fast Diff to colorized HTML",
   "keywords": [
-      "git",
-      "diff",
-      "pretty",
-      "side",
-      "line",
-      "side-by-side",
-      "line-by-line",
-      "character",
-      "highlight",
-      "pretty",
-      "color",
-      "html",
-      "diff2html",
-      "difftohtml",
-      "colorized"
-    ],
-
+    "git",
+    "diff",
+    "pretty",
+    "side",
+    "line",
+    "side-by-side",
+    "line-by-line",
+    "character",
+    "highlight",
+    "pretty",
+    "color",
+    "html",
+    "diff2html",
+    "difftohtml",
+    "colorized"
+  ],
   "author": {
-    "name":  "Rodrigo Fernandes",
+    "name": "Rodrigo Fernandes",
     "email": "rtfrodrigo@gmail.com"
   },
-
   "repository": {
     "type": "git",
     "url": "https://www.github.com/rtfpessoa/diff2html-cli.git"
   },
-
   "bugs": {
     "url": "https://www.github.com/rtfpessoa/diff2html-cli/issues"
   },
-
   "engines": {
-      "node": ">=0.12.2"
+    "node": ">=0.12.0"
   },
-
   "preferGlobal": "true",
-
   "scripts": {
     "test": ""
   },
-
   "bin": {
     "diff2html": "./bin/diff2html"
   },
-
   "main": "./src/main.js",
-
   "dependencies": {
-    "commander": "2.8.1",
-    "extend": "3.0.0",
-    "pkginfo": "0.3.0",
+    "yargs": "3.24.*",
+    "extend": "3.0.*",
     "diff2html": "*"
   },
-
   "devDependencies": {
   },
-
   "license": "MIT",
-
   "files": [
     "bin",
     "src",
