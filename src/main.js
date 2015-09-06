@@ -6,7 +6,7 @@
  */
 
 var argv = require('yargs')
-  .usage('Usage: diff2html [options]')
+  .usage('Usage: diff2html [options] -- [diff args]')
   .options({
     's': {
       alias: 'style',
