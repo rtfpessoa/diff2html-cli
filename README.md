@@ -36,7 +36,7 @@ Diff to Html generates pretty HTML diffs from git diff output in your terminal
 
 ## Usage
 
-    diff2html [options]
+    diff2html [options] -- [diff args]
 
 
     Options:
