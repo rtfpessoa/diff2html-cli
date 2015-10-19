@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /*
  *
  * Diff to HTML CLI (main.js)
@@ -58,6 +59,15 @@ var argv = require('yargs')
     }
   })
   .options({
+    'u': {
+      alias: 'diffy',
+      describe: 'Upload to diffy.org',
+      nargs: 1,
+      type: 'string',
+      choices: ['browser', 'pbcopy', 'print']
+    }
+  })
+  .options({
     'F': {
       alias: 'file',
       describe: 'Send output to file (overrides output option)',
@@ -66,8 +76,8 @@ var argv = require('yargs')
     }
   })
   .example('diff2html -s line -f html -d word -i command -o preview -- -M HEAD~1',
-  'diff last commit, line by line, word comparison between lines,' +
-  'previewed in the browser and input from git diff command')
+    'diff last commit, line by line, word comparison between lines,' +
+    'previewed in the browser and input from git diff command')
   .example('diff2html -i file -- my-file-diff.diff', 'reading the input from a file')
   .example('diff2html -f json -o stdout -- -M HEAD~1', 'print json format to stdout')
   .example('diff2html -F my-pretty-diff.html -- -M HEAD~1', 'print to file')
@@ -77,30 +87,8 @@ var argv = require('yargs')
   .help('h')
   .alias('h', 'help')
   .epilog('© 2015 rtfpessoa\n' +
-  'For support, check out https://github.com/rtfpessoa/diff2html-cli')
+    'For support, check out https://github.com/rtfpessoa/diff2html-cli')
   .argv;
-
-main();
-
-function main() {
-  var input = getInput();
-  if (input) {
-    var content = getOutput(input);
-
-    if (argv.file) {
-      writeFile(argv.file, content);
-    } else if (argv.output === 'preview') {
-      preview(content);
-    } else {
-      print(content);
-    }
-  } else {
-    error('The input is empty. Try again.');
-    argv.help();
-  }
-
-  process.exit(0);
-}
 
 function getInput() {
   if (argv.input === 'file') {
@@ -153,6 +141,52 @@ function prepareHTML(content) {
     .replace('<!--diff-->', content);
 }
 
+function postToDiffy(diff, postType) {
+  var jsonParams = {udiff: diff};
+
+  post('http://diffy.org/api/new', jsonParams, function(err, response) {
+    if (err) {
+      print(err);
+      return;
+    }
+
+    if (response.status != 'error') {
+      print("Link powered by diffy.org:");
+      print(response.url);
+
+      if (postType === 'browser') {
+        runCmd('open ' + response.url);
+      } else if (postType === 'pbcopy') {
+        runCmd('echo "' + response.url + '" | pbcopy');
+      }
+    } else {
+      print("Error: " + message);
+    }
+  });
+}
+
+function post(url, payload, callback) {
+  var request = require('request');
+
+  request({
+    url: url,
+    method: 'POST',
+    form: payload
+  })
+    .on('response', function(response) {
+      response.on('data', function(body) {
+        try {
+          callback(null, JSON.parse(body.toString('utf8')));
+        } catch (err) {
+          callback(new Error('could not parse response'));
+        }
+      })
+    })
+    .on('error', function(err) {
+      callback(err);
+    });
+}
+
 function prepareJSON(content) {
   return JSON.stringify(content);
 }
@@ -178,4 +212,27 @@ function writeFile(filePath, content) {
 function runCmd(cmd) {
   var childProcess = require('child_process');
   return childProcess.execSync(cmd).toString('utf8');
+}
+
+/*
+ * CLI code
+ */
+
+var input = getInput();
+
+if (input && argv.diffy) {
+  postToDiffy(input, argv.diffy);
+} else if (input) {
+  var content = getOutput(input);
+
+  if (argv.file) {
+    writeFile(argv.file, content);
+  } else if (argv.output === 'preview') {
+    preview(content);
+  } else {
+    print(content);
+  }
+} else {
+  error('The input is empty. Try again.');
+  argv.help();
 }
