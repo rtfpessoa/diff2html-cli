@@ -43,8 +43,9 @@
   },
   "main": "./src/main.js",
   "dependencies": {
-    "yargs": "3.24.*",
+    "yargs": "3.27.*",
     "extend": "3.0.*",
+    "request": "2.65.*",
     "diff2html": "*"
   },
   "devDependencies": {
