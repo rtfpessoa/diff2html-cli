@@ -44,7 +44,7 @@ var argv = require('yargs')
       describe: 'Diff input source',
       nargs: 1,
       type: 'string',
-      choices: ['file', 'command'],
+      choices: ['file', 'command', 'stdin'],
       default: 'command'
     }
   })
@@ -93,6 +93,8 @@ var argv = require('yargs')
 function getInput() {
   if (argv.input === 'file') {
     return readFile(argv._[0]);
+  } else if (argv.input === 'stdin') {
+      return readFile('/dev/stdin');
   } else {
     var gitArgs;
     if (argv._.length && argv._[0]) {
