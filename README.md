@@ -46,9 +46,11 @@ Diff to Html generates pretty HTML diffs from git diff output in your terminal
                                 [string] [choices: "html", "json"] [default: "html"]
       -d, --diff    Diff style  [string] [choices: "word", "char"] [default: "word"]
       -i, --input   Diff input source
-                          [string] [choices: "file", "command"] [default: "command"]
+                 [string] [choices: "file", "command", "stdin"] [default: "command"]
       -o, --output  Output destination
                         [string] [choices: "preview", "stdout"] [default: "preview"]
+      -u, --diffy   Upload to diffy.org
+                                    [string] [choices: "browser", "pbcopy", "print"]
       -F, --file    Send output to file (overrides output option)           [string]
       --version     Show version number                                    [boolean]
       -h, --help    Show help                                              [boolean]
