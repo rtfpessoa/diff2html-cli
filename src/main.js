@@ -6,6 +6,11 @@
  *
  */
 
+var childProcess = require('child_process');
+var diff2Html = require('diff2html').Diff2Html;
+var fs = require('fs');
+var request = require('request');
+
 var argv = require('yargs')
   .usage('Usage: diff2html [options] -- [diff args]')
   .options({
@@ -90,27 +95,34 @@ var argv = require('yargs')
     'For support, check out https://github.com/rtfpessoa/diff2html-cli')
   .argv;
 
-function getInput() {
-  if (argv.input === 'file') {
-    return readFile(argv._[0]);
-  } else if (argv.input === 'stdin') {
-      return readFile('/dev/stdin');
-  } else {
-    var gitArgs;
-    if (argv._.length && argv._[0]) {
-      gitArgs = argv._.join(' ');
-    } else {
-      gitArgs = '-M HEAD~1'
-    }
+function getInput(callback) {
+  switch (argv.input) {
+    case 'file':
+      readFile(argv._[0], callback);
+      break;
 
-    var diffCommand = 'git diff ' + gitArgs;
-    return runCmd(diffCommand);
+    case 'stdin':
+      readStdin(callback);
+      break;
+
+    default:
+      runGitDiff(callback);
   }
 }
 
-function getOutput(input) {
-  var diff2Html = require('diff2html').Diff2Html;
+function runGitDiff(callback) {
+  var gitArgs;
+  if (argv._.length && argv._[0]) {
+    gitArgs = argv._.join(' ');
+  } else {
+    gitArgs = '-M HEAD~1'
+  }
 
+  var diffCommand = 'git diff ' + gitArgs;
+  return callback(null, runCmd(diffCommand));
+}
+
+function getOutput(input) {
   var config = {};
   config.wordByWord = (argv.diff === 'word');
   config.charByChar = (argv.diff === 'char');
@@ -136,8 +148,8 @@ function preview(content) {
 }
 
 function prepareHTML(content) {
-  var template = readFile(__dirname + '/../dist/template.html', 'utf8');
-  var css = readFile(__dirname + '/../dist/diff2html.css', 'utf8');
+  var template = readFileSync(__dirname + '/../dist/template.html', 'utf8');
+  var css = readFileSync(__dirname + '/../dist/diff2html.css', 'utf8');
   return template
     .replace('<!--css-->', '<style>\n' + css + '\n</style>')
     .replace('<!--diff-->', content);
@@ -168,8 +180,6 @@ function postToDiffy(diff, postType) {
 }
 
 function post(url, payload, callback) {
-  var request = require('request');
-
   request({
     url: url,
     method: 'POST',
@@ -201,18 +211,30 @@ function error(msg) {
   console.error(msg);
 }
 
-function readFile(filePath) {
-  var fs = require('fs');
+function readFileSync(filePath) {
   return fs.readFileSync(filePath, 'utf8');
 }
 
+function readFile(filePath, callback) {
+  return fs.readFile(filePath, {'encoding': 'utf8'}, callback);
+}
+
+function readStdin(callback) {
+  var content = '';
+  process.stdin.resume();
+  process.stdin.on('data', function(buf) {
+    content += buf.toString('utf8');
+  });
+  process.stdin.on('end', function() {
+    callback(null, content);
+  });
+}
+
 function writeFile(filePath, content) {
-  var fs = require('fs');
   fs.writeFileSync(filePath, content);
 }
 
 function runCmd(cmd) {
-  var childProcess = require('child_process');
   return childProcess.execSync(cmd).toString('utf8');
 }
 
@@ -220,21 +242,28 @@ function runCmd(cmd) {
  * CLI code
  */
 
-var input = getInput();
-
-if (input && argv.diffy) {
-  postToDiffy(input, argv.diffy);
-} else if (input) {
-  var content = getOutput(input);
-
-  if (argv.file) {
-    writeFile(argv.file, content);
-  } else if (argv.output === 'preview') {
-    preview(content);
-  } else {
-    print(content);
+getInput(function(err, input) {
+  if (err) {
+    print(err);
+    return;
   }
-} else {
-  error('The input is empty. Try again.');
-  argv.help();
-}
+
+  if (!input) {
+    error('The input is empty. Try again.');
+    argv.help();
+  }
+
+  if (argv.diffy) {
+    postToDiffy(input, argv.diffy);
+    return;
+  }
+
+  var output = getOutput(input);
+  if (argv.file) {
+    writeFile(argv.file, output);
+  } else if (argv.output === 'preview') {
+    preview(output);
+  } else {
+    print(output);
+  }
+});
