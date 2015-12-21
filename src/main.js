@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 /*
  *
  * Diff to HTML CLI (main.js)
@@ -115,7 +116,7 @@ function runGitDiff(callback) {
   if (argv._.length && argv._[0]) {
     gitArgs = argv._.join(' ');
   } else {
-    gitArgs = '-M HEAD~1'
+    gitArgs = '-M HEAD~1';
   }
 
   var diffCommand = 'git diff ' + gitArgs;
@@ -135,10 +136,11 @@ function getOutput(input) {
       htmlContent = diff2Html.getPrettyHtmlFromDiff(input, config);
     }
     return prepareHTML(htmlContent);
-  } else {
-    var jsonContent = diff2Html.getJsonFromDiff(input, config);
-    return prepareJSON(jsonContent);
   }
+
+  var jsonContent = diff2Html.getJsonFromDiff(input, config);
+  return prepareJSON(jsonContent);
+
 }
 
 function preview(content) {
@@ -148,10 +150,16 @@ function preview(content) {
 }
 
 function prepareHTML(content) {
-  var template = readFileSync(__dirname + '/../dist/template.html', 'utf8');
-  var css = readFileSync(__dirname + '/../dist/diff2html.css', 'utf8');
+  var template = readFileSync(__dirname + '/../dist/template.html');
+
+  var cssFile = __dirname + '/../node_modules/diff2html/css/diff2html.css';
+  var cssFallbackFile = __dirname + '/../dist/diff2html.css';
+  if (existsSync(cssFile)) cssFile = cssFallbackFile;
+
+  var cssContent = readFileSync(cssFile);
+
   return template
-    .replace('<!--css-->', '<style>\n' + css + '\n</style>')
+    .replace('<!--css-->', '<style>\n' + cssContent + '\n</style>')
     .replace('<!--diff-->', content);
 }
 
@@ -164,8 +172,8 @@ function postToDiffy(diff, postType) {
       return;
     }
 
-    if (response.status != 'error') {
-      print("Link powered by diffy.org:");
+    if (response.status !== 'error') {
+      print('Link powered by diffy.org:');
       print(response.url);
 
       if (postType === 'browser') {
@@ -174,7 +182,7 @@ function postToDiffy(diff, postType) {
         runCmd('echo "' + response.url + '" | pbcopy');
       }
     } else {
-      print("Error: " + message);
+      print('Error: ' + message);
     }
   });
 }
@@ -188,11 +196,11 @@ function post(url, payload, callback) {
     .on('response', function(response) {
       response.on('data', function(body) {
         try {
-          callback(null, JSON.parse(body.toString('utf8')));
+          return callback(null, JSON.parse(body.toString('utf8')));
         } catch (err) {
-          callback(new Error('could not parse response'));
+          return callback(new Error('could not parse response'));
         }
-      })
+      });
     })
     .on('error', function(err) {
       callback(err);
@@ -209,6 +217,16 @@ function print(line) {
 
 function error(msg) {
   console.error(msg);
+}
+
+function existsSync(filePath) {
+  try {
+    fs.existsSync(filePath);
+  } catch (ignore) {
+    return false;
+  }
+
+  return true;
 }
 
 function readFileSync(filePath) {
