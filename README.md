@@ -1,5 +1,7 @@
 # Diff to Html CLI by [rtfpessoa](https://github.com/rtfpessoa)
 
+[![Codacy Badge](https://api.codacy.com/project/badge/grade/e6139937d72f40ed8b3920d53c74298a)](https://www.codacy.com/app/Codacy/diff2html-cli)
+
 Diff to Html generates pretty HTML diffs from git diff output in your terminal
 
 ## Features
