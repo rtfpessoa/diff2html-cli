@@ -7,10 +7,9 @@
  *
  */
 
-var childProcess = require('child_process');
-var diff2Html = require('diff2html').Diff2Html;
-var fs = require('fs');
-var request = require('request');
+var cli = require('./cli.js').Diff2HtmlInterface;
+var log = require('./logger.js').Logger;
+var utils = require('./utils.js').Utils;
 
 var argv = require('yargs')
   .usage('Usage: diff2html [options] -- [diff args]')
@@ -22,6 +21,33 @@ var argv = require('yargs')
       type: 'string',
       choices: ['line', 'side'],
       default: 'line'
+    }
+  })
+  .options({
+    'su': {
+      alias: 'summary',
+      describe: 'Show files summary',
+      type: 'boolean',
+      default: 'true'
+    }
+  })
+  .options({
+    'lm': {
+      alias: 'matching',
+      describe: 'Diff line matching type',
+      nargs: 1,
+      type: 'string',
+      choices: ['lines', 'words', 'none'],
+      default: 'words'
+    }
+  })
+  .options({
+    'lmt': {
+      alias: 'matchWordsThreshold',
+      describe: 'Diff line matching word threshold',
+      nargs: 1,
+      type: 'string',
+      default: '0.25'
     }
   })
   .options({
@@ -92,196 +118,46 @@ var argv = require('yargs')
   })
   .help('h')
   .alias('h', 'help')
-  .epilog('© 2015 rtfpessoa\n' +
+  .epilog('© 2014 rtfpessoa\n' +
     'For support, check out https://github.com/rtfpessoa/diff2html-cli')
   .argv;
-
-function getInput(callback) {
-  switch (argv.input) {
-    case 'file':
-      readFile(argv._[0], callback);
-      break;
-
-    case 'stdin':
-      readStdin(callback);
-      break;
-
-    default:
-      runGitDiff(callback);
-  }
-}
-
-function runGitDiff(callback) {
-  var gitArgs;
-  if (argv._.length && argv._[0]) {
-    gitArgs = argv._.join(' ');
-  } else {
-    gitArgs = '-M HEAD~1';
-  }
-
-  var diffCommand = 'git diff ' + gitArgs;
-  return callback(null, runCmd(diffCommand));
-}
-
-function getOutput(input) {
-  var config = {};
-  config.wordByWord = (argv.diff === 'word');
-  config.charByChar = (argv.diff === 'char');
-
-  if (argv.format === 'html') {
-    var htmlContent;
-    if (argv.style === 'side') {
-      htmlContent = diff2Html.getPrettySideBySideHtmlFromDiff(input, config);
-    } else {
-      htmlContent = diff2Html.getPrettyHtmlFromDiff(input, config);
-    }
-    return prepareHTML(htmlContent);
-  }
-
-  var jsonContent = diff2Html.getJsonFromDiff(input, config);
-  return prepareJSON(jsonContent);
-
-}
-
-function preview(content) {
-  var filePath = '/tmp/diff.' + argv.format;
-  writeFile(filePath, content);
-  runCmd('open ' + filePath);
-}
-
-function prepareHTML(content) {
-  var template = readFileSync(__dirname + '/../dist/template.html');
-
-  var cssFile = __dirname + '/../node_modules/diff2html/css/diff2html.css';
-  var cssFallbackFile = __dirname + '/../dist/diff2html.css';
-  if (existsSync(cssFile)) cssFile = cssFallbackFile;
-
-  var cssContent = readFileSync(cssFile);
-
-  return template
-    .replace('<!--css-->', '<style>\n' + cssContent + '\n</style>')
-    .replace('<!--diff-->', content);
-}
-
-function postToDiffy(diff, postType) {
-  var jsonParams = {udiff: diff};
-
-  post('http://diffy.org/api/new', jsonParams, function(err, response) {
-    if (err) {
-      print(err);
-      return;
-    }
-
-    if (response.status !== 'error') {
-      print('Link powered by diffy.org:');
-      print(response.url);
-
-      if (postType === 'browser') {
-        runCmd('open ' + response.url);
-      } else if (postType === 'pbcopy') {
-        runCmd('echo "' + response.url + '" | pbcopy');
-      }
-    } else {
-      print('Error: ' + message);
-    }
-  });
-}
-
-function post(url, payload, callback) {
-  request({
-    url: url,
-    method: 'POST',
-    form: payload
-  })
-    .on('response', function(response) {
-      response.on('data', function(body) {
-        try {
-          return callback(null, JSON.parse(body.toString('utf8')));
-        } catch (err) {
-          return callback(new Error('could not parse response'));
-        }
-      });
-    })
-    .on('error', function(err) {
-      callback(err);
-    });
-}
-
-function prepareJSON(content) {
-  return JSON.stringify(content);
-}
-
-function print(line) {
-  console.log(line);
-}
-
-function error(msg) {
-  console.error(msg);
-}
-
-function existsSync(filePath) {
-  try {
-    fs.existsSync(filePath);
-  } catch (ignore) {
-    return false;
-  }
-
-  return true;
-}
-
-function readFileSync(filePath) {
-  return fs.readFileSync(filePath, 'utf8');
-}
-
-function readFile(filePath, callback) {
-  return fs.readFile(filePath, {'encoding': 'utf8'}, callback);
-}
-
-function readStdin(callback) {
-  var content = '';
-  process.stdin.resume();
-  process.stdin.on('data', function(buf) {
-    content += buf.toString('utf8');
-  });
-  process.stdin.on('end', function() {
-    callback(null, content);
-  });
-}
-
-function writeFile(filePath, content) {
-  fs.writeFileSync(filePath, content);
-}
-
-function runCmd(cmd) {
-  return childProcess.execSync(cmd).toString('utf8');
-}
 
 /*
  * CLI code
  */
 
-getInput(function(err, input) {
+function onInput(err, input) {
   if (err) {
-    print(err);
+    log.error(err);
     return;
   }
 
   if (!input) {
-    error('The input is empty. Try again.');
+    log.error('The input is empty. Try again.');
     argv.help();
   }
 
   if (argv.diffy) {
-    postToDiffy(input, argv.diffy);
+    cli.postToDiffy(input, argv.diffy);
     return;
   }
 
-  var output = getOutput(input);
-  if (argv.file) {
-    writeFile(argv.file, output);
-  } else if (argv.output === 'preview') {
-    preview(output);
-  } else {
-    print(output);
+  cli.getOutput(argv, input, onOutput);
+}
+
+function onOutput(err, output) {
+  if (err) {
+    log.error(err);
+    return;
   }
-});
+
+  if (argv.file) {
+    utils.writeFile(argv.file, output);
+  } else if (argv.output === 'preview') {
+    cli.preview(output, argv.format);
+  } else {
+    log.print(output);
+  }
+}
+
+cli.getInput(argv.input, argv._, onInput);
