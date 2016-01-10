@@ -1,6 +1,17 @@
-# Diff to Html CLI by [rtfpessoa](https://github.com/rtfpessoa)
+# diff2html-cli
 
-[![Codacy Badge](https://api.codacy.com/project/badge/grade/e6139937d72f40ed8b3920d53c74298a)](https://www.codacy.com/app/Codacy/diff2html-cli)
+[![Circle CI](https://circleci.com/gh/rtfpessoa/diff2html-cli.svg?style=svg)](https://circleci.com/gh/rtfpessoa/diff2html-cli)
+[![Codacy Code Badge](https://api.codacy.com/project/badge/grade/e6139937d72f40ed8b3920d53c74298a)](https://www.codacy.com/app/Codacy/diff2html-cli)
+[![Codacy Coverage Badge](https://api.codacy.com/project/badge/coverage/e6139937d72f40ed8b3920d53c74298a)](https://www.codacy.com/app/Codacy/diff2html-cli)
+
+[![npm](https://img.shields.io/npm/v/diff2html-cli.svg)](https://www.npmjs.com/package/diff2html-cli)
+[![David](https://img.shields.io/david/rtfpessoa/diff2html-cli.svg)](https://david-dm.org/rtfpessoa/diff2html-cli)
+[![David](https://img.shields.io/david/dev/rtfpessoa/diff2html-cli.svg)](https://david-dm.org/rtfpessoa/diff2html-cli)
+
+[![node](https://img.shields.io/node/v/diff2html-cli.svg)]()
+[![npm](https://img.shields.io/npm/l/diff2html-cli.svg)]()
+[![npm](https://img.shields.io/npm/dm/diff2html-cli.svg)](https://www.npmjs.com/package/diff2html-cli)
+[![Gitter](https://badges.gitter.im/rtfpessoa/diff2html.svg)](https://gitter.im/rtfpessoa/diff2html?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 Diff to Html generates pretty HTML diffs from git diff output in your terminal
 
@@ -15,6 +26,8 @@ Diff to Html generates pretty HTML diffs from git diff output in your terminal
 * GitHub like style
 
 * Code syntax highlight
+
+* Line similarity matching
 
 ## Online Example
 
@@ -38,47 +51,43 @@ Diff to Html generates pretty HTML diffs from git diff output in your terminal
 
 ## Usage
 
-    diff2html [options] -- [diff args]
-
+    Usage: diff2html [options] -- [diff args]
 
     Options:
-      -s, --style   Output style
-                                [string] [choices: "line", "side"] [default: "line"]
-      -f, --format  Output format
-                                [string] [choices: "html", "json"] [default: "html"]
-      -d, --diff    Diff style  [string] [choices: "word", "char"] [default: "word"]
-      -i, --input   Diff input source
-                 [string] [choices: "file", "command", "stdin"] [default: "command"]
-      -o, --output  Output destination
-                        [string] [choices: "preview", "stdout"] [default: "preview"]
-      -u, --diffy   Upload to diffy.org
-                                    [string] [choices: "browser", "pbcopy", "print"]
-      -F, --file    Send output to file (overrides output option)           [string]
-      --version     Show version number                                    [boolean]
-      -h, --help    Show help                                              [boolean]
-
+      -s, --style                   Output style   [string] [choices: "line", "side"] [default: "line"]
+      --su, --summary               Show files summary   [boolean] [default: "true"]
+      --lm, --matching              Diff line matching type   [string] [choices: "lines", "words", "none"] [default: "none"]
+      --lmt, --matchWordsThreshold  Diff line matching word threshold   [string] [default: "0.25"]
+      -f, --format                  Output format   [string] [choices: "html", "json"] [default: "html"]
+      -d, --diff                    Diff style   [string] [choices: "word", "char"] [default: "word"]
+      -i, --input                   Diff input source   [string] [choices: "file", "command", "stdin"] [default: "command"]
+      -o, --output                  Output destination   [string] [choices: "preview", "stdout"] [default: "preview"]
+      -u, --diffy                   Upload to diffy.org   [string] [choices: "browser", "pbcopy", "print"]
+      -F, --file                    Send output to file (overrides output option)   [string]
+      --version                     Show version number                    [boolean]
+      -h, --help                    Show help                              [boolean]
 
     Examples:
-      diff2html -s line -f html -d word -i      diff last commit, line by line, word
-      command -o preview -- -M HEAD~1           comparison between lines,previewed
-                                                in the browser and input from git
-                                                diff command
-      diff2html -i file -- my-file-diff.diff    reading the input from a file
-      diff2html -f json -o stdout -- -M HEAD~1  print json format to stdout
-      diff2html -F my-pretty-diff.html -- -M    print to file
-      HEAD~1
+      diff2html -s line -f html -d word -i command -o preview -- -M HEAD~1
+          -> diff last commit, line by line, word comparison between lines,previewed
+             in the browser and input from git diff command
+      diff2html -i file -- my-file-diff.diff
+          -> reading the input from a file
+      diff2html -f json -o stdout -- -M HEAD~1
+          -> print json format to stdout
+      diff2html -F my-pretty-diff.html -- -M HEAD~1
+          ->  print to file
 
-
-    © 2015 rtfpessoa
+    © 2014 rtfpessoa
     For support, check out https://github.com/rtfpessoa/diff2html-cli
 
 > NOTE: notice the `--` in the examples
 
 ## Contributions
 
-All the contributions are welcome.
-
-To contribute just send a pull request with your changes and I will review it asap.
+This is a developer friendly project, all the contributions are welcome.
+To contribute just send a pull request with your changes following the guidelines described in `CONTRIBUTING.md`.
+I will try to review them as soon as possible.
 
 ## License
 
