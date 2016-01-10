@@ -48,7 +48,7 @@
     "yargs": "^3.31.0",
     "extend": "^3.0.0",
     "request": "^2.67.0",
-    "diff2html": "1.2.0"
+    "diff2html": "~1.2.0"
   },
   "devDependencies": {
     "codacy-coverage": "^1.1.3",
