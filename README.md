@@ -47,7 +47,7 @@ Diff to Html generates pretty HTML diffs from git diff output in your terminal
 
 ## Setup
 
-    sudo npm install -g diff2html-cli
+    npm install -g diff2html-cli
 
 ## Usage
 
