@@ -7,11 +7,17 @@
 
 (function() {
 
+  var os = require('os');
+  var path = require('path');
+
   var diff2Html = require('diff2html').Diff2Html;
 
   var log = require('./logger.js').Logger;
   var http = require('./http-utils.js').HttpUtils;
   var utils = require('./utils.js').Utils;
+
+  var open = require('open');
+  var ncp = require("copy-paste");
 
   function Diff2HtmlInterface() {
   }
@@ -41,7 +47,7 @@
     if (gitArgsArr.length && gitArgsArr[0]) {
       gitArgs = gitArgsArr.join(' ');
     } else {
-      gitArgs = '-M HEAD~1';
+      gitArgs = '-M HEAD';
     }
 
     var diffCommand = 'git diff ' + gitArgs;
@@ -83,13 +89,15 @@
   };
 
   Diff2HtmlInterface.prototype._prepareHTML = function(content) {
-    var template = utils.readFileSync(__dirname + '/../dist/template.html');
+    var templatePath = path.resolve(__dirname, '..', 'dist', 'template.html');
+    var template = utils.readFileSync(templatePath);
 
-    var cssFile = __dirname + '/../node_modules/diff2html/css/diff2html.css';
-    var cssFallbackFile = __dirname + '/../dist/diff2html.css';
-    if (utils.existsSync(cssFile)) cssFile = cssFallbackFile;
+    var cssFilePath = path.resolve(__dirname, '..', 'node_modules', 'diff2html', 'css', 'diff2html.css');
+    var cssFallbackPath = path.resolve(__dirname, '..', 'dist', 'diff2html.css');
 
-    var cssContent = utils.readFileSync(cssFile);
+    if (!utils.existsSync(cssFilePath)) cssFilePath = cssFallbackPath;
+
+    var cssContent = utils.readFileSync(cssFilePath);
 
     return template
       .replace('<!--css-->', '<style>\n' + cssContent + '\n</style>')
@@ -101,12 +109,13 @@
    */
 
   Diff2HtmlInterface.prototype.preview = function(content, format) {
-    var filePath = '/tmp/diff.' + format;
+    var filename = 'diff.' + format;
+    var filePath = path.resolve(os.tmpdir(), filename);
     utils.writeFile(filePath, content);
-    utils.runCmd('open ' + filePath);
+    open(filePath);
   };
 
-  Diff2HtmlInterface.prototype.postToDiffy = function(diff, postType) {
+  Diff2HtmlInterface.prototype.postToDiffy = function(diff, postType, callback) {
     var jsonParams = {udiff: diff};
 
     http.post('http://diffy.org/api/new', jsonParams, function(err, response) {
@@ -120,9 +129,12 @@
         log.print(response.url);
 
         if (postType === 'browser') {
-          utils.runCmd('open ' + response.url);
+          open(response.url);
+          return callback(null, response.url);
         } else if (postType === 'pbcopy') {
-          utils.runCmd('echo "' + response.url + '" | pbcopy');
+          ncp.copy(response.url, function() {
+            return callback(null, response.url);
+          });
         }
       } else {
         log.error('Error: ' + message);
