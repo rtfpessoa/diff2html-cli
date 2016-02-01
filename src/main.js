@@ -126,6 +126,10 @@ var argv = require('yargs')
  * CLI code
  */
 
+function noop(ignore) {
+  return ignore;
+}
+
 function onInput(err, input) {
   if (err) {
     log.error(err);
@@ -138,7 +142,7 @@ function onInput(err, input) {
   }
 
   if (argv.diffy) {
-    cli.postToDiffy(input, argv.diffy);
+    cli.postToDiffy(input, argv.diffy, noop);
     return;
   }
 

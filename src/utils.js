@@ -22,13 +22,15 @@
   };
 
   Utils.prototype.existsSync = function(filePath) {
+    var result = false;
+
     try {
-      fs.existsSync(filePath);
+      result = fs.existsSync(filePath);
     } catch (ignore) {
-      return false;
+      result = false;
     }
 
-    return true;
+    return result || false;
   };
 
   Utils.prototype.readFileSync = function(filePath) {
