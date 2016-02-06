@@ -17,7 +17,7 @@
   var utils = require('./utils.js').Utils;
 
   var open = require('open');
-  var ncp = require("copy-paste");
+  var ncp = require('copy-paste');
 
   function Diff2HtmlInterface() {
   }
