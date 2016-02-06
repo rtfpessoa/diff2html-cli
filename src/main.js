@@ -11,8 +11,9 @@ var cli = require('./cli.js').Diff2HtmlInterface;
 var log = require('./logger.js').Logger;
 var utils = require('./utils.js').Utils;
 
-var argv = require('yargs')
-  .usage('Usage: diff2html [options] -- [diff args]')
+var yargs = require('yargs');
+
+var argv = yargs.usage('Usage: diff2html [options] -- [diff args]')
   .options({
     's': {
       alias: 'style',
@@ -138,7 +139,7 @@ function onInput(err, input) {
 
   if (!input) {
     log.error('The input is empty. Try again.');
-    argv.help();
+    yargs.showHelp("log");
   }
 
   if (argv.diffy) {
