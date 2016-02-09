@@ -92,16 +92,16 @@
     var templatePath = path.resolve(__dirname, '..', 'dist', 'template.html');
     var template = utils.readFileSync(templatePath);
 
-    var cssFilePath = path.resolve(__dirname, '..', 'node_modules', 'diff2html', 'css', 'diff2html.css');
-    var cssFallbackPath = path.resolve(__dirname, '..', 'dist', 'diff2html.css');
-
-    if (!utils.existsSync(cssFilePath)) cssFilePath = cssFallbackPath;
-
+    var cssFilePath = path.resolve(__dirname, '..', 'node_modules', 'diff2html', 'dist', 'diff2html.min.css');
     var cssContent = utils.readFileSync(cssFilePath);
 
+    var jsUiFilePath = path.resolve(__dirname, '..', 'node_modules', 'diff2html', 'dist', 'diff2html-ui.min.js');
+    var jsUiContent = utils.readFileSync(jsUiFilePath);
+
     return template
-      .replace('<!--css-->', '<style>\n' + cssContent + '\n</style>')
-      .replace('<!--diff-->', content);
+      .replace('<!--diff2html-css-->', '<style>\n' + cssContent + '\n</style>')
+      .replace('<!--diff2html-js-ui-->', '<script>\n' + jsUiContent + '\n</script>')
+      .replace('<!--diff2html-diff-->', content);
   };
 
   /*

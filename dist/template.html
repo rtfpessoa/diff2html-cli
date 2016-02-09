@@ -9,35 +9,30 @@
         Author: rtfpessoa
     -->
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/github.min.css">
-    <!--css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/languages/scala.min.js"></script>
+    <!--diff2html-css-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/languages/scala.min.js"></script>
+
+    <!--diff2html-js-ui-->
+
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // collect all the distinct languages in the HTML
-            var distinctLanguages = [];
-            [].forEach.call(document.getElementsByClassName("d2h-file-wrapper"), function(file) {
-                distinctLanguages.indexOf(file.dataset.lang) === -1 && distinctLanguages.push(file.dataset.lang);
-            });
-
-            // pass the languages to the highlightjs plugin
-            hljs.configure({languages: distinctLanguages});
-
-            // collect all the code lines and execute the highlight on them
-            var codeLines = document.getElementsByClassName("d2h-code-line-ctn");
-            [].forEach.call(codeLines, function(line) {
-                hljs.highlightBlock(line);
-            });
+        $(document).ready(function() {
+            var diff2htmlUi = new Diff2HtmlUI();
+            diff2htmlUi.fileListCloseable('#diff', false);
+            diff2htmlUi.highlightCode('#diff');
         });
     </script>
 </head>
 <body style="text-align: center; font-family: 'Source Sans Pro',sans-serif;">
 <h1>Diff to HTML by <a href="https://github.com/rtfpessoa">rtfpessoa</a></h1>
 
-<div>
-    <!--diff-->
+<div id="diff">
+    <!--diff2html-diff-->
 </div>
 </body>
 </html>
