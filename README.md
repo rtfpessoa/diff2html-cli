@@ -55,7 +55,7 @@ Diff to Html generates pretty HTML diffs from git diff output in your terminal
 
     Options:
       -s, --style                   Output style   [string] [choices: "line", "side"] [default: "line"]
-      --su, --summary               Show files summary   [boolean] [default: "true"]
+      --su, --summary               Show files summary   [string] [choices: "closed", "open", "hidden"] [default: "closed"]
       --lm, --matching              Diff line matching type   [string] [choices: "lines", "words", "none"] [default: "none"]
       --lmt, --matchWordsThreshold  Diff line matching word threshold   [string] [default: "0.25"]
       -f, --format                  Output format   [string] [choices: "html", "json"] [default: "html"]

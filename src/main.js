@@ -28,8 +28,9 @@ var argv = yargs.usage('Usage: diff2html [options] -- [diff args]')
     'su': {
       alias: 'summary',
       describe: 'Show files summary',
-      type: 'boolean',
-      default: 'true'
+      type: 'string',
+      choices: ['closed', 'open', 'hidden'],
+      default: 'closed'
     }
   })
   .options({

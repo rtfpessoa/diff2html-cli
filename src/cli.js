@@ -75,12 +75,15 @@
         config.outputFormat = 'line-by-line';
       }
 
-      if (baseConfig.summary) {
+      if (baseConfig.summary === 'hidden') {
+        config.showFiles = false;
+      } else {
         config.showFiles = true;
+        config.showFilesOpen = baseConfig.summary === 'open';
       }
 
       var htmlContent = Diff2Html.getPrettyHtml(jsonContent, config);
-      return callback(null, that._prepareHTML(htmlContent));
+      return callback(null, that._prepareHTML(htmlContent, config.showFilesOpen));
     } else if (baseConfig.format === 'json') {
       return callback(null, JSON.stringify(jsonContent));
     }
@@ -88,7 +91,7 @@
     return callback(new Error('Wrong output format `' + baseConfig.format + '`!'));
   };
 
-  Diff2HtmlInterface.prototype._prepareHTML = function(content) {
+  Diff2HtmlInterface.prototype._prepareHTML = function(content, showFilesOpen) {
     var templatePath = path.resolve(__dirname, '..', 'dist', 'template.html');
     var template = utils.readFileSync(templatePath);
 
@@ -101,6 +104,7 @@
     return template
       .replace('<!--diff2html-css-->', '<style>\n' + cssContent + '\n</style>')
       .replace('<!--diff2html-js-ui-->', '<script>\n' + jsUiContent + '\n</script>')
+      .replace('//diff2html-fileListCloseable', 'diff2htmlUi.fileListCloseable("#diff", ' + showFilesOpen + ');')
       .replace('<!--diff2html-diff-->', content);
   };
 
