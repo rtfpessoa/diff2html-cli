@@ -82,7 +82,7 @@
         config.showFilesOpen = baseConfig.summary === 'open';
       }
 
-      var htmlContent = Diff2Html.getPrettyHtml(jsonContent, config);
+      var htmlContent = diff2Html.getPrettyHtml(jsonContent, config);
       return callback(null, that._prepareHTML(htmlContent, config.showFilesOpen));
     } else if (baseConfig.format === 'json') {
       return callback(null, JSON.stringify(jsonContent));
