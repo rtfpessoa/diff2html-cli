@@ -45,7 +45,9 @@
   Diff2HtmlInterface.prototype._runGitDiff = function(gitArgsArr, callback) {
     var gitArgs;
     if (gitArgsArr.length && gitArgsArr[0]) {
-      gitArgs = gitArgsArr.join(' ');
+      gitArgs = gitArgsArr.map(function(arg) {
+        return "\"" + arg + "\""; // wrap parameters
+      }).join(' ');
     } else {
       gitArgs = '-M HEAD';
     }

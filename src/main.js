@@ -141,6 +141,7 @@ function onInput(err, input) {
   if (!input) {
     log.error('The input is empty. Try again.');
     yargs.showHelp('log');
+    return;
   }
 
   if (argv.diffy) {
