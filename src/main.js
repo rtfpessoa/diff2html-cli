@@ -53,6 +53,15 @@ var argv = yargs.usage('Usage: diff2html [options] -- [diff args]')
     }
   })
   .options({
+    'lmm': {
+      alias: 'matchingMaxComparisons',
+      describe: 'Diff line matching maximum line comparisons of a block of changes',
+      nargs: 1,
+      type: 'string',
+      default: '2500'
+    }
+  })
+  .options({
     'f': {
       alias: 'format',
       describe: 'Output format',

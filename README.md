@@ -54,18 +54,19 @@ Diff to Html generates pretty HTML diffs from git diff output in your terminal
     Usage: diff2html [options] -- [diff args]
 
     Options:
-      -s, --style                   Output style   [string] [choices: "line", "side"] [default: "line"]
-      --su, --summary               Show files summary   [string] [choices: "closed", "open", "hidden"] [default: "closed"]
-      --lm, --matching              Diff line matching type   [string] [choices: "lines", "words", "none"] [default: "none"]
-      --lmt, --matchWordsThreshold  Diff line matching word threshold   [string] [default: "0.25"]
-      -f, --format                  Output format   [string] [choices: "html", "json"] [default: "html"]
-      -d, --diff                    Diff style   [string] [choices: "word", "char"] [default: "word"]
-      -i, --input                   Diff input source   [string] [choices: "file", "command", "stdin"] [default: "command"]
-      -o, --output                  Output destination   [string] [choices: "preview", "stdout"] [default: "preview"]
-      -u, --diffy                   Upload to diffy.org   [string] [choices: "browser", "pbcopy", "print"]
-      -F, --file                    Send output to file (overrides output option)   [string]
-      --version                     Show version number                    [boolean]
-      -h, --help                    Show help                              [boolean]
+      -s, --style                       Output style   [string] [choices: "line", "side"] [default: "line"]
+      --su, --summary                   Show files summary   [string] [choices: "closed", "open", "hidden"] [default: "closed"]
+      --lm, --matching                  Diff line matching type   [string] [choices: "lines", "words", "none"] [default: "none"]
+      --lmt, --matchWordsThreshold      Diff line matching word threshold   [string] [default: "0.25"]
+      --lmm, --matchingMaxComparisons   Diff line matching maximum line comparisons of a block of changes [default: 2500]
+      -f, --format                      Output format   [string] [choices: "html", "json"] [default: "html"]
+      -d, --diff                        Diff style   [string] [choices: "word", "char"] [default: "word"]
+      -i, --input                       Diff input source   [string] [choices: "file", "command", "stdin"] [default: "command"]
+      -o, --output                      Output destination   [string] [choices: "preview", "stdout"] [default: "preview"]
+      -u, --diffy                       Upload to diffy.org   [string] [choices: "browser", "pbcopy", "print"]
+      -F, --file                        Send output to file (overrides output option)   [string]
+      --version                         Show version number                    [boolean]
+      -h, --help                        Show help                              [boolean]
 
     Examples:
       diff2html -s line -f html -d word -i command -o preview -- -M HEAD~1

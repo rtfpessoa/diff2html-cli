@@ -1,6 +1,6 @@
 {
   "name": "diff2html-cli",
-  "version": "1.4.6-beta3",
+  "version": "1.4.6-beta4",
   "homepage": "https://www.github.com/rtfpessoa/diff2html-cli",
   "description": "Fast Diff to colorized HTML",
   "keywords": [
@@ -46,7 +46,7 @@
   "main": "./src/main.js",
   "dependencies": {
     "copy-paste": "^1.1.4",
-    "diff2html": "^2.0.0-beta9",
+    "diff2html": "^2.0.0-beta10",
     "extend": "^3.0.0",
     "open": "0.0.5",
     "request": "^2.69.0",
