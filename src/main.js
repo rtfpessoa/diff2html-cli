@@ -129,7 +129,7 @@ var argv = yargs.usage('Usage: diff2html [options] -- [diff args]')
   })
   .help('h')
   .alias('h', 'help')
-  .epilog('© 2014 rtfpessoa\n' +
+  .epilog('© 2014-2016 rtfpessoa\n' +
     'For support, check out https://github.com/rtfpessoa/diff2html-cli')
   .argv;
 
