@@ -36,9 +36,12 @@
   },
   "preferGlobal": true,
   "scripts": {
-    "test": "jscs src/*.js && istanbul cover _mocha -- -u exports -R spec ./test/**/*",
     "style": "jscs src/*.js",
-    "codacy": "istanbul cover _mocha -- -u exports -R spec ./test/**/* && cat ./coverage/lcov.info | codacy-coverage"
+    "coverage": "istanbul cover _mocha -- -u exports -R spec ./test/**/*",
+    "test": "npm run style && npm run coverage",
+    "codacy": "npm run coverage && cat ./coverage/lcov.info | codacy-coverage",
+    "preversion": "npm test",
+    "postversion": "git push && git push --tags"
   },
   "bin": {
     "diff2html": "./bin/diff2html"
