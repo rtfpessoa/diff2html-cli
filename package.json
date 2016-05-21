@@ -49,11 +49,11 @@
   "main": "./src/main.js",
   "dependencies": {
     "copy-paste": "^1.2.0",
-    "diff2html": "^2.0.0-beta18",
+    "diff2html": "^2.0.0-rc.5",
     "extend": "^3.0.0",
     "open": "0.0.5",
     "request": "^2.72.0",
-    "yargs": "^4.7.0"
+    "yargs": "^4.7.1"
   },
   "devDependencies": {
     "codacy-coverage": "^1.1.3",
