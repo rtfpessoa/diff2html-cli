@@ -1,8 +1,9 @@
 # diff2html-cli
 
-[![Circle CI](https://circleci.com/gh/rtfpessoa/diff2html-cli.svg?style=svg)](https://circleci.com/gh/rtfpessoa/diff2html-cli)
 [![Codacy Code Badge](https://api.codacy.com/project/badge/grade/e6139937d72f40ed8b3920d53c74298a)](https://www.codacy.com/app/Codacy/diff2html-cli)
 [![Codacy Coverage Badge](https://api.codacy.com/project/badge/coverage/e6139937d72f40ed8b3920d53c74298a)](https://www.codacy.com/app/Codacy/diff2html-cli)
+[![Circle CI](https://circleci.com/gh/rtfpessoa/diff2html-cli.svg?style=svg)](https://circleci.com/gh/rtfpessoa/diff2html-cli)
+[![Dependency Status](https://dependencyci.com/github/rtfpessoa/diff2html/badge)](https://dependencyci.com/github/rtfpessoa/diff2html)
 
 [![npm](https://img.shields.io/npm/v/diff2html-cli.svg)](https://www.npmjs.com/package/diff2html-cli)
 [![David](https://img.shields.io/david/rtfpessoa/diff2html-cli.svg)](https://david-dm.org/rtfpessoa/diff2html-cli)
