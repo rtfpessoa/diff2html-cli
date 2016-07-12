@@ -6,7 +6,6 @@
  */
 
 (function() {
-
   var os = require('os');
   var path = require('path');
 
@@ -46,7 +45,7 @@
     var gitArgs;
     if (gitArgsArr.length && gitArgsArr[0]) {
       gitArgs = gitArgsArr.map(function(arg) {
-        return "\"" + arg + "\""; // wrap parameters
+        return '"' + arg + '"'; // wrap parameters
       }).join(' ');
     } else {
       gitArgs = '-M HEAD';
@@ -143,11 +142,10 @@
           });
         }
       } else {
-        log.error('Error: ' + message);
+        log.error('Error: ' + response.statusCode);
       }
     });
   };
 
   module.exports.Diff2HtmlInterface = new Diff2HtmlInterface();
-
 })();

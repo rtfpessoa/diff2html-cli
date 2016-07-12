@@ -6,7 +6,6 @@
  */
 
 (function() {
-
   var childProcess = require('child_process');
   var fs = require('fs');
 
@@ -61,5 +60,4 @@
   };
 
   module.exports.Utils = new Utils();
-
 })();

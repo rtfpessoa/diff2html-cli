@@ -6,7 +6,6 @@
  */
 
 (function() {
-
   var request = require('request');
 
   function HttpUtils() {
@@ -33,5 +32,4 @@
   };
 
   module.exports.HttpUtils = new HttpUtils();
-
 })();

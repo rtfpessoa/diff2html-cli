@@ -36,7 +36,7 @@
   },
   "preferGlobal": true,
   "scripts": {
-    "style": "jscs src/*.js",
+    "style": "eslint src/*.js",
     "coverage": "istanbul cover _mocha -- -u exports -R spec ./test/**/*",
     "test": "npm run style && npm run coverage",
     "codacy": "npm run coverage && cat ./coverage/lcov.info | codacy-coverage",
@@ -49,7 +49,7 @@
   "main": "./src/main.js",
   "dependencies": {
     "copy-paste": "^1.3.0",
-    "diff2html": "^2.0.0-rc.8",
+    "diff2html": "^2.0.0-rc.9",
     "extend": "^3.0.0",
     "open": "0.0.5",
     "request": "^2.73.0",
@@ -57,6 +57,9 @@
   },
   "devDependencies": {
     "codacy-coverage": "^1.1.3",
+    "eslint": "^3.0.1",
+    "eslint-plugin-promise": "^1.3.2",
+    "eslint-plugin-standard": "^1.3.2",
     "istanbul": "^0.4.4",
     "jscs": "^3.0.6",
     "mocha": "^2.5.3"

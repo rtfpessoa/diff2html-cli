@@ -6,7 +6,6 @@
  */
 
 (function() {
-
   function Logger() {
   }
 
@@ -19,5 +18,4 @@
   };
 
   module.exports.Logger = new Logger();
-
 })();
