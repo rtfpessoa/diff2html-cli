@@ -32,7 +32,7 @@ Diff to Html generates pretty HTML diffs from git diff output in your terminal
 
 ## Online Example
 
-> Go to [Diff2HTML](http://rtfpessoa.github.io/diff2html/)
+> Go to [Diff2HTML](https://diff2html.xyz/)
 
 ## Distributions
 
@@ -55,19 +55,20 @@ Diff to Html generates pretty HTML diffs from git diff output in your terminal
     Usage: diff2html [options] -- [diff args]
 
     Options:
-      -s, --style                       Output style   [string] [choices: "line", "side"] [default: "line"]
-      --su, --summary                   Show files summary   [string] [choices: "closed", "open", "hidden"] [default: "closed"]
-      --lm, --matching                  Diff line matching type   [string] [choices: "lines", "words", "none"] [default: "none"]
-      --lmt, --matchWordsThreshold      Diff line matching word threshold   [string] [default: "0.25"]
+      -s, --style                       Output style   [choices: "line", "side"] [default: "line"]
+      --sc, --synchronisedScroll        Synchronised horizontal scroll   [choices: "enabled", "disabled"] [default: "enabled"]
+      --su, --summary                   Show files summary   [choices: "closed", "open", "hidden"] [default: "closed"]
+      --lm, --matching                  Diff line matching type   [choices: "lines", "words", "none"] [default: "none"]
+      --lmt, --matchWordsThreshold      Diff line matching word threshold   [default: "0.25"]
       --lmm, --matchingMaxComparisons   Diff line matching maximum line comparisons of a block of changes [default: 2500]
-      -f, --format                      Output format   [string] [choices: "html", "json"] [default: "html"]
-      -d, --diff                        Diff style   [string] [choices: "word", "char"] [default: "word"]
-      -i, --input                       Diff input source   [string] [choices: "file", "command", "stdin"] [default: "command"]
-      -o, --output                      Output destination   [string] [choices: "preview", "stdout"] [default: "preview"]
-      -u, --diffy                       Upload to diffy.org   [string] [choices: "browser", "pbcopy", "print"]
+      -f, --format                      Output format   [choices: "html", "json"] [default: "html"]
+      -d, --diff                        Diff style   [choices: "word", "char"] [default: "word"]
+      -i, --input                       Diff input source   [choices: "file", "command", "stdin"] [default: "command"]
+      -o, --output                      Output destination   [choices: "preview", "stdout"] [default: "preview"]
+      -u, --diffy                       Upload to diffy.org   [choices: "browser", "pbcopy", "print"]
       -F, --file                        Send output to file (overrides output option)   [string]
-      --version                         Show version number                    [boolean]
-      -h, --help                        Show help                              [boolean]
+      --version                         Show version number
+      -h, --help                        Show help
 
     Examples:
       diff2html -s line -f html -d word -i command -o preview -- -M HEAD~1
@@ -80,7 +81,7 @@ Diff to Html generates pretty HTML diffs from git diff output in your terminal
       diff2html -F my-pretty-diff.html -- -M HEAD~1
           ->  print to file
 
-    © 2014 rtfpessoa
+    © 2014-2016 rtfpessoa
     For support, check out https://github.com/rtfpessoa/diff2html-cli
 
 > NOTE: notice the `--` in the examples
@@ -93,7 +94,7 @@ I will try to review them as soon as possible.
 
 ## License
 
-Copyright 2014 Rodrigo Fernandes. Released under the terms of the MIT license.
+Copyright 2014-2016 Rodrigo Fernandes. Released under the terms of the MIT license.
 
 ## Thanks
 

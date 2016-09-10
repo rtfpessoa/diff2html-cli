@@ -83,6 +83,8 @@
         config.showFilesOpen = baseConfig.summary === 'open';
       }
 
+      config.synchronisedScroll = (baseConfig.synchronisedScroll === 'enabled');
+
       var htmlContent = diff2Html.getPrettyHtml(jsonContent, config);
       return callback(null, that._prepareHTML(htmlContent, config.showFilesOpen));
     } else if (baseConfig.format === 'json') {

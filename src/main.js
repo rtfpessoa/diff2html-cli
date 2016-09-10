@@ -25,6 +25,15 @@ var argv = yargs.usage('Usage: diff2html [options] -- [diff args]')
     }
   })
   .options({
+    'sc': {
+      alias: 'synchronisedScroll',
+      describe: 'Synchronised horizontal scroll',
+      type: 'string',
+      choices: ['enabled', 'disabled'],
+      default: 'enabled'
+    }
+  })
+  .options({
     'su': {
       alias: 'summary',
       describe: 'Show files summary',
