@@ -98,10 +98,12 @@
     var templatePath = path.resolve(__dirname, '..', 'dist', 'template.html');
     var template = utils.readFileSync(templatePath);
 
-    var cssFilePath = path.resolve(__dirname, '..', 'node_modules', 'diff2html', 'dist', 'diff2html.min.css');
+    var diff2htmlPath = path.join(path.dirname(require.resolve('diff2html')), '..');
+
+    var cssFilePath = path.resolve(diff2htmlPath, 'dist', 'diff2html.min.css');
     var cssContent = utils.readFileSync(cssFilePath);
 
-    var jsUiFilePath = path.resolve(__dirname, '..', 'node_modules', 'diff2html', 'dist', 'diff2html-ui.min.js');
+    var jsUiFilePath = path.resolve(diff2htmlPath, 'dist', 'diff2html-ui.min.js');
     var jsUiContent = utils.readFileSync(jsUiFilePath);
 
     return template
