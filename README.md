@@ -14,9 +14,11 @@
 [![npm](https://img.shields.io/npm/dm/diff2html-cli.svg)](https://www.npmjs.com/package/diff2html-cli)
 [![Gitter](https://badges.gitter.im/rtfpessoa/diff2html.svg)](https://gitter.im/rtfpessoa/diff2html?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-Diff to Html generates pretty HTML diffs from git diff output in your terminal
+Diff to Html generates pretty HTML diffs from unified and git diff output in your terminal
 
 ## Features
+
+* Unified diff and Git diff input
 
 * `line-by-line` and `side-by-side` diff
 
