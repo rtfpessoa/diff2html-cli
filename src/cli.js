@@ -48,7 +48,7 @@
         return '"' + arg + '"'; // wrap parameters
       }).join(' ');
     } else {
-      gitArgs = '-M HEAD';
+      gitArgs = '-M -C HEAD';
     }
 
     var diffCommand = 'git diff ' + gitArgs;

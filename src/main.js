@@ -13,6 +13,8 @@ var utils = require('./utils.js').Utils;
 
 var yargs = require('yargs');
 
+var currentYear = new Date().getFullYear();
+
 var argv = yargs.usage('Usage: diff2html [options] -- [diff args]')
   .options({
     's': {
@@ -30,7 +32,7 @@ var argv = yargs.usage('Usage: diff2html [options] -- [diff args]')
       describe: 'Synchronised horizontal scroll',
       type: 'string',
       choices: ['enabled', 'disabled'],
-      default: 'enabled'
+      default: 'disabled'
     }
   })
   .options({
@@ -49,7 +51,7 @@ var argv = yargs.usage('Usage: diff2html [options] -- [diff args]')
       nargs: 1,
       type: 'string',
       choices: ['lines', 'words', 'none'],
-      default: 'words'
+      default: 'none'
     }
   })
   .options({
@@ -67,7 +69,7 @@ var argv = yargs.usage('Usage: diff2html [options] -- [diff args]')
       describe: 'Diff line matching maximum line comparisons of a block of changes',
       nargs: 1,
       type: 'string',
-      default: '2500'
+      default: '1000'
     }
   })
   .options({
@@ -138,7 +140,8 @@ var argv = yargs.usage('Usage: diff2html [options] -- [diff args]')
   })
   .help('h')
   .alias('h', 'help')
-  .epilog('© 2014-2016 rtfpessoa\n' +
+  .epilog('© 2014-' + currentYear + ' rtfpessoa\n' +
+    'For more information, check out https://diff2html.xyz/\n' +
     'For support, check out https://github.com/rtfpessoa/diff2html-cli')
   .argv;
 
