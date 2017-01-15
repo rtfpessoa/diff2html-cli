@@ -86,7 +86,7 @@
       config.synchronisedScroll = (baseConfig.synchronisedScroll === 'enabled');
 
       var htmlContent = diff2Html.getPrettyHtml(jsonContent, config);
-      return callback(null, that._prepareHTML(htmlContent, config.showFilesOpen));
+      return callback(null, that._prepareHTML(htmlContent, config));
     } else if (baseConfig.format === 'json') {
       return callback(null, JSON.stringify(jsonContent));
     }
@@ -94,7 +94,7 @@
     return callback(new Error('Wrong output format `' + baseConfig.format + '`!'));
   };
 
-  Diff2HtmlInterface.prototype._prepareHTML = function(content, showFilesOpen) {
+  Diff2HtmlInterface.prototype._prepareHTML = function(content, config) {
     var templatePath = path.resolve(__dirname, '..', 'dist', 'template.html');
     var template = utils.readFileSync(templatePath);
 
@@ -109,7 +109,8 @@
     return template
       .replace('<!--diff2html-css-->', '<style>\n' + cssContent + '\n</style>')
       .replace('<!--diff2html-js-ui-->', '<script>\n' + jsUiContent + '\n</script>')
-      .replace('//diff2html-fileListCloseable', 'diff2htmlUi.fileListCloseable("#diff", ' + showFilesOpen + ');')
+      .replace('//diff2html-fileListCloseable', 'diff2htmlUi.fileListCloseable("#diff", ' + config.showFilesOpen + ');')
+      .replace('//diff2html-synchronisedScroll', 'diff2htmlUi.synchronisedScroll("#diff", ' + config.synchronisedScroll + ');')
       .replace('<!--diff2html-diff-->', content);
   };
 
