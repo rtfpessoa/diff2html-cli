@@ -1,6 +1,6 @@
 {
   "name": "diff2html-cli",
-  "version": "2.0.5",
+  "version": "2.5.0",
   "homepage": "https://www.github.com/rtfpessoa/diff2html-cli",
   "description": "Fast Diff to colorized HTML",
   "keywords": [
