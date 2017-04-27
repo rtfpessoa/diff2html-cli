@@ -78,6 +78,8 @@ Diff to Html generates pretty HTML diffs from unified and git diff output in you
              in the browser and input from git diff command
       diff2html -i file -- my-file-diff.diff
           -> reading the input from a file
+      diff -u file1.txt file2.txt | diff2html -i stdin
+          -> reading diff from stdin
       diff2html -f json -o stdout -- -M HEAD~1
           -> print json format to stdout
       diff2html -F my-pretty-diff.html -- -M HEAD~1
