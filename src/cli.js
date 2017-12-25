@@ -48,7 +48,11 @@
         return '"' + arg + '"'; // wrap parameters
       }).join(' ');
     } else {
-      gitArgs = '-M -C --no-color HEAD';
+      gitArgs = '-M -C HEAD';
+    }
+    
+    if (gitArgs.indexOf('--no-color') < 0) {
+      gitArgs += '--no-color';
     }
 
     var diffCommand = 'git diff ' + gitArgs;
