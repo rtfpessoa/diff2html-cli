@@ -50,7 +50,7 @@
     } else {
       gitArgs = '-M -C HEAD';
     }
-    
+
     if (gitArgs.indexOf('--no-color') < 0) {
       gitArgs += ' --no-color';
     }
