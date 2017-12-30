@@ -50,6 +50,10 @@
     } else {
       gitArgs = '-M -C HEAD';
     }
+    
+    if (gitArgs.indexOf('--no-color') < 0) {
+      gitArgs += ' --no-color';
+    }
 
     var diffCommand = 'git diff ' + gitArgs;
     return callback(null, utils.runCmd(diffCommand));
