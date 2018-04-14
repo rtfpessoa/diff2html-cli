@@ -135,9 +135,6 @@ var argv = yargs.usage('Usage: diff2html [options] -- [diff args]')
   .example('diff2html -i file -- my-file-diff.diff', 'reading the input from a file')
   .example('diff2html -f json -o stdout -- -M HEAD~1', 'print json format to stdout')
   .example('diff2html -F my-pretty-diff.html -- -M HEAD~1', 'print to file')
-  .version(function() {
-    return require('../package').version;
-  })
   .help('h')
   .alias('h', 'help')
   .epilog('© 2014-' + currentYear + ' rtfpessoa\n' +

@@ -409,12 +409,13 @@ delayed-stream@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/delayed-stream/-/delayed-stream-1.0.0.tgz#df3ae199acadfb7d440aaae0b29e2272b24ec619"
 
-diff2html@^2.3.1:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/diff2html/-/diff2html-2.3.1.tgz#8bf7f351607826e217446163cab6da52c560e0ab"
+diff2html@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/diff2html/-/diff2html-2.3.2.tgz#1c5864266d437148bc66fdd66d4ad750102d7fed"
   dependencies:
     diff "^3.3.1"
     hogan.js "^3.0.2"
+    lodash "^4.17.4"
     whatwg-fetch "^2.0.3"
 
 diff@3.3.1, diff@^3.3.1:
