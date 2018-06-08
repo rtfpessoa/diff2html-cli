@@ -92,7 +92,7 @@ Diff to Html generates pretty HTML diffs from unified and git diff output in you
                 `<!--diff2html-js-ui-->` - writes default JavaScript UI scripts to page
                 `//diff2html-fileListCloseable` - writes code to support selected list interaction, must be within a <script> block
                 `//diff2html-synchronisedScroll` - writes code to support selected scroll interaction, must be within a <script> block
-                `/<!--diff2html-diff-->` - writes diff content to page
+                `<!--diff2html-diff-->` - writes diff content to page
 
     © 2014-2016 rtfpessoa
     For support, check out https://github.com/rtfpessoa/diff2html-cli
