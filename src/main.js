@@ -129,6 +129,14 @@ var argv = yargs.usage('Usage: diff2html [options] -- [diff args]')
       type: 'string'
     }
   })
+  .options({
+    't': {
+      alias: 'template',
+      describe: 'Use a custom template when generating markup',
+      nargs: 1,
+      type: 'string'
+    }
+  })
   .example('diff2html -s line -f html -d word -i command -o preview -- -M HEAD~1',
     'diff last commit, line by line, word comparison between lines,' +
     'previewed in the browser and input from git diff command')
