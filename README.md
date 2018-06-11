@@ -85,7 +85,7 @@ Diff to Html generates pretty HTML diffs from unified and git diff output in you
           -> print json format to stdout
       diff2html -F my-pretty-diff.html -- -M HEAD~1
           ->  print to file
-      diff2html -F my-pretty-diff.html -w my-custom-template.html -- -M HEAD~1
+      diff2html -F my-pretty-diff.html -hwt my-custom-template.html -- -M HEAD~1
           ->  print to file using custom markup
               templates can include the following variables:
                 `<!--diff2html-css-->` - writes default CSS to page
