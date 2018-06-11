@@ -69,7 +69,7 @@ Diff to Html generates pretty HTML diffs from unified and git diff output in you
       -o, --output                      Output destination   [choices: "preview", "stdout"] [default: "preview"]
       -u, --diffy                       Upload to diffy.org   [choices: "browser", "pbcopy", "print"]
       -F, --file                        Send output to file (overrides output option)   [string]
-      -t, --template                    Path to custom template to be rendered when using the "html" output format [string]
+      -w, --html-wrapper-template       Path to custom template to be rendered when using the "html" output format [string]
       --version                         Show version number
       -h, --help                        Show help
 
@@ -85,7 +85,7 @@ Diff to Html generates pretty HTML diffs from unified and git diff output in you
           -> print json format to stdout
       diff2html -F my-pretty-diff.html -- -M HEAD~1
           ->  print to file
-      diff2html -F my-pretty-diff.html -t my-custom-template.html -- -M HEAD~1
+      diff2html -F my-pretty-diff.html -w my-custom-template.html -- -M HEAD~1
           ->  print to file using custom markup
               templates can include the following variables:
                 `<!--diff2html-css-->` - writes default CSS to page
