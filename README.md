@@ -69,7 +69,7 @@ Diff to Html generates pretty HTML diffs from unified and git diff output in you
       -o, --output                      Output destination   [choices: "preview", "stdout"] [default: "preview"]
       -u, --diffy                       Upload to diffy.org   [choices: "browser", "pbcopy", "print"]
       -F, --file                        Send output to file (overrides output option)   [string]
-      -w, --html-wrapper-template       Path to custom template to be rendered when using the "html" output format [string]
+      -hwt, --html-wrapper-template       Path to custom template to be rendered when using the "html" output format [string]
       --version                         Show version number
       -h, --help                        Show help
 
