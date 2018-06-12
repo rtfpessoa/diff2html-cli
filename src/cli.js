@@ -70,7 +70,7 @@
     var defaultTemplate = path.resolve(__dirname, '..', 'dist', 'template.html');
     config.wordByWord = (baseConfig.diff === 'word');
     config.charByChar = (baseConfig.diff === 'char');
-    config.template = baseConfig.template || defaultTemplate;
+    config.template = baseConfig.htmlWrapperTemplate || defaultTemplate;
 
     if (!fs.existsSync(config.template)) {
       return callback(new Error('Template (`' + baseConfig.template + '`) not found!'));

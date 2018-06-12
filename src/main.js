@@ -131,7 +131,7 @@ var argv = yargs.usage('Usage: diff2html [options] -- [diff args]')
   })
   .options({
     'hwt': {
-      alias: 'html-wrapper-template',
+      alias: 'htmlWrapperTemplate',
       describe: 'Use a custom template when generating markup',
       nargs: 1,
       type: 'string'
