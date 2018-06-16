@@ -54,9 +54,19 @@ jobs:
       - image: node:7
 
   build-node_8:
-    <<: *latest-build
+    <<: *common-build
     docker:
       - image: node:8
+
+  build-node_9:
+    <<: *common-build
+    docker:
+      - image: node:9
+
+  build-node_10:
+    <<: *latest-build
+    docker:
+      - image: node:10
 
 workflows:
   version: 2
@@ -67,3 +77,5 @@ workflows:
       - build-node_6
       - build-node_7
       - build-node_8
+      - build-node_9
+      - build-node_10
