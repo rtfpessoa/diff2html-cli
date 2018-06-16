@@ -6,6 +6,7 @@
  */
 
 (function() {
+  var fs = require('fs');
   var os = require('os');
   var path = require('path');
 
@@ -66,8 +67,14 @@
   Diff2HtmlInterface.prototype.getOutput = function(baseConfig, input, callback) {
     var that = this;
     var config = baseConfig;
+    var defaultTemplate = path.resolve(__dirname, '..', 'dist', 'template.html');
     config.wordByWord = (baseConfig.diff === 'word');
     config.charByChar = (baseConfig.diff === 'char');
+    config.template = baseConfig.htmlWrapperTemplate || defaultTemplate;
+
+    if (!fs.existsSync(config.template)) {
+      return callback(new Error('Template (`' + baseConfig.template + '`) not found!'));
+    }
 
     var jsonContent = diff2Html.getJsonFromDiff(input, config);
 
@@ -99,7 +106,7 @@
   };
 
   Diff2HtmlInterface.prototype._prepareHTML = function(content, config) {
-    var templatePath = path.resolve(__dirname, '..', 'dist', 'template.html');
+    var templatePath = config.template;
     var template = utils.readFileSync(templatePath);
 
     var diff2htmlPath = path.join(path.dirname(require.resolve('diff2html')), '..');

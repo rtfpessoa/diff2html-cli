@@ -63,6 +63,7 @@ Diff to Html generates pretty HTML diffs from unified and git diff output in you
       --lm, --matching                  Diff line matching type   [choices: "lines", "words", "none"] [default: "none"]
       --lmt, --matchWordsThreshold      Diff line matching word threshold   [default: "0.25"]
       --lmm, --matchingMaxComparisons   Diff line matching maximum line comparisons of a block of changes [default: 2500]
+      --hwt, --htmlWrapperTemplate      Path to custom template to be rendered when using the "html" output format [string]
       -f, --format                      Output format   [choices: "html", "json"] [default: "html"]
       -d, --diff                        Diff style   [choices: "word", "char"] [default: "word"]
       -i, --input                       Diff input source   [choices: "file", "command", "stdin"] [default: "command"]
@@ -84,6 +85,14 @@ Diff to Html generates pretty HTML diffs from unified and git diff output in you
           -> print json format to stdout
       diff2html -F my-pretty-diff.html -- -M HEAD~1
           ->  print to file
+      diff2html -F my-pretty-diff.html --hwt my-custom-template.html -- -M HEAD~1
+          ->  print to file using custom markup
+              templates can include the following variables:
+                `<!--diff2html-css-->` - writes default CSS to page
+                `<!--diff2html-js-ui-->` - writes default JavaScript UI scripts to page
+                `//diff2html-fileListCloseable` - writes code to support selected list interaction, must be within a <script> block
+                `//diff2html-synchronisedScroll` - writes code to support selected scroll interaction, must be within a <script> block
+                `<!--diff2html-diff-->` - writes diff content to page
 
     © 2014-2016 rtfpessoa
     For support, check out https://github.com/rtfpessoa/diff2html-cli
