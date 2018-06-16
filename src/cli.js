@@ -122,7 +122,7 @@
       .replace('<!--diff2html-js-ui-->', '<script>\n' + jsUiContent + '\n</script>')
       .replace('//diff2html-fileListCloseable', 'diff2htmlUi.fileListCloseable("#diff", ' + config.showFilesOpen + ');')
       .replace('//diff2html-synchronisedScroll', 'diff2htmlUi.synchronisedScroll("#diff", ' + config.synchronisedScroll + ');')
-      .replace('<!--diff2html-diff-->', content);
+      .replace('<!--diff2html-diff-->', content.replace(/\$/g, '$$$$'));
   };
 
   /*
