@@ -1,7 +1,7 @@
 # diff2html-cli
 
-[![Codacy Code Badge](https://api.codacy.com/project/badge/grade/e6139937d72f40ed8b3920d53c74298a)](https://www.codacy.com/app/Codacy/diff2html-cli)
-[![Codacy Coverage Badge](https://api.codacy.com/project/badge/coverage/e6139937d72f40ed8b3920d53c74298a)](https://www.codacy.com/app/Codacy/diff2html-cli)
+[![Codacy Quality Badge](https://api.codacy.com/project/badge/Grade/e6139937d72f40ed8b3920d53c74298a)](https://www.codacy.com/app/rtfpessoa/diff2html-cli?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=rtfpessoa/diff2html-cli&amp;utm_campaign=Badge_Grade)
+[![Codacy Coverage Badge](https://api.codacy.com/project/badge/Coverage/e6139937d72f40ed8b3920d53c74298a)](https://www.codacy.com/app/rtfpessoa/diff2html-cli?utm_source=github.com&utm_medium=referral&utm_content=rtfpessoa/diff2html-cli&utm_campaign=Badge_Coverage)
 [![Circle CI](https://circleci.com/gh/rtfpessoa/diff2html-cli.svg?style=svg)](https://circleci.com/gh/rtfpessoa/diff2html-cli)
 [![Dependency Status](https://dependencyci.com/github/rtfpessoa/diff2html/badge)](https://dependencyci.com/github/rtfpessoa/diff2html)
 
