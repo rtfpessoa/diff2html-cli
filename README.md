@@ -54,50 +54,53 @@ Diff to Html generates pretty HTML diffs from unified and git diff output in you
 
 ## Usage
 
-    Usage: diff2html [options] -- [diff args]
+Usage: diff2html [options] -- [diff args]
 
-    Options:
-      -s, --style                       Output style   [choices: "line", "side"] [default: "line"]
-      --sc, --synchronisedScroll        Synchronised horizontal scroll   [choices: "enabled", "disabled"] [default: "enabled"]
-      --su, --summary                   Show files summary   [choices: "closed", "open", "hidden"] [default: "closed"]
-      --lm, --matching                  Diff line matching type   [choices: "lines", "words", "none"] [default: "none"]
-      --lmt, --matchWordsThreshold      Diff line matching word threshold   [default: "0.25"]
-      --lmm, --matchingMaxComparisons   Diff line matching maximum line comparisons of a block of changes [default: 2500]
-      --hwt, --htmlWrapperTemplate      Path to custom template to be rendered when using the "html" output format [string]
-      -f, --format                      Output format   [choices: "html", "json"] [default: "html"]
-      -d, --diff                        Diff style   [choices: "word", "char"] [default: "word"]
-      -i, --input                       Diff input source   [choices: "file", "command", "stdin"] [default: "command"]
-      -o, --output                      Output destination   [choices: "preview", "stdout"] [default: "preview"]
-      -u, --diffy                       Upload to diffy.org   [choices: "browser", "pbcopy", "print"]
-      -F, --file                        Send output to file (overrides output option)   [string]
-      --version                         Show version number
-      -h, --help                        Show help
+| flag | alias | description | choices | default |
+| --- | --- | --- | --- | --- |
+| -s  | --style |  Output style | [choices: "line", "side"] | [default: "line"] |
+| --sc | --synchronisedScroll | Synchronised horizontal scroll | [choices: "enabled", "disabled"] | [default: "enabled"] |
+| --su | --summary | Show files summary | [choices: "closed", "open", "hidden"] | [default: "closed"] |
+| --lm | --matching | Diff line matching type | [choices: "lines", "words", "none"] | [default: "none"] |
+| --lmt | --matchWordsThreshold | Diff line matching word threshold | | [default: "0.25"] |
+| --lmm | --matchingMaxComparisons | Diff line matching maximum line comparisons of a block of changes | [default: 2500] |
+| --hwt | --htmlWrapperTemplate | Path to custom template to be rendered when using the "html" output format [string] |
+| -f | --format | Output format | [choices: "html", "json"] | [default: "html"] |
+| -d | --diff | Diff style | [choices: "word", "char"] | [default: "word"] |
+| -i | --input | Diff input source | [choices: "file", "command", "stdin"] | [default: "command"] |
+| -o | --output | Output destination | [choices: "preview", "stdout"] | [default: "preview"] |
+| -u | --diffy | Upload to diffy.org | [choices: "browser", "pbcopy", "print"] | |
+| -F | --file | Send output to file (overrides output option) [string] | | |
+| --version | | Show version number | | |
+| -h | --help | Show help | | |
 
-    Examples:
-      diff2html -s line -f html -d word -i command -o preview -- -M HEAD~1
-          -> diff last commit, line by line, word comparison between lines,previewed
-             in the browser and input from git diff command
-      diff2html -i file -- my-file-diff.diff
-          -> reading the input from a file
-      diff -u file1.txt file2.txt | diff2html -i stdin
-          -> reading diff from stdin
-      diff2html -f json -o stdout -- -M HEAD~1
-          -> print json format to stdout
-      diff2html -F my-pretty-diff.html -- -M HEAD~1
-          ->  print to file
-      diff2html -F my-pretty-diff.html --hwt my-custom-template.html -- -M HEAD~1
-          ->  print to file using custom markup
-              templates can include the following variables:
-                `<!--diff2html-css-->` - writes default CSS to page
-                `<!--diff2html-js-ui-->` - writes default JavaScript UI scripts to page
-                `//diff2html-fileListCloseable` - writes code to support selected list interaction, must be within a <script> block
-                `//diff2html-synchronisedScroll` - writes code to support selected scroll interaction, must be within a <script> block
-                `<!--diff2html-diff-->` - writes diff content to page
+Examples:
 
-    © 2014-2016 rtfpessoa
-    For support, check out https://github.com/rtfpessoa/diff2html-cli
+`diff2html -s line -f html -d word -i command -o preview -- -M HEAD~1`
+- diff last commit, line by line, word comparison between lines, previewed in the browser and input from git diff command
 
-> NOTE: notice the `--` in the examples
+`diff2html -i file -- my-file-diff.diff`
+- reading the input from a file
+
+`diff -u file1.txt file2.txt | diff2html -i stdin`
+- reading diff from stdin
+
+`diff2html -f json -o stdout -- -M HEAD~1`
+- print json format to stdout
+
+`diff2html -F my-pretty-diff.html -- -M HEAD~1`
+-  print to file
+
+`diff2html -F my-pretty-diff.html --hwt my-custom-template.html -- -M HEAD~1`
+-  print to file using custom markup templates can include the following variables:
+    - `<!--diff2html-css-->` - writes default CSS to page
+    - `<!--diff2html-js-ui-->` - writes default JavaScript UI scripts to page
+    - `//diff2html-fileListCloseable` - writes code to support selected list interaction, must be within a `<script>` block
+    - `//diff2html-synchronisedScroll` - writes code to support selected scroll interaction, must be within a `<script>` block
+    - `<!--diff2html-diff-->` - writes diff content to page
+
+
+_NOTE_: notice the `--` in the examples
 
 ## Contributions
 
@@ -107,7 +110,7 @@ I will try to review them as soon as possible.
 
 ## License
 
-Copyright 2014-2016 Rodrigo Fernandes. Released under the terms of the MIT license.
+Copyright 2014-2019 Rodrigo Fernandes. Released under the terms of the MIT license.
 
 ## Thanks
 
