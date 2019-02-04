@@ -55,6 +55,7 @@
     "extend": "^3.0.1",
     "open": "^0.0.5",
     "request": "^2.87.0",
+    "sinon": "^7.2.3",
     "yargs": "^11.0.0"
   },
   "devDependencies": {
