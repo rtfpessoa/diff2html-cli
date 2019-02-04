@@ -58,18 +58,18 @@ Usage: diff2html [options] -- [diff args]
 
 | flag | alias | description | choices | default |
 | --- | --- | --- | --- | --- |
-| -s  | --style |  Output style | [choices: "line", "side"] | [default: "line"] |
-| --sc | --synchronisedScroll | Synchronised horizontal scroll | [choices: "enabled", "disabled"] | [default: "enabled"] |
-| --su | --summary | Show files summary | [choices: "closed", "open", "hidden"] | [default: "closed"] |
-| --lm | --matching | Diff line matching type | [choices: "lines", "words", "none"] | [default: "none"] |
-| --lmt | --matchWordsThreshold | Diff line matching word threshold | | [default: "0.25"] |
-| --lmm | --matchingMaxComparisons | Diff line matching maximum line comparisons of a block of changes | [default: 2500] |
-| --hwt | --htmlWrapperTemplate | Path to custom template to be rendered when using the "html" output format [string] |
-| -f | --format | Output format | [choices: "html", "json"] | [default: "html"] |
-| -d | --diff | Diff style | [choices: "word", "char"] | [default: "word"] |
-| -i | --input | Diff input source | [choices: "file", "command", "stdin"] | [default: "command"] |
-| -o | --output | Output destination | [choices: "preview", "stdout"] | [default: "preview"] |
-| -u | --diffy | Upload to diffy.org | [choices: "browser", "pbcopy", "print"] | |
+| -s  | --style |  Output style | `line`, `side` | `line` |
+| --sc | --synchronisedScroll | Synchronised horizontal scroll | `enabled`, `disabled` | `enabled` |
+| --su | --summary | Show files summary | `closed`, `open`, `hidden` | `closed` |
+| --lm | --matching | Diff line matching type | `lines`, `words`, `none` | `none` |
+| --lmt | --matchWordsThreshold | Diff line matching word threshold | | `0.25` |
+| --lmm | --matchingMaxComparisons | Diff line matching maximum line comparisons of a block of changes | `2500` |
+| --hwt | --htmlWrapperTemplate | Path to custom template to be rendered when using the `html` output format [string] |
+| -f | --format | Output format | `html`, `json` | `html` |
+| -d | --diff | Diff style | `word`, `char` | `word` |
+| -i | --input | Diff input source | `file`, `command`, `stdin` | `command` |
+| -o | --output | Output destination | `preview`, `stdout` | `preview` |
+| -u | --diffy | Upload to diffy.org | `browser`, `pbcopy`, `print` | |
 | -F | --file | Send output to file (overrides output option) [string] | | |
 | --version | | Show version number | | |
 | -h | --help | Show help | | |
