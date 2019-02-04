@@ -64,13 +64,13 @@ Usage: diff2html [options] -- [diff args]
 | --lm | --matching | Diff line matching type | `lines`, `words`, `none` | `none` |
 | --lmt | --matchWordsThreshold | Diff line matching word threshold | | `0.25` |
 | --lmm | --matchingMaxComparisons | Diff line matching maximum line comparisons of a block of changes | `2500` |
-| --hwt | --htmlWrapperTemplate | Path to custom template to be rendered when using the `html` output format [string] |
+| --hwt | --htmlWrapperTemplate | Path to custom template to be rendered when using the `html` output format | _[string]_ |
 | -f | --format | Output format | `html`, `json` | `html` |
 | -d | --diff | Diff style | `word`, `char` | `word` |
 | -i | --input | Diff input source | `file`, `command`, `stdin` | `command` |
 | -o | --output | Output destination | `preview`, `stdout` | `preview` |
 | -u | --diffy | Upload to diffy.org | `browser`, `pbcopy`, `print` | |
-| -F | --file | Send output to file (overrides output option) [string] | | |
+| -F | --file | Send output to file (overrides output option) | _[string]_ | |
 | --version | | Show version number | | |
 | -h | --help | Show help | | |
 
