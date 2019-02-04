@@ -26,7 +26,7 @@
    * Input
    */
 
-  Diff2HtmlInterface.prototype.getInput = function getInput(inputType, inputArgs, callback) {
+  Diff2HtmlInterface.prototype.getInput = function getInput(inputType, inputArgs, ignore, callback) {
     var that = this;
     switch (inputType) {
       case 'file':
@@ -38,25 +38,26 @@
         break;
 
       default:
-        that._runGitDiff(inputArgs, callback);
+        that._runGitDiff(inputArgs, ignore, callback);
     }
   };
 
-  Diff2HtmlInterface.prototype._runGitDiff = function(gitArgsArr, callback) {
+  Diff2HtmlInterface.prototype._runGitDiff = function(gitArgsArr, ignore, callback) {
     var gitArgs;
     if (gitArgsArr.length && gitArgsArr[0]) {
       gitArgs = gitArgsArr.map(function(arg) {
-        return '"' + arg + '"'; // wrap parameters
+        return '"' + (ignore ? ':(exclude)' : '') + arg + '"'; // wrap parameters
       }).join(' ');
     } else {
       gitArgs = '-M -C HEAD';
     }
 
-    if (gitArgs.indexOf('--no-color') < 0) {
+    if (!ignore && gitArgs.indexOf('--no-color') < 0) {
       gitArgs += ' --no-color';
     }
 
-    var diffCommand = 'git diff ' + gitArgs;
+    var diffCommand = 'git diff ' + (ignore ? '--no-color ' : '') + gitArgs;
+
     return callback(null, utils.runCmd(diffCommand));
   };
 
