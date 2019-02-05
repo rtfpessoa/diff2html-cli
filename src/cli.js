@@ -44,19 +44,28 @@
 
   Diff2HtmlInterface.prototype._runGitDiff = function(gitArgsArr, ignore, callback) {
     var gitArgs;
+
     if (gitArgsArr.length && gitArgsArr[0]) {
       gitArgs = gitArgsArr.map(function(arg) {
-        return '"' + (ignore ? ':(exclude)' : '') + arg + '"'; // wrap parameters
+        return '"' + arg + '"'; // wrap parameters
       }).join(' ');
     } else {
       gitArgs = '-M -C HEAD';
     }
 
-    if (!ignore && gitArgs.indexOf('--no-color') < 0) {
+    if (gitArgs.indexOf('--no-color') < 0) {
       gitArgs += ' --no-color';
     }
 
-    var diffCommand = 'git diff ' + (ignore ? '--no-color ' : '') + gitArgs;
+    var ignoreString = '';
+
+    if (ignore) {
+      ignoreString = ignore.map(function (file) {
+        return ' ":(exclude)' + file + '" ';
+      }).join(' ');
+    }
+
+    var diffCommand = 'git diff ' + gitArgs + ignoreString;
 
     return callback(null, utils.runCmd(diffCommand));
   };
