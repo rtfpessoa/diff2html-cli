@@ -153,8 +153,10 @@ var argv = yargs.usage('Usage: diff2html [options] -- [diff args]')
   .example('diff2html -i file -- my-file-diff.diff', 'reading the input from a file')
   .example('diff2html -f json -o stdout -- -M HEAD~1', 'print json format to stdout')
   .example('diff2html -F my-pretty-diff.html -- -M HEAD~1', 'print to file')
-  .example('diff2html -ig -- package-lock.json yarn.lock', 'ignore two particular files when generating diff')
+  .example('diff2html -ig -- package-lock.json yarn.lock',
+    'ignore two particular files when generating the diff')
   .help('h')
+  .alias('v', 'version')
   .alias('h', 'help')
   .epilog('© 2014-' + currentYear + ' rtfpessoa\n' +
     'For more information, check out https://diff2html.xyz/\n' +

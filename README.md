@@ -71,7 +71,7 @@ Usage: diff2html [options] -- [diff args]
 | -o | --output | Output destination | `preview`, `stdout` | `preview` |
 | -u | --diffy | Upload to diffy.org | `browser`, `pbcopy`, `print` | |
 | -F | --file | Send output to file (overrides output option) | _[string]_ | |
-| --version | | Show version number | | |
+| -v | --version | | Show version number | | |
 | -h | --help | Show help | | |
 
 Examples:
