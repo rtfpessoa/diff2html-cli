@@ -60,7 +60,7 @@
     var ignoreString = '';
 
     if (ignore) {
-      ignoreString = ignore.map(function (file) {
+      ignoreString = ignore.map(function(file) {
         return ' ":(exclude)' + file + '" ';
       }).join(' ');
     }
