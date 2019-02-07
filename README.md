@@ -71,7 +71,8 @@ Usage: diff2html [options] -- [diff args]
 | -o | --output | Output destination | `preview`, `stdout` | `preview` |
 | -u | --diffy | Upload to diffy.org | `browser`, `pbcopy`, `print` | |
 | -F | --file | Send output to file (overrides output option) | _[string]_ | |
-| --version | | Show version number | | |
+| --ig | --ignore | Ignore particular files from the diff | _[string]_ | |
+| -v | --version | | Show version number | | |
 | -h | --help | Show help | | |
 
 Examples:
@@ -99,6 +100,8 @@ Examples:
     - `//diff2html-synchronisedScroll` - writes code to support selected scroll interaction, must be within a `<script>` block
     - `<!--diff2html-diff-->` - writes diff content to page
 
+`diff2htal --ig package-lock.json --ig yarn.lock`
+- Ignore `package-lock.json` and `yarn.lock` from the generated diff
 
 _NOTE_: notice the `--` in the examples
 
@@ -107,6 +110,10 @@ _NOTE_: notice the `--` in the examples
 This is a developer friendly project, all the contributions are welcome.
 To contribute just send a pull request with your changes following the guidelines described in `CONTRIBUTING.md`.
 I will try to review them as soon as possible.
+
+## Developing
+
+Make some changes and then `node src/main.js` 😉
 
 ## License
 
