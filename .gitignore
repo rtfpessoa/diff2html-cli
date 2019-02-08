@@ -20,8 +20,9 @@ node_modules/
 npm-debug.log
 yarn-error.log
 
-# Istanbul
+# NYC
 coverage/
+.nyc_output/
 
 # Bower
 bower_components/

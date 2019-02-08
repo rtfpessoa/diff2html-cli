@@ -15,6 +15,7 @@ jobs:
             - ./node_modules
       - run: npm run coverage
       - run: npm run check-coverage
+      - run: npm run report
 
   build-latest: &latest-build
     docker:
