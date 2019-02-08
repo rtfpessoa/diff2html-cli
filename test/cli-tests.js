@@ -10,7 +10,7 @@ describe('Cli', function() {
   describe('getInput', function() {
     it('should readFile when inputType is `file`', function() {
       let spy = sinon.stub(Utils, 'readFile');
-      Cli.getInput('file', ['lol', 'foo'], 'callback');
+      Cli.getInput('file', ['lol', 'foo'], 'ignore', 'callback');
       assert(spy.calledOnce);
       assert(spy.calledWith('lol', 'callback'));
       spy.restore()
@@ -18,7 +18,7 @@ describe('Cli', function() {
 
     it('should readStdin when inputType is `stdin`', function() {
       let spy = sinon.stub(Utils, 'readStdin');
-      Cli.getInput('stdin', ['lol'], 'callback');
+      Cli.getInput('stdin', ['lol'], 'ignore', 'callback');
       assert(spy.calledOnce);
       assert(spy.calledWith('callback'));
     });
