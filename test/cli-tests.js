@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-var sinon = require('sinon')
+var sinon = require('sinon');
 
 var Cli = require('../src/cli.js').Diff2HtmlInterface;
 var http = require('../src/http-utils.js').HttpUtils;
