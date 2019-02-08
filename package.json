@@ -39,7 +39,7 @@
     "lint": "eslint .",
     "style": "yarn run lint",
     "coverage": "istanbul cover _mocha -- -u exports -R spec ./test/**/*",
-    "check-coverage": "istanbul check-coverage --statements 50 --functions 40 --branches 0 --lines 50 ./coverage/coverage.json",
+    "check-coverage": "istanbul check-coverage --statements 40 --functions 40 --branches 0 --lines 40 ./coverage/coverage.json",
     "test": "yarn run coverage",
     "codacy": "cat ./coverage/lcov.info | codacy-coverage",
     "preversion": "yarn run test",
