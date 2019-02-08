@@ -13,7 +13,7 @@ describe('Cli', function() {
       Cli.getInput('file', ['lol', 'foo'], 'ignore', 'callback');
       assert(spy.calledOnce);
       assert(spy.calledWith('lol', 'callback'));
-      spy.restore()
+      spy.restore();
     });
 
     it('should readStdin when inputType is `stdin`', function() {
@@ -21,6 +21,7 @@ describe('Cli', function() {
       Cli.getInput('stdin', ['lol'], 'ignore', 'callback');
       assert(spy.calledOnce);
       assert(spy.calledWith('callback'));
+      spy.restore();
     });
 
     it('should _runGitDiff by default', function() {
@@ -36,6 +37,7 @@ describe('Cli', function() {
       let spy = sinon.stub(Utils, 'writeFile');
       Cli.preview('a', 'b');
       assert(spy.calledOnce);
+      spy.restore();
     });
   });
 
