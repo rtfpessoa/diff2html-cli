@@ -25,9 +25,9 @@ describe('Cli', function() {
 
     it('should _runGitDiff by default', function() {
       let spy = sinon.stub(Cli, '_runGitDiff');
-      Cli.getInput('abc', ['lol', 'foo'], 'callback');
+      Cli.getInput('abc', ['lol', 'foo'], 'ignore', 'callback');
       assert(spy.calledOnce);
-      assert(spy.calledWith(['lol', 'foo'], 'callback'));
+      assert(spy.calledWith(['lol', 'foo'], 'ignore', 'callback'));
     });
   });
 
