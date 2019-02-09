@@ -43,6 +43,7 @@
     "coverage-html": "nyc report --reporter=html && open ./coverage/index.html",
     "check-coverage": "nyc check-coverage --statements 40 --functions 40 --branches 0 --lines 40",
     "report": "nyc report",
+    "coverage-lcov": "nyc report --reporter=lcov",
     "codacy": "cat ./coverage/lcov.info | codacy-coverage",
     "preversion": "yarn run test",
     "postversion": "git push && git push --tags"
