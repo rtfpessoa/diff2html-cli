@@ -62,7 +62,7 @@
   },
   "devDependencies": {
     "codacy-coverage": "^3.0.0",
-    "eslint": "^4.19.1",
+    "eslint": "^5.13.0",
     "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-standard": "^3.1.0",
     "nyc": "^13.2.0",
