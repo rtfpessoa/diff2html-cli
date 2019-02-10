@@ -35,16 +35,6 @@ jobs:
       - run: yarn run coverage-lcov
       - run: yarn run codacy
 
-  build-node_4:
-    <<: *common-build
-    docker:
-      - image: node:4
-
-  build-node_5:
-    <<: *common-build
-    docker:
-      - image: node:5
-
   build-node_6:
     <<: *common-build
     docker:
@@ -70,14 +60,18 @@ jobs:
     docker:
       - image: node:10
 
+  build-node_11:
+    <<: *latest-build
+    docker:
+      - image: node:11
+
 workflows:
   version: 2
   build:
     jobs:
-      - build-node_4
-      - build-node_5
       - build-node_6
       - build-node_7
       - build-node_8
       - build-node_9
       - build-node_10
+      - build-node_11
