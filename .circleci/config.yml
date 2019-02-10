@@ -56,7 +56,7 @@ jobs:
       - image: node:9
 
   build-node_10:
-    <<: *latest-build
+    <<: *common-build
     docker:
       - image: node:10
 
