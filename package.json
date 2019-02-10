@@ -32,15 +32,18 @@
     "url": "https://www.github.com/rtfpessoa/diff2html-cli/issues"
   },
   "engines": {
-    "node": ">=4"
+    "node": ">=6"
   },
   "preferGlobal": true,
   "scripts": {
     "lint": "eslint .",
     "style": "yarn run lint",
-    "coverage": "istanbul cover _mocha -- -u exports -R spec ./test/**/*",
-    "check-coverage": "istanbul check-coverage --statements 50 --functions 40 --branches 0 --lines 50 ./coverage/coverage.json",
     "test": "yarn run coverage",
+    "coverage": "nyc mocha",
+    "coverage-html": "nyc report --reporter=html && open ./coverage/index.html",
+    "check-coverage": "nyc check-coverage --statements 40 --functions 40 --branches 0 --lines 40",
+    "report": "nyc report",
+    "coverage-lcov": "nyc report --reporter=lcov",
     "codacy": "cat ./coverage/lcov.info | codacy-coverage",
     "preversion": "yarn run test",
     "postversion": "git push && git push --tags"
@@ -59,11 +62,12 @@
   },
   "devDependencies": {
     "codacy-coverage": "^3.0.0",
-    "eslint": "^4.19.1",
+    "eslint": "^5.13.0",
     "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-standard": "^3.1.0",
-    "istanbul": "^0.4.5",
-    "mocha": "^5.2.0"
+    "nyc": "^13.2.0",
+    "mocha": "^5.2.0",
+    "sinon": "^7.2.3"
   },
   "license": "MIT",
   "files": [
