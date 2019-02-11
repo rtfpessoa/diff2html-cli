@@ -72,7 +72,7 @@ Usage: diff2html [options] -- [diff args]
 | -u | --diffy | Upload to diffy.org | `browser`, `pbcopy`, `print` | |
 | -F | --file | Send output to file (overrides output option) | _[string]_ | |
 | --ig | --ignore | Ignore particular files from the diff | _[string]_ | |
-| -v | --version | | Show version number | | |
+| -v | --version | Show version number | | |
 | -h | --help | Show help | | |
 
 Examples:
@@ -100,7 +100,7 @@ Examples:
     - `//diff2html-synchronisedScroll` - writes code to support selected scroll interaction, must be within a `<script>` block
     - `<!--diff2html-diff-->` - writes diff content to page
 
-`diff2htal --ig package-lock.json --ig yarn.lock`
+`diff2html --ig package-lock.json --ig yarn.lock`
 - Ignore `package-lock.json` and `yarn.lock` from the generated diff
 
 _NOTE_: notice the `--` in the examples
