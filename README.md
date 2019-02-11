@@ -100,7 +100,7 @@ Examples:
     - `//diff2html-synchronisedScroll` - writes code to support selected scroll interaction, must be within a `<script>` block
     - `<!--diff2html-diff-->` - writes diff content to page
 
-`diff2htal --ig package-lock.json --ig yarn.lock`
+`diff2html --ig package-lock.json --ig yarn.lock`
 - Ignore `package-lock.json` and `yarn.lock` from the generated diff
 
 _NOTE_: notice the `--` in the examples
