@@ -72,7 +72,7 @@ Usage: diff2html [options] -- [diff args]
 | -u | --diffy | Upload to diffy.org | `browser`, `pbcopy`, `print` | |
 | -F | --file | Send output to file (overrides output option) | _[string]_ | |
 | --ig | --ignore | Ignore particular files from the diff | _[string]_ | |
-| -v | --version | | Show version number | | |
+| -v | --version | Show version number | | |
 | -h | --help | Show help | | |
 
 Examples:
