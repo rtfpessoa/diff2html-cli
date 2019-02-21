@@ -36,6 +36,7 @@
   },
   "preferGlobal": true,
   "scripts": {
+    "build": "tsc",
     "lint": "eslint .",
     "style": "yarn run lint",
     "test": "yarn run coverage",
@@ -61,13 +62,15 @@
     "yargs": "^13.2.1"
   },
   "devDependencies": {
+    "@types/node": "^11.9.4",
     "codacy-coverage": "^3.4.0",
     "eslint": "^5.14.1",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
     "mocha": "^6.0.0",
     "nyc": "^13.3.0",
-    "sinon": "^7.2.4"
+    "sinon": "^7.2.4",
+    "typescript": "^3.3.3"
   },
   "license": "MIT",
   "files": [

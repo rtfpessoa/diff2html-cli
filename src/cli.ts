@@ -5,6 +5,8 @@
  *
  */
 
+type InputType = 'file' | 'stdin';
+
 (function() {
   var fs = require('fs');
   var os = require('os');
@@ -26,7 +28,7 @@
    * Input
    */
 
-  Diff2HtmlInterface.prototype.getInput = function getInput(inputType, inputArgs, ignore, callback) {
+  Diff2HtmlInterface.prototype.getInput = function getInput(inputType: InputType, inputArgs: any[], ignore: boolean, callback) {
     var that = this;
     switch (inputType) {
       case 'file':
@@ -42,7 +44,7 @@
     }
   };
 
-  Diff2HtmlInterface.prototype._runGitDiff = function(gitArgsArr, ignore, callback) {
+  Diff2HtmlInterface.prototype._runGitDiff = function(gitArgsArr: string[], ignore: boolean, callback) {
     var gitArgs;
 
     if (gitArgsArr.length && gitArgsArr[0]) {

@@ -26,3 +26,6 @@ coverage/
 
 # Bower
 bower_components/
+
+# TypeScript
+built/
