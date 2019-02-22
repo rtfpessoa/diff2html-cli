@@ -39,7 +39,7 @@
     "build": "tsc",
     "lint": "eslint .",
     "style": "yarn run lint",
-    "test": "yarn run coverage",
+    "test": "yarn build && yarn run coverage",
     "coverage": "nyc mocha",
     "coverage-html": "nyc report --reporter=html && open ./coverage/index.html",
     "check-coverage": "nyc check-coverage --statements 40 --functions 40 --branches 0 --lines 40",
