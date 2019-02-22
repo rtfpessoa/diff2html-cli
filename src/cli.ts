@@ -5,7 +5,7 @@
  *
  */
 
-type InputType = 'file' | 'stdin';
+type InputType = 'file' | 'stdin' | 'command';
 
 const fs = require('fs');
 const os = require('os');
@@ -22,6 +22,13 @@ const opn = require('opn');
 
 module.exports = {
 
+  /**
+   * Get input for the diff
+   * @param inputType - a string `file`, `stdin`, or `command`
+   * @param inputArgs - a string array
+   * @param ignore    - a string array
+   * @param callback  - the callback function
+   */
   getInput(inputType: InputType, inputArgs: any[], ignore: string[], callback) {
     var that = this;
     switch (inputType) {
@@ -34,15 +41,15 @@ module.exports = {
         break;
 
       default:
-        that._runGitDiff(inputArgs, ignore, callback);
+        that.runGitDiff(inputArgs, ignore, callback);
     }
   },
 
-  _runGitDiff(gitArgsArr: string[], ignore: string[], callback) {
+  runGitDiff(gitArgsArr: string[], ignore: string[], callback) {
     var gitArgs: string;
 
     if (gitArgsArr.length && gitArgsArr[0]) {
-      gitArgs = gitArgsArr.map(function(arg) {
+      gitArgs = gitArgsArr.map((arg) => {
         return '"' + arg + '"'; // wrap parameters
       }).join(' ');
     } else {
@@ -56,7 +63,7 @@ module.exports = {
     var ignoreString = '';
 
     if (ignore) {
-      ignoreString = ignore.map(function(file) {
+      ignoreString = ignore.map((file) => {
         return ' ":(exclude)' + file + '" ';
       }).join(' ');
     }
@@ -139,13 +146,13 @@ module.exports = {
     var filename = 'diff.' + format;
     var filePath = path.resolve(os.tmpdir(), filename);
     utils.writeFile(filePath, content);
-    opn(filePath);
+    opn(filePath, { wait: false });
   },
 
   postToDiffy(diff, postType, callback) {
     var jsonParams = {udiff: diff};
 
-    http.post('http://diffy.org/api/new', jsonParams, function(err, response) {
+    http.post('http://diffy.org/api/new', jsonParams, (err, response) => {
       if (err) {
         log.error(err);
         return;
@@ -159,7 +166,7 @@ module.exports = {
           open(response.url);
           return callback(null, response.url);
         } else if (postType === 'pbcopy') {
-          ncp.copy(response.url, function() {
+          ncp.copy(response.url, () => {
             return callback(null, response.url);
           });
         }
