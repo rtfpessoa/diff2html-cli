@@ -1,3 +1,4 @@
 # Skip bin and coverage folders
 bin/**
 coverage/**
+built/**

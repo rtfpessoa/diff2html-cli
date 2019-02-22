@@ -13,6 +13,7 @@ jobs:
           key: dependency-cache-{{ checksum "yarn.lock" }}
           paths:
             - ./node_modules
+      - run: npm run build
       - run: npm run coverage
       - run: npm run check-coverage
       - run: npm run report
