@@ -6,6 +6,7 @@
  */
 
 type InputType = 'file' | 'stdin' | 'command';
+type PostType = 'browser' | 'pbcopy';
 
 const fs = require('fs');
 const os = require('os');
@@ -46,7 +47,7 @@ module.exports = {
   },
 
   runGitDiff(gitArgsArr: string[], ignore: string[], callback) {
-    var gitArgs: string;
+    let gitArgs: string;
 
     if (gitArgsArr.length && gitArgsArr[0]) {
       gitArgs = gitArgsArr.map((arg) => {
@@ -60,7 +61,7 @@ module.exports = {
       gitArgs += ' --no-color';
     }
 
-    var ignoreString = '';
+    let ignoreString = '';
 
     if (ignore) {
       ignoreString = ignore.map((file) => {
@@ -68,7 +69,7 @@ module.exports = {
       }).join(' ');
     }
 
-    var diffCommand = 'git diff ' + gitArgs + ignoreString;
+    const diffCommand: string = 'git diff ' + gitArgs + ignoreString;
 
     return callback(null, utils.runCmd(diffCommand));
   },
@@ -110,7 +111,7 @@ module.exports = {
       config.synchronisedScroll = (baseConfig.synchronisedScroll === 'enabled');
 
       var htmlContent = diff2Html.getPrettyHtml(jsonContent, config);
-      return callback(null, that._prepareHTML(htmlContent, config));
+      return callback(null, that.prepareHTML(htmlContent, config));
     } else if (baseConfig.format === 'json') {
       return callback(null, JSON.stringify(jsonContent));
     }
@@ -118,7 +119,7 @@ module.exports = {
     return callback(new Error('Wrong output format `' + baseConfig.format + '`!'));
   },
 
-  _prepareHTML(content, config) {
+  prepareHTML(content, config) {
     var templatePath = config.template;
     var template = utils.readFileSync(templatePath);
 
@@ -142,14 +143,14 @@ module.exports = {
    * Output destination
    */
 
-  preview(content, format) {
-    var filename = 'diff.' + format;
-    var filePath = path.resolve(os.tmpdir(), filename);
+  preview(content: string, format: string) {
+    const filename: string = 'diff.' + format;
+    const filePath: string = path.resolve(os.tmpdir(), filename);
     utils.writeFile(filePath, content);
     opn(filePath, { wait: false });
   },
 
-  postToDiffy(diff, postType, callback) {
+  postToDiffy(diff: string, postType: PostType, callback) {
     var jsonParams = {udiff: diff};
 
     http.post('http://diffy.org/api/new', jsonParams, (err, response) => {
