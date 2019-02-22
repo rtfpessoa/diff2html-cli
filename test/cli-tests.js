@@ -2,9 +2,9 @@ var assert = require('assert');
 
 var sinon = require('sinon');
 
-var Cli = require('../src/cli.js').Diff2HtmlInterface;
-var http = require('../src/http-utils.js').HttpUtils;
-var Utils = require('../src/utils.js').Utils;
+var Cli = require('../built/cli.js');
+var http = require('../built/http-utils.js').HttpUtils;
+var Utils = require('../built/utils.js').Utils;
 
 describe('Cli', function() {
   describe('getInput', function() {

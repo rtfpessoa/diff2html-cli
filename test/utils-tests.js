@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-var Utils = require('../src/utils.js').Utils;
+var Utils = require('../built/utils.js').Utils;
 
 describe('Utils', function() {
   describe('IO', function() {

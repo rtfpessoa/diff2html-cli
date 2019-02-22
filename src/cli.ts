@@ -20,14 +20,6 @@ const utils = require('./utils.js').Utils;
 const ncp = require('copy-paste');
 const opn = require('opn');
 
-
-  // function Diff2HtmlInterface() {
-  // }
-
-  /*
-   * Input
-   */
-
 module.exports = {
 
   getInput(inputType: InputType, inputArgs: any[], ignore: string[], callback) {
