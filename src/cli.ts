@@ -7,28 +7,30 @@
 
 type InputType = 'file' | 'stdin';
 
-(function() {
-  var fs = require('fs');
-  var os = require('os');
-  var path = require('path');
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
 
-  var diff2Html = require('diff2html').Diff2Html;
+const diff2Html = require('diff2html').Diff2Html;
 
-  var log = require('./logger.js').Logger;
-  var http = require('./http-utils.js').HttpUtils;
-  var utils = require('./utils.js').Utils;
+const log = require('./logger.js').Logger;
+const http = require('./http-utils.js').HttpUtils;
+const utils = require('./utils.js').Utils;
 
-  var open = require('open');
-  var ncp = require('copy-paste');
+const ncp = require('copy-paste');
+const opn = require('opn');
 
-  function Diff2HtmlInterface() {
-  }
+
+  // function Diff2HtmlInterface() {
+  // }
 
   /*
    * Input
    */
 
-  Diff2HtmlInterface.prototype.getInput = function getInput(inputType: InputType, inputArgs: any[], ignore: boolean, callback) {
+module.exports = {
+
+  getInput(inputType: InputType, inputArgs: any[], ignore: string[], callback) {
     var that = this;
     switch (inputType) {
       case 'file':
@@ -42,10 +44,10 @@ type InputType = 'file' | 'stdin';
       default:
         that._runGitDiff(inputArgs, ignore, callback);
     }
-  };
+  },
 
-  Diff2HtmlInterface.prototype._runGitDiff = function(gitArgsArr: string[], ignore: boolean, callback) {
-    var gitArgs;
+  _runGitDiff(gitArgsArr: string[], ignore: string[], callback) {
+    var gitArgs: string;
 
     if (gitArgsArr.length && gitArgsArr[0]) {
       gitArgs = gitArgsArr.map(function(arg) {
@@ -70,13 +72,13 @@ type InputType = 'file' | 'stdin';
     var diffCommand = 'git diff ' + gitArgs + ignoreString;
 
     return callback(null, utils.runCmd(diffCommand));
-  };
+  },
 
   /*
    * Output
    */
 
-  Diff2HtmlInterface.prototype.getOutput = function(baseConfig, input, callback) {
+  getOutput(baseConfig, input, callback) {
     var that = this;
     var config = baseConfig;
     var defaultTemplate = path.resolve(__dirname, '..', 'dist', 'template.html');
@@ -115,9 +117,9 @@ type InputType = 'file' | 'stdin';
     }
 
     return callback(new Error('Wrong output format `' + baseConfig.format + '`!'));
-  };
+  },
 
-  Diff2HtmlInterface.prototype._prepareHTML = function(content, config) {
+  _prepareHTML(content, config) {
     var templatePath = config.template;
     var template = utils.readFileSync(templatePath);
 
@@ -135,20 +137,20 @@ type InputType = 'file' | 'stdin';
       .replace('//diff2html-fileListCloseable', 'diff2htmlUi.fileListCloseable("#diff", ' + config.showFilesOpen + ');')
       .replace('//diff2html-synchronisedScroll', 'diff2htmlUi.synchronisedScroll("#diff", ' + config.synchronisedScroll + ');')
       .replace('<!--diff2html-diff-->', content);
-  };
+  },
 
   /*
    * Output destination
    */
 
-  Diff2HtmlInterface.prototype.preview = function(content, format) {
+  preview(content, format) {
     var filename = 'diff.' + format;
     var filePath = path.resolve(os.tmpdir(), filename);
     utils.writeFile(filePath, content);
-    open(filePath);
-  };
+    opn(filePath);
+  },
 
-  Diff2HtmlInterface.prototype.postToDiffy = function(diff, postType, callback) {
+  postToDiffy(diff, postType, callback) {
     var jsonParams = {udiff: diff};
 
     http.post('http://diffy.org/api/new', jsonParams, function(err, response) {
@@ -173,7 +175,6 @@ type InputType = 'file' | 'stdin';
         log.error('Error: ' + response.statusCode);
       }
     });
-  };
+  }
 
-  module.exports.Diff2HtmlInterface = new Diff2HtmlInterface();
-})();
+}

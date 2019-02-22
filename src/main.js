@@ -7,7 +7,8 @@
  *
  */
 
-var cli = require('./cli.js').Diff2HtmlInterface;
+const cli = require('./cli');
+
 var log = require('./logger.js').Logger;
 var utils = require('./utils.js').Utils;
 
