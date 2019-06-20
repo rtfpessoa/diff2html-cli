@@ -32,7 +32,7 @@
     "url": "https://www.github.com/rtfpessoa/diff2html-cli/issues"
   },
   "engines": {
-    "node": ">=6"
+    "node": ">=8"
   },
   "preferGlobal": true,
   "scripts": {
