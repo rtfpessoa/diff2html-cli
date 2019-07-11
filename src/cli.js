@@ -147,27 +147,23 @@
   };
 
   Diff2HtmlInterface.prototype.postToDiffy = function(diff, postType, callback) {
-    var jsonParams = {udiff: diff};
+    var jsonParams = {diff: diff};
 
-    http.post('http://diffy.org/api/new', jsonParams, function(err, response) {
+    http.put('https://diffy.org/api/diff/', jsonParams, function(err, url) {
       if (err) {
         log.error(err);
         return;
       }
 
-      if (response.status !== 'error') {
-        log.print('Link powered by diffy.org:');
-        log.print(response.url);
+      log.print('Link powered by https://diffy.org');
+      log.print(url);
 
-        if (postType === 'browser') {
-          open(response.url);
-          return callback(null, response.url);
-        } else if (postType === 'pbcopy') {
-          clipboardy.writeSync(response.url);
-          return callback(null, response.url);
-        }
-      } else {
-        log.error('Error: ' + response.statusCode);
+      if (postType === 'browser') {
+        open(url);
+        return callback(null, url);
+      } else if (postType === 'pbcopy') {
+        clipboardy.writeSync(url);
+        return callback(null, url);
       }
     });
   };
