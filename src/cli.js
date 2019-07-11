@@ -17,7 +17,7 @@
   var utils = require('./utils.js').Utils;
 
   var open = require('open');
-  var ncp = require('copy-paste');
+  var clipboardy = require('clipboardy');
 
   function Diff2HtmlInterface() {
   }
@@ -163,9 +163,8 @@
           open(response.url);
           return callback(null, response.url);
         } else if (postType === 'pbcopy') {
-          ncp.copy(response.url, function() {
-            return callback(null, response.url);
-          });
+          clipboardy.writeSync(response.url);
+          return callback(null, response.url);
         }
       } else {
         log.error('Error: ' + response.statusCode);
