@@ -41,7 +41,7 @@
     "test": "yarn run coverage",
     "coverage": "nyc mocha",
     "coverage-html": "nyc report --reporter=html && open ./coverage/index.html",
-    "check-coverage": "nyc check-coverage --statements 40 --functions 40 --branches 0 --lines 40",
+    "check-coverage": "nyc check-coverage --statements 35 --functions 35 --branches 0 --lines 35",
     "report": "nyc report",
     "coverage-lcov": "nyc report --reporter=lcov",
     "codacy": "cat ./coverage/lcov.info | codacy-coverage",
