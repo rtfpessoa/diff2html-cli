@@ -14,9 +14,8 @@ const path = require('path');
 
 const diff2Html = require('diff2html').Diff2Html;
 
-const log = require('./logger.js').Logger;
-const http = require('./http-utils.js').HttpUtils;
-const utils = require('./utils.js').Utils;
+var open = require('open');
+var clipboardy = require('clipboardy');
 
 const ncp = require('copy-paste');
 const opn = require('opn');
@@ -153,26 +152,21 @@ module.exports = {
   postToDiffy(diff: string, postType: PostType, callback) {
     var jsonParams = {udiff: diff};
 
-    http.post('http://diffy.org/api/new', jsonParams, (err, response) => {
+    http.put('https://diffy.org/api/diff/', jsonParams, (err, response) => {
       if (err) {
         log.error(err);
         return;
       }
 
-      if (response.status !== 'error') {
-        log.print('Link powered by diffy.org:');
-        log.print(response.url);
+      log.print('Link powered by https://diffy.org');
+      log.print(url);
 
-        if (postType === 'browser') {
-          open(response.url);
-          return callback(null, response.url);
-        } else if (postType === 'pbcopy') {
-          ncp.copy(response.url, () => {
-            return callback(null, response.url);
-          });
-        }
-      } else {
-        log.error('Error: ' + response.statusCode);
+      if (postType === 'browser') {
+        open(url);
+        return callback(null, url);
+      } else if (postType === 'pbcopy') {
+        clipboardy.writeSync(url);
+        return callback(null, url);
       }
     });
   }

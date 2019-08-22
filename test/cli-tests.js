@@ -42,11 +42,11 @@ describe('Cli', function() {
   });
 
   describe('postToDiffy', function() {
-    it('should call `http.post`', function() {
-      var spy = sinon.stub(http, 'post');
+    it('should call `http.put`', function() {
+      var spy = sinon.stub(http, 'put');
       Cli.postToDiffy('a', 'b', 'callback');
       assert(spy.calledOnce);
-      assert(spy.calledWith('http://diffy.org/api/new', { udiff: 'a' }));
+      assert(spy.calledWith('https://diffy.org/api/diff/', { diff: 'a' }));
     });
   });
 });

@@ -11,16 +11,25 @@
   function HttpUtils() {
   }
 
-  HttpUtils.prototype.post = function(url, payload, callback) {
+  HttpUtils.prototype.put = function(url, payload, callback) {
     request({
       url: url,
-      method: 'POST',
-      form: payload
+      method: 'PUT',
+      headers: {},
+      body: payload,
+      json: true
     })
       .on('response', function(response) {
         response.on('data', function(body) {
           try {
-            return callback(null, JSON.parse(body.toString('utf8')));
+            var object = JSON.parse(body.toString('utf8'));
+            if(object.id) {
+              return callback(null, "https://diffy.org/diff/" + object.id);
+            } else if (object.error) {
+              return callback(new Error(object.error));
+            }else {
+              return callback(new Error(body.toString('utf8')));
+            }
           } catch (err) {
             return callback(new Error('could not parse response'));
           }
