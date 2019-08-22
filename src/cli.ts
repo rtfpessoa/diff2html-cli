@@ -10,8 +10,7 @@ type PostType = 'browser' | 'pbcopy';
 
 const clipboardy = require('clipboardy');
 const fs = require('fs');
-const ncp = require('copy-paste');
-const opn = require('opn');
+const opn = require('open');
 const os = require('os');
 const path = require('path');
 
