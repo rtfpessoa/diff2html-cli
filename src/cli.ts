@@ -8,17 +8,17 @@
 type InputType = 'file' | 'stdin' | 'command';
 type PostType = 'browser' | 'pbcopy';
 
+const clipboardy = require('clipboardy');
 const fs = require('fs');
+const ncp = require('copy-paste');
+const opn = require('opn');
 const os = require('os');
 const path = require('path');
 
 const diff2Html = require('diff2html').Diff2Html;
-
-var open = require('open');
-var clipboardy = require('clipboardy');
-
-const ncp = require('copy-paste');
-const opn = require('opn');
+const http = require('./http-utils.js').HttpUtils;
+const log = require('./logger.js').Logger;
+const utils = require('./utils.js').Utils;
 
 module.exports = {
 
@@ -159,14 +159,14 @@ module.exports = {
       }
 
       log.print('Link powered by https://diffy.org');
-      log.print(url);
+      log.print(response);
 
       if (postType === 'browser') {
-        open(url);
-        return callback(null, url);
+        opn(response);
+        return callback(null, response);
       } else if (postType === 'pbcopy') {
-        clipboardy.writeSync(url);
-        return callback(null, url);
+        clipboardy.writeSync(response);
+        return callback(null, response);
       }
     });
   }
