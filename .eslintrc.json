@@ -1,4 +1,5 @@
 {
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 6,
     "ecmaFeatures": {
@@ -22,13 +23,17 @@
   },
   "plugins": [
     "standard",
-    "promise"
+    "promise",
+    "@typescript-eslint"
   ],
   "globals": {
     "document": false,
     "navigator": false,
     "window": false
   },
+  "extends": [
+    "plugin:@typescript-eslint/recommended"
+  ],
   "rules": {
     "accessor-pairs": 2,
     "arrow-spacing": [

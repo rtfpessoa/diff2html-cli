@@ -28,4 +28,4 @@ coverage/
 bower_components/
 
 # TypeScript
-built/
+build/

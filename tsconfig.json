@@ -1,10 +1,32 @@
 {
   "compilerOptions": {
-    "outDir": "./built",
-    "allowJs": true,
-    "target": "es5"
+    "outDir": "./build",
+    "target": "es5",
+    "module": "commonjs",
+    "allowJs": false,
+    // "noImplicitAny": true,
+    // "esModuleInterop": true,
+    // "allowSyntheticDefaultImports": true,
+    // "lib": [],
+    "strictNullChecks": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "alwaysStrict": true,
+    "declaration": true,
+    "declarationMap": true,
+    "moduleResolution": "node",
+    // "strict": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true
   },
   "include": [
-    "./src/**/*"
+    "./src/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "./src/__tests__/*"
   ]
 }

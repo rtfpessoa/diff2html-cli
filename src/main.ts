@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 /*
  *
  * Diff to HTML CLI (main.js)
@@ -7,16 +5,15 @@
  *
  */
 
-const cli = require('./cli');
+import * as yargs from 'yargs';
 
-var log = require('./logger.js').Logger;
-var utils = require('./utils.js').Utils;
+import * as cli from './cli';
+import * as log from './logger';
+import * as utils from './utils';
 
-var yargs = require('yargs');
+const currentYear = new Date().getFullYear();
 
-var currentYear = new Date().getFullYear();
-
-var argv = yargs.usage('Usage: diff2html [options] -- [diff args]')
+const argv = yargs.usage('Usage: diff2html [options] -- [diff args]')
   .options({
     's': {
       alias: 'style',
@@ -166,11 +163,7 @@ var argv = yargs.usage('Usage: diff2html [options] -- [diff args]')
  * CLI code
  */
 
-function noop(ignore) {
-  return ignore;
-}
-
-function onInput(err, input) {
+async function onInput(err, input) {
   if (err) {
     log.error(err);
     return;
@@ -183,7 +176,9 @@ function onInput(err, input) {
   }
 
   if (argv.diffy) {
-    cli.postToDiffy(input, argv.diffy, noop);
+    // @ts-ignore
+    await cli.postToDiffy(input, argv.u)
+      .catch((error) => log.error(error));
     return;
   }
 
@@ -199,10 +194,12 @@ function onOutput(err, output) {
   if (argv.file) {
     utils.writeFile(argv.file, output);
   } else if (argv.output === 'preview') {
+    // @ts-ignore
     cli.preview(output, argv.format);
   } else {
     log.print(output);
   }
 }
 
+// @ts-ignore
 cli.getInput(argv.input, argv._, argv.ig, onInput);

@@ -17,8 +17,6 @@
 * After creating your pull request make sure the build is passing on [CircleCI](https://circleci.com/gh/rtfpessoa/diff2html-cli)
 and that [Codacy](https://www.codacy.com/app/Codacy/diff2html-cli) is also confident in the code quality.
 
-* In your pull request, do not commit the `dist` or `build` folder if you needed to build the release files.
-
 ### Commit Style
 
 Writing good commit logs is important. A commit log should describe what changed and why.
