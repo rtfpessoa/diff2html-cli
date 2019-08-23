@@ -23,11 +23,11 @@
         response.on('data', function(body) {
           try {
             var object = JSON.parse(body.toString('utf8'));
-            if(object.id) {
-              return callback(null, "https://diffy.org/diff/" + object.id);
+            if (object.id) {
+              return callback(null, 'https://diffy.org/diff/' + object.id);
             } else if (object.error) {
               return callback(new Error(object.error));
-            }else {
+            } else {
               return callback(new Error(body.toString('utf8')));
             }
           } catch (err) {

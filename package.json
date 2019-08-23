@@ -55,21 +55,21 @@
   "main": "./src/main.js",
   "dependencies": {
     "clipboardy": "^2.1.0",
-    "diff2html": "^2.7.0",
+    "diff2html": "^2.11.2",
     "extend": "^3.0.2",
     "open": "^6.4.0",
     "request": "^2.88.0",
-    "yargs": "^13.2.1"
+    "yargs": "^14.0.0"
   },
   "devDependencies": {
-    "@types/node": "^11.9.4",
     "codacy-coverage": "^3.4.0",
-    "eslint": "^5.14.1",
-    "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0",
-    "mocha": "^6.0.0",
-    "nyc": "^13.3.0",
-    "sinon": "^7.2.4",
+    "eslint": "^6.2.1",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "mocha": "^6.2.0",
+    "nyc": "^14.1.1",
+    "sinon": "^7.4.1",
+    "@types/node": "^11.9.4",
     "typescript": "^3.3.3"
   },
   "license": "MIT",

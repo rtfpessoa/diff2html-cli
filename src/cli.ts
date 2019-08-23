@@ -149,7 +149,7 @@ module.exports = {
   },
 
   postToDiffy(diff: string, postType: PostType, callback) {
-    var jsonParams = {udiff: diff};
+    var jsonParams = {diff: diff};
 
     http.put('https://diffy.org/api/diff/', jsonParams, (err, response) => {
       if (err) {
