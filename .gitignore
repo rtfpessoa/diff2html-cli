@@ -1,8 +1,3 @@
-# Eclipse
-.classpath
-.project
-.settings/
-
 # Intellij
 .idea/
 *.iml
@@ -11,18 +6,13 @@
 # Mac
 .DS_Store
 
-# Maven
-log/
-target/
-
 # Node
-node_modules/
-npm-debug.log
-yarn-error.log
+/node_modules/
+/npm-debug.log
+/yarn-error.log
 
-# NYC
-coverage/
-.nyc_output/
+# Coverage
+/coverage/
 
-# Bower
-bower_components/
+# Build
+/build/
