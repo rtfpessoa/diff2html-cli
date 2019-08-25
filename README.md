@@ -3,7 +3,6 @@
 [![Codacy Quality Badge](https://api.codacy.com/project/badge/Grade/e6139937d72f40ed8b3920d53c74298a)](https://www.codacy.com/app/rtfpessoa/diff2html-cli?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=rtfpessoa/diff2html-cli&amp;utm_campaign=Badge_Grade)
 [![Codacy Coverage Badge](https://api.codacy.com/project/badge/Coverage/e6139937d72f40ed8b3920d53c74298a)](https://www.codacy.com/app/rtfpessoa/diff2html-cli?utm_source=github.com&utm_medium=referral&utm_content=rtfpessoa/diff2html-cli&utm_campaign=Badge_Coverage)
 [![Circle CI](https://circleci.com/gh/rtfpessoa/diff2html-cli.svg?style=svg)](https://circleci.com/gh/rtfpessoa/diff2html-cli)
-[![Dependency Status](https://dependencyci.com/github/rtfpessoa/diff2html/badge)](https://dependencyci.com/github/rtfpessoa/diff2html)
 
 [![npm](https://img.shields.io/npm/v/diff2html-cli.svg)](https://www.npmjs.com/package/diff2html-cli)
 [![David](https://img.shields.io/david/rtfpessoa/diff2html-cli.svg)](https://david-dm.org/rtfpessoa/diff2html-cli)
@@ -59,14 +58,13 @@ Usage: diff2html [options] -- [diff args]
 | flag | alias | description | choices | default |
 | --- | --- | --- | --- | --- |
 | -s  | --style |  Output style | `line`, `side` | `line` |
-| --sc | --synchronisedScroll | Synchronised horizontal scroll | `enabled`, `disabled` | `enabled` |
+| --sc | --synchronisedScroll | Synchronised horizontal scroll | `true`, `false` | `true` |
 | --su | --summary | Show files summary | `closed`, `open`, `hidden` | `closed` |
 | --lm | --matching | Diff line matching type | `lines`, `words`, `none` | `none` |
 | --lmt | --matchWordsThreshold | Diff line matching word threshold | | `0.25` |
 | --lmm | --matchingMaxComparisons | Diff line matching maximum line comparisons of a block of changes | `2500` |
 | --hwt | --htmlWrapperTemplate | Path to custom template to be rendered when using the `html` output format | _[string]_ |
 | -f | --format | Output format | `html`, `json` | `html` |
-| -d | --diff | Diff style | `word`, `char` | `word` |
 | -i | --input | Diff input source | `file`, `command`, `stdin` | `command` |
 | -o | --output | Output destination | `preview`, `stdout` | `preview` |
 | -u | --diffy | Upload to diffy.org | `browser`, `pbcopy`, `print` | |
