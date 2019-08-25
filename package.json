@@ -32,13 +32,13 @@
     "url": "https://www.github.com/rtfpessoa/diff2html-cli/issues"
   },
   "engines": {
-    "node": ">=8"
+    "node": "8.* || >=10"
   },
   "preferGlobal": true,
   "scripts": {
     "prepare": "yarn run build",
     "build": "tsc",
-    "lint": "eslint .",
+    "lint": "eslint '*/**/*.{js,jsx,ts,tsx}'",
     "style": "yarn run lint",
     "test": "jest",
     "coverage": "jest --collectCoverage",
@@ -54,7 +54,6 @@
   "dependencies": {
     "clipboardy": "^2.1.0",
     "diff2html": "^2.11.2",
-    "extend": "^3.0.2",
     "open": "^6.4.0",
     "request": "^2.88.0",
     "yargs": "^14.0.0"
@@ -62,17 +61,24 @@
   "devDependencies": {
     "@types/diff2html": "0.0.5",
     "@types/jest": "24.0.18",
-    "@types/node": "^11.9.4",
+    "@types/node": "^12.7.2",
     "@types/request": "2.48.2",
     "@typescript-eslint/eslint-plugin": "2.0.0",
     "@typescript-eslint/parser": "2.0.0",
     "codacy-coverage": "^3.4.0",
-    "eslint": "6.2.1",
+    "eslint": "6.2.2",
+    "eslint-config-prettier": "6.1.0",
+    "eslint-config-standard": "14.0.1",
+    "eslint-plugin-import": "2.18.2",
+    "eslint-plugin-jest": "22.15.2",
+    "eslint-plugin-node": "9.1.0",
+    "eslint-plugin-prettier": "3.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "jest": "24.9.0",
+    "prettier": "1.18.2",
     "ts-jest": "24.0.2",
-    "typescript": "^3.3.3"
+    "typescript": "^3.5.3"
   },
   "license": "MIT",
   "files": [

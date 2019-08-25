@@ -1,4 +1,3 @@
-# Skip bin and coverage folders
-bin/**
 coverage/**
 build/**
+node_modules/**

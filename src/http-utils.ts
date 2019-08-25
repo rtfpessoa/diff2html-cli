@@ -1,39 +1,36 @@
-/*
- *
- * Diff to HTML CLI (http-utils.js)
- * Author: rtfpessoa
- *
- */
+import * as request from "request";
 
-import * as request from 'request';
-
-export function put(url, payload) {
-  return new Promise<string>((resolve, reject) => {
+export function put<T extends object>(url: string, payload: object): Promise<T> {
+  return new Promise<T>((resolve, reject): void => {
     request({
       url: url,
-      method: 'PUT',
+      method: "PUT",
       headers: {},
       body: payload,
       json: true
     })
-      .on('response', function (response) {
-        response.on('data', function (body) {
+      .on("response", (response) => {
+        response.on("data", (body) => {
           try {
-            var object = JSON.parse(body.toString('utf8'));
-            if (object.id) {
-              return resolve('https://diffy.org/diff/' + object.id);
-            } else if (object.error) {
-              return reject(new Error(object.error));
+            const jsonObj = JSON.parse(body.toString("utf8"));
+            if (jsonObj as T) {
+              return resolve(jsonObj);
+            } else if (jsonObj.error !== undefined && typeof jsonObj.error === "string") {
+              return reject(new Error(jsonObj.error));
             } else {
-              return reject(new Error(body.toString('utf8')));
+              return reject(
+                new Error(
+                  `Failed to read response.
+                Body:
+                ${body.toString("utf8")}`
+                )
+              );
             }
           } catch (err) {
-            return reject(new Error('could not parse response'));
+            return reject(err);
           }
         });
       })
-      .on('error', function (err) {
-        reject(err);
-      })
+      .on("error", (err) => reject(err));
   });
-};
+}

@@ -1,57 +1,57 @@
-import * as cli from '../cli';
-import * as http from '../http-utils';
-import * as utils from '../utils';
+import * as cli from "../cli";
+import * as http from "../http-utils";
+import * as utils from "../utils";
 
 beforeEach(() => jest.clearAllMocks());
 
-describe('cli', () => {
-  describe('getInput', () => {
-    test('should readFile when inputType is `file`', () => {
-      jest.spyOn(utils, 'readFile').mockImplementationOnce(() => { });
+describe("cli", () => {
+  describe("getInput", () => {
+    test("should readFile when inputType is `file`", async () => {
+      const readFileSpy = jest.spyOn(utils, "readFile").mockImplementationOnce(() => "contents");
 
-      cli.getInput('file', ['lol', 'foo'], [], 'callback');
+      await cli.getInput("file", ["lol", "foo"], []);
 
-      expect(utils.readFile).toBeCalledTimes(1);
-      expect(utils.readFile).toBeCalledWith('lol', 'callback');
+      expect(readFileSpy).toHaveBeenCalledTimes(1);
+      expect(readFileSpy).toHaveBeenCalledWith("lol");
     });
 
-    test('should readStdin when inputType is `stdin`', () => {
-      jest.spyOn(utils, 'readStdin').mockImplementationOnce(() => { });
+    test("should readStdin when inputType is `stdin`", async () => {
+      const readStdinSpy = jest.spyOn(utils, "readStdin").mockImplementationOnce(() => Promise.resolve("contents"));
 
-      cli.getInput('stdin', ['lol'], [], 'callback');
+      await cli.getInput("stdin", ["lol"], []);
 
-      expect(utils.readStdin).toBeCalledTimes(1);
-      expect(utils.readStdin).toBeCalledWith('callback');
+      expect(readStdinSpy).toHaveBeenCalledTimes(1);
+      expect(readStdinSpy).toHaveBeenCalledWith();
     });
 
-    test('should readStdin when inputType is `command`', () => {
-      jest.spyOn(cli, 'runGitDiff').mockImplementationOnce(() => { });
+    test("should readStdin when inputType is `command`", async () => {
+      const executeSpy = jest.spyOn(utils, "execute").mockImplementationOnce(() => "");
 
-      cli.getInput('command', ['lol', 'foo'], [], 'callback');
+      await cli.getInput("command", ["lol", "foo"], []);
 
-      expect(cli.runGitDiff).toBeCalledTimes(1);
-      expect(cli.runGitDiff).toBeCalledWith(['lol', 'foo'], [], 'callback');
-    });
-  });
-
-  describe('preview', () => {
-    test('should call `utils.writeFile`', () => {
-      jest.spyOn(utils, 'writeFile').mockImplementationOnce(() => { });
-
-      cli.preview('a', 'b');
-
-      expect(utils.writeFile).toBeCalledTimes(1);
+      expect(executeSpy).toHaveBeenCalledTimes(1);
+      expect(executeSpy).toHaveBeenCalledWith('git diff "lol" "foo" --no-color ');
     });
   });
 
-  describe('postToDiffy', () => {
-    test('should call `http.put`', () => {
-      jest.spyOn(http, 'put').mockImplementationOnce(() => Promise.resolve('http://example.com'));
+  describe("preview", () => {
+    test("should call `utils.writeFile`", () => {
+      const writeFileSpy = jest.spyOn(utils, "writeFile").mockImplementationOnce(() => {});
 
-      cli.postToDiffy('a', 'print');
+      cli.preview("a", "b");
 
-      expect(http.put).toBeCalledTimes(1);
-      expect(http.put).toBeCalledWith('https://diffy.org/api/diff/', { diff: 'a' });
+      expect(writeFileSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("postToDiffy", () => {
+    test("should call `http.put`", async () => {
+      const putSpy = jest.spyOn(http, "put").mockImplementationOnce(() => Promise.resolve({ id: "foo" }));
+
+      await cli.postToDiffy("a", "print");
+
+      expect(putSpy).toHaveBeenCalledTimes(1);
+      expect(putSpy).toHaveBeenCalledWith("https://diffy.org/api/diff/", { diff: "a" });
     });
   });
 });

@@ -1,27 +1,13 @@
-import * as utils from '../utils';
+import * as utils from "../utils";
 
-beforeEach(() => jest.clearAllMocks());
+const stringToCompare = "This is a rand0m preTTy string to write and read a file";
 
-describe('utils', () => {
-  describe('io', () => {
-    var stringToCompare = 'This is a rand0m preTTy string to write and read a file';
+describe("utils", () => {
+  test("should write and read file synchronously", () => {
+    utils.writeFile("/tmp/file.test", stringToCompare);
 
-    test('should write and read file synchronously', () => {
-      utils.writeFile('/tmp/file.test', stringToCompare);
+    const contentRead = utils.readFile("/tmp/file.test");
 
-      var contentRead = utils.readFileSync('/tmp/file.test');
-
-      expect(stringToCompare).toBe(contentRead);
-    });
-
-    test('should write synchronously and read file asynchronously', (done) => {
-      utils.writeFile('/tmp/file.test', stringToCompare);
-
-      utils.readFile('/tmp/file.test', function (err, content) {
-        expect(err).toBe(null);
-        expect(stringToCompare).toBe(content);
-        done();
-      });
-    });
+    expect(stringToCompare).toBe(contentRead);
   });
 });

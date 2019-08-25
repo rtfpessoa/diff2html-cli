@@ -1,48 +1,33 @@
-/*
- *
- * Diff to HTML CLI (utils.js)
- * Author: rtfpessoa
- *
- */
+import * as childProcess from "child_process";
+import * as fs from "fs";
 
-import * as childProcess from 'child_process';
-import * as fs from 'fs';
-
-export function existsSync(filePath) {
-  var result = false;
-
+export function exists(filePath: string): boolean {
   try {
-    result = fs.existsSync(filePath);
+    return fs.existsSync(filePath);
   } catch (ignore) {
-    result = false;
+    return false;
   }
+}
 
-  return result || false;
-};
+export function readFile(filePath: string): string {
+  return fs.readFileSync(filePath, "utf8");
+}
 
-export function readFileSync(filePath) {
-  return fs.readFileSync(filePath, 'utf8');
-};
-
-export function readFile(filePath, callback) {
-  return fs.readFile(filePath, { 'encoding': 'utf8' }, callback);
-};
-
-export function readStdin(callback) {
-  var content = '';
-  process.stdin.resume();
-  process.stdin.on('data', function (buf) {
-    content += buf.toString('utf8');
+export function readStdin(): Promise<string> {
+  return new Promise<string>((resolve): void => {
+    let content = "";
+    process.stdin.resume();
+    process.stdin.on("data", (buf) => {
+      content += buf.toString("utf8");
+    });
+    process.stdin.on("end", () => resolve(content));
   });
-  process.stdin.on('end', function () {
-    return callback(null, content);
-  });
-};
+}
 
-export function writeFile(filePath, content) {
+export function writeFile(filePath: string, content: string): void {
   return fs.writeFileSync(filePath, content);
-};
+}
 
-export function runCmd(cmd) {
-  return childProcess.execSync(cmd).toString('utf8');
-};
+export function execute(cmd: string): string {
+  return childProcess.execSync(cmd).toString("utf8");
+}

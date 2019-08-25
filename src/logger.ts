@@ -1,14 +1,7 @@
-/*
- *
- * Diff to HTML CLI (logger.js)
- * Author: rtfpessoa
- *
- */
+export function print(message: string, ...params: (string | number | object)[]): void {
+  console.log(message, ...params);
+}
 
-export function print(line) {
-  console.log(line);
-};
-
-export function error(msg) {
-  console.error(msg);
-};
+export function error(message: string, ...params: (string | number | object)[]): void {
+  console.error(message, params);
+}

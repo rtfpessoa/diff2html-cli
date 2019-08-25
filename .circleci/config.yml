@@ -1,24 +1,21 @@
 version: 2
-jobs:
+
+reference:
   build-common: &common-build
-    docker:
-      - image: node
     working_directory: ~/diff2html-cli
     steps: &common-steps
       - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "yarn.lock" }}
-      - run: npm install
+      - run: yarn
       - save_cache:
           key: dependency-cache-{{ checksum "yarn.lock" }}
           paths:
             - ./node_modules
-      - run: npm run build
-      - run: npm run coverage
+      - run: yarn run build
+      - run: yarn run coverage
 
   build-latest: &latest-build
-    docker:
-      - image: node
     working_directory: ~/diff2html-cli
     steps:
       - checkout
@@ -31,18 +28,14 @@ jobs:
             - ./node_modules
       - run: yarn run test
       - run: yarn run lint
-      - run: npm run coverage
+      - run: yarn run coverage
       - run: yarn run codacy
 
+jobs:
   build-node_8:
     <<: *common-build
     docker:
       - image: node:8
-
-  build-node_9:
-    <<: *common-build
-    docker:
-      - image: node:9
 
   build-node_10:
     <<: *common-build
@@ -64,7 +57,6 @@ workflows:
   build:
     jobs:
       - build-node_8
-      - build-node_9
       - build-node_10
       - build-node_11
       - build-node_12
