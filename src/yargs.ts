@@ -2,9 +2,10 @@ import * as yargs from "yargs";
 
 import { StyleType, SummaryType, LineMatchingType, FormatType, InputType, OutputType, DiffyType } from "./types";
 
-export interface Argv {
+export type Argv = {
   style: StyleType;
   synchronisedScroll: boolean;
+  highlightCode: boolean;
   summary: SummaryType;
   matching: LineMatchingType;
   matchWordsThreshold: number;
@@ -17,7 +18,7 @@ export interface Argv {
   htmlWrapperTemplate?: string;
   ignore?: string[];
   extraArguments: string[];
-}
+};
 
 export function setup(): Argv {
   const currentYear = new Date().getFullYear();
@@ -46,6 +47,14 @@ export function setup(): Argv {
       synchronisedScroll: {
         alias: "sc",
         describe: "Synchronised horizontal scroll",
+        type: "boolean",
+        default: true
+      }
+    })
+    .options({
+      highlightCode: {
+        alias: "hc",
+        describe: "Highlight Code",
         type: "boolean",
         default: true
       }
@@ -170,7 +179,7 @@ export function setup(): Argv {
     .strict(true)
     .recommendCommands().argv;
 
-  // HACK: Forcing conversions to better types here, since choices types are enforced in the beggining
+  // HACK: Forcing conversions to better types here, since choices types are enforced in the beginning
   return {
     ...argv,
     style: argv.style as StyleType,

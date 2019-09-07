@@ -6,9 +6,10 @@ export type InputType = "file" | "command" | "stdin";
 export type OutputType = "preview" | "stdout";
 export type DiffyType = "browser" | "pbcopy" | "print";
 
-export interface Configuration {
+export type Configuration = {
   synchronisedScroll: boolean;
   showFilesOpen: boolean;
+  highlightCode: boolean;
   formatType: FormatType;
   outputDestinationType: OutputType;
   outputDestinationFile?: string;
@@ -16,4 +17,4 @@ export interface Configuration {
   diffyType?: DiffyType;
   htmlWrapperTemplate: string;
   ignore: string[];
-}
+};
