@@ -17,6 +17,7 @@ export function parseArgv(argv: Argv): [Diff2Html.Options, Configuration] {
   const configuration: Configuration = {
     showFilesOpen: argv.summary === "open" || false,
     synchronisedScroll: argv.synchronisedScroll,
+    highlightCode: argv.highlightCode,
     formatType: argv.format,
     outputDestinationType: argv.output,
     outputDestinationFile: argv.file,

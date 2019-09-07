@@ -59,6 +59,7 @@ Usage: diff2html [options] -- [diff args]
 | --- | --- | --- | --- | --- |
 | -s  | --style |  Output style | `line`, `side` | `line` |
 | --sc | --synchronisedScroll | Synchronised horizontal scroll | `true`, `false` | `true` |
+| --hc | --highlightCode | Highlight code | `true`, `false` | `true` |
 | --su | --summary | Show files summary | `closed`, `open`, `hidden` | `closed` |
 | --lm | --matching | Diff line matching type | `lines`, `words`, `none` | `none` |
 | --lmt | --matchWordsThreshold | Diff line matching word threshold | | `0.25` |
