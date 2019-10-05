@@ -1,11 +1,21 @@
 import * as yargs from "yargs";
 
-import { StyleType, SummaryType, LineMatchingType, FormatType, InputType, OutputType, DiffyType } from "./types";
+import {
+  StyleType,
+  SummaryType,
+  LineMatchingType,
+  FormatType,
+  InputType,
+  OutputType,
+  DiffyType,
+  DiffStyleType
+} from "./types";
 
 export type Argv = {
   style: StyleType;
   synchronisedScroll: boolean;
   highlightCode: boolean;
+  diffStyle: DiffStyleType;
   summary: SummaryType;
   matching: LineMatchingType;
   matchWordsThreshold: number;
@@ -25,6 +35,7 @@ export function setup(): Argv {
 
   const styleChoices: StyleType[] = ["line", "side"];
   const summaryChoices: SummaryType[] = ["closed", "open", "hidden"];
+  const diffStyleChoices: DiffStyleType[] = ["word", "char"];
   const matchingChoices: LineMatchingType[] = ["lines", "words", "none"];
   const formatChoices: FormatType[] = ["html", "json"];
   const inputChoices: InputType[] = ["file", "command", "stdin"];
@@ -66,6 +77,16 @@ export function setup(): Argv {
         type: "string",
         choices: summaryChoices,
         default: "closed"
+      }
+    })
+    .options({
+      diff: {
+        alias: "d",
+        describe: "Diff style",
+        nargs: 1,
+        type: "string",
+        choices: diffStyleChoices,
+        default: "word"
       }
     })
     .options({
@@ -184,6 +205,7 @@ export function setup(): Argv {
     ...argv,
     style: argv.style as StyleType,
     summary: argv.summary as SummaryType,
+    diffStyle: argv.diffStyle as DiffStyleType,
     matching: argv.matching as LineMatchingType,
     format: argv.format as FormatType,
     input: argv.input as InputType,

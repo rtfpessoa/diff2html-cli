@@ -1,5 +1,6 @@
 export type StyleType = "line" | "side";
 export type SummaryType = "closed" | "open" | "hidden";
+export type DiffStyleType = "word" | "char";
 export type LineMatchingType = "lines" | "words" | "none";
 export type FormatType = "html" | "json";
 export type InputType = "file" | "command" | "stdin";

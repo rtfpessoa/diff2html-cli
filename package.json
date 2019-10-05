@@ -53,13 +53,12 @@
   "main": "./build/main.js",
   "dependencies": {
     "clipboardy": "^2.1.0",
-    "diff2html": "^2.11.2",
+    "diff2html": "^2.12.1",
     "open": "^6.4.0",
     "request": "^2.88.0",
     "yargs": "^14.0.0"
   },
   "devDependencies": {
-    "@types/diff2html": "0.0.5",
     "@types/jest": "24.0.18",
     "@types/node": "^12.7.2",
     "@types/request": "2.48.2",
