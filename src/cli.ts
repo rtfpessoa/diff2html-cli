@@ -32,13 +32,31 @@ function prepareHTML(diffHTMLContent: string, config: Configuration): string {
   const jsUiFilePath = path.resolve(diff2htmlPath, "dist", "diff2html-ui.min.js");
   const jsUiContent = utils.readFile(jsUiFilePath);
 
-  return template
-    .replace("<!--diff2html-css-->", `<style>\n${cssContent}\n</style>`)
-    .replace("<!--diff2html-js-ui-->", `<script>\n${jsUiContent}\n</script>`)
-    .replace("//diff2html-fileListCloseable", `diff2htmlUi.fileListCloseable("#diff", ${config.showFilesOpen});`)
-    .replace("//diff2html-synchronisedScroll", `diff2htmlUi.synchronisedScroll("#diff", ${config.synchronisedScroll});`)
-    .replace("//diff2html-highlightCode", config.highlightCode ? `diff2htmlUi.highlightCode("#diff");` : "")
-    .replace("<!--diff2html-diff-->", diffHTMLContent);
+  /* HACK:
+   *   Replace needs to receive a function as the second argument to perform an exact replacement.
+   *     This will avoid the replacements from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_string_as_a_parameter
+   */
+  return [
+    { searchValue: "<!--diff2html-css-->", replaceValue: `<style>\n${cssContent}\n</style>` },
+    { searchValue: "<!--diff2html-js-ui-->", replaceValue: `<script>\n${jsUiContent}\n</script>` },
+    {
+      searchValue: "//diff2html-fileListCloseable",
+      replaceValue: `diff2htmlUi.fileListCloseable("#diff", ${config.showFilesOpen});`
+    },
+    {
+      searchValue: "//diff2html-synchronisedScroll",
+      replaceValue: `diff2htmlUi.synchronisedScroll("#diff", ${config.synchronisedScroll});`
+    },
+    {
+      searchValue: "//diff2html-highlightCode",
+      replaceValue: config.highlightCode ? `diff2htmlUi.highlightCode("#diff");` : ""
+    },
+    { searchValue: "<!--diff2html-diff-->", replaceValue: diffHTMLContent }
+  ].reduce(
+    (previousValue, replacement) =>
+      utils.replaceExactly(previousValue, replacement.searchValue, replacement.replaceValue),
+    template
+  );
 }
 
 /**
