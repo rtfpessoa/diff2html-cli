@@ -8,6 +8,7 @@ export function parseArgv(argv: Argv): [Diff2Html.Options, Configuration] {
     inputFormat: "diff",
     outputFormat: argv.style === "side" ? "side-by-side" : "line-by-line",
     showFiles: argv.summary !== "hidden",
+    diffStyle: argv.diffStyle,
     matching: argv.matching,
     matchWordsThreshold: argv.matchWordsThreshold,
     matchingMaxComparisons: argv.matchingMaxComparisons
