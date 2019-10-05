@@ -45,7 +45,7 @@ Diff to Html generates pretty HTML diffs from unified and git diff output in you
 
 * [Node CLI](https://www.npmjs.org/package/diff2html-cli)
 
-* Manually download and import `rtfpessoa/diff2html/dist/diff2html.min.js` into your page
+* Manually download and import [diff2html.min.js](https://raw.githubusercontent.com/rtfpessoa/diff2html/master/dist/diff2html.min.js) into your page
 
 ## Setup
 
@@ -61,6 +61,7 @@ Usage: diff2html [options] -- [diff args]
 | --sc | --synchronisedScroll | Synchronised horizontal scroll | `true`, `false` | `true` |
 | --hc | --highlightCode | Highlight code | `true`, `false` | `true` |
 | --su | --summary | Show files summary | `closed`, `open`, `hidden` | `closed` |
+| --d | --diffStyle | Diff style | `word`, `char` | `word` |
 | --lm | --matching | Diff line matching type | `lines`, `words`, `none` | `none` |
 | --lmt | --matchWordsThreshold | Diff line matching word threshold | | `0.25` |
 | --lmm | --matchingMaxComparisons | Diff line matching maximum line comparisons of a block of changes | `2500` |
