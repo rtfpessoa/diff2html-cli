@@ -31,3 +31,7 @@ export function writeFile(filePath: string, content: string): void {
 export function execute(cmd: string): string {
   return childProcess.execSync(cmd).toString("utf8");
 }
+
+export function replaceExactly(value: string, searchValue: string, replaceValue: string): string {
+  return value.replace(searchValue, () => replaceValue);
+}
