@@ -75,7 +75,40 @@ Usage: diff2html [options] -- [diff args]
 | -v | --version | Show version number | | |
 | -h | --help | Show help | | |
 
-Examples:
+### Custom HTML wrapper template
+
+The template is a very based on a simple replace of several placeholders as coded https://github.com/rtfpessoa/diff2html-cli/blob/master/src/cli.ts#L40
+
+To provide a custom template you need to make sure you have the following comments and imports in your HTML, exactly as they are here:
+
+* Inside the `<head>` tag
+
+```
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/github.min.css" />
+<!--diff2html-css-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/scala.min.js"></script>
+<!--diff2html-js-ui-->
+<script>
+    $(document).ready(function() {
+        var diff2htmlUi = new Diff2HtmlUI();
+        //diff2html-fileListCloseable
+        //diff2html-synchronisedScroll
+        //diff2html-highlightCode
+      });
+</script>
+```
+
+* Inside the `<body>` tag
+
+```
+<div id="diff">
+  <!--diff2html-diff-->
+</div>
+```
+
+### Examples:
 
 `diff2html -s line -f html -d word -i command -o preview -- -M HEAD~1`
 - diff last commit, line by line, word comparison between lines, previewed in the browser and input from git diff command
@@ -93,12 +126,7 @@ Examples:
 -  print to file
 
 `diff2html -F my-pretty-diff.html --hwt my-custom-template.html -- -M HEAD~1`
--  print to file using custom markup templates can include the following variables:
-    - `<!--diff2html-css-->` - writes default CSS to page
-    - `<!--diff2html-js-ui-->` - writes default JavaScript UI scripts to page
-    - `//diff2html-fileListCloseable` - writes code to support selected list interaction, must be within a `<script>` block
-    - `//diff2html-synchronisedScroll` - writes code to support selected scroll interaction, must be within a `<script>` block
-    - `<!--diff2html-diff-->` - writes diff content to page
+-  print to file using custom markup templates can include the following variables
 
 `diff2html --ig package-lock.json --ig yarn.lock`
 - Ignore `package-lock.json` and `yarn.lock` from the generated diff
