@@ -59,7 +59,7 @@
     "yargs": "^14.0.0"
   },
   "devDependencies": {
-    "@types/jest": "24.0.18",
+    "@types/jest": "24.0.25",
     "@types/node": "^13.1.2",
     "@types/request": "2.48.4",
     "@typescript-eslint/eslint-plugin": "2.0.0",
