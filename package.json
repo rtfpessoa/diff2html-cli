@@ -54,7 +54,7 @@
   "dependencies": {
     "clipboardy": "^2.1.0",
     "diff2html": "^2.12.1",
-    "open": "^6.4.0",
+    "open": "^7.0.0",
     "request": "^2.88.0",
     "yargs": "^14.0.0"
   },
