@@ -66,7 +66,7 @@
     "@typescript-eslint/parser": "2.0.0",
     "codacy-coverage": "^3.4.0",
     "eslint": "6.2.2",
-    "eslint-config-prettier": "6.1.0",
+    "eslint-config-prettier": "6.9.0",
     "eslint-config-standard": "14.0.1",
     "eslint-plugin-import": "2.18.2",
     "eslint-plugin-jest": "22.15.2",
