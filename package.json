@@ -63,7 +63,7 @@
     "@types/node": "^13.1.2",
     "@types/request": "2.48.2",
     "@typescript-eslint/eslint-plugin": "2.0.0",
-    "@typescript-eslint/parser": "2.0.0",
+    "@typescript-eslint/parser": "2.14.0",
     "codacy-coverage": "^3.4.0",
     "eslint": "6.2.2",
     "eslint-config-prettier": "6.9.0",
