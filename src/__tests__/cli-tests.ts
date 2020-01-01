@@ -36,6 +36,7 @@ describe("cli", () => {
 
   describe("preview", () => {
     test("should call `utils.writeFile`", () => {
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
       const writeFileSpy = jest.spyOn(utils, "writeFile").mockImplementationOnce(() => {});
 
       cli.preview("a", "b");
