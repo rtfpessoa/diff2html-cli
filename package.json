@@ -64,15 +64,16 @@
   "types": "./lib/diff2html.d.ts",
   "dependencies": {
     "clipboardy": "^2.1.0",
-    "diff2html": "^2.12.1",
+    "diff2html": "3.0.0-master.df4481f",
     "open": "^7.0.0",
     "request": "^2.88.0",
     "yargs": "^15.0.2"
   },
   "devDependencies": {
-    "@types/request": "2.48.4",
+    "@types/hogan.js": "^3.0.0",
     "@types/jest": "24.9.0",
     "@types/node": "13.1.8",
+    "@types/request": "2.48.4",
     "@typescript-eslint/eslint-plugin": "2.16.0",
     "@typescript-eslint/parser": "2.16.0",
     "codacy-coverage": "3.4.0",
