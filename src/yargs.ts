@@ -1,4 +1,4 @@
-import * as yargs from 'yargs';
+import yargs from 'yargs';
 
 import {
   StyleType,
@@ -187,8 +187,10 @@ export function setup(): Argv {
     .example('diff2html -F my-pretty-diff.html -- -M HEAD~1', 'print to file')
     .example('diff2html --ig package-lock.json --ig yarn.lock', 'ignore two particular files when generating the diff')
     .help()
-    .alias('v', 'version')
-    .alias('h', 'help')
+    .alias('help', 'h')
+    .alias('help', '?')
+    .version()
+    .alias('version', 'v')
     .epilog(
       `© 2014-${currentYear} rtfpessoa
       For more information, check out https://diff2html.xyz/
