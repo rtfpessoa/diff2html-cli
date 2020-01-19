@@ -2,14 +2,28 @@ import * as path from 'path';
 
 import { Configuration } from './types';
 import { Argv } from './yargs';
+import { Diff2HtmlConfig } from 'diff2html';
+import { OutputFormatType, DiffStyleType, LineMatchingType } from 'diff2html/lib/types';
 
-export function parseArgv(argv: Argv): [Diff2Html.Options, Configuration] {
-  const diff2htmlOptions: Diff2Html.Options = {
-    inputFormat: 'diff',
-    outputFormat: argv.style === 'side' ? 'side-by-side' : 'line-by-line',
-    showFiles: argv.summary !== 'hidden',
-    diffStyle: argv.diffStyle,
-    matching: argv.matching,
+export function parseArgv(argv: Argv): [Diff2HtmlConfig, Configuration] {
+  const diff2htmlOptions: Diff2HtmlConfig = {
+    outputFormat:
+      argv.style === 'side'
+        ? OutputFormatType.SIDE_BY_SIDE
+        : argv.style === 'line'
+        ? OutputFormatType.LINE_BY_LINE
+        : undefined,
+    diffStyle:
+      argv.diffStyle === 'char' ? DiffStyleType.CHAR : argv.diffStyle === 'word' ? DiffStyleType.WORD : undefined,
+    matching:
+      argv.matching === 'lines'
+        ? LineMatchingType.LINES
+        : argv.matching === 'words'
+        ? LineMatchingType.WORDS
+        : argv.matching === 'none'
+        ? LineMatchingType.NONE
+        : undefined,
+    drawFileList: argv.summary !== 'hidden',
     matchWordsThreshold: argv.matchWordsThreshold,
     matchingMaxComparisons: argv.matchingMaxComparisons,
   };

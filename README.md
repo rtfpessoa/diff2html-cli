@@ -54,16 +54,10 @@ Diff to Html generates pretty HTML diffs from unified and git diff output in you
 
 ## Distributions
 
+- [NPM CLI](https://www.npmjs.org/package/diff2html-cli)
+- [NPM / Node.js library [ES5 & ES6]](https://github.com/rtfpessoa/diff2html)
+- [CDNJS](https://cdnjs.com/libraries/diff2html)
 - [WebJar](http://www.webjars.org/)
-
-- [Node Module](https://www.npmjs.org/package/diff2html)
-
-- [Bower Package](http://bower.io/search/?q=diff2html)
-
-- [Node CLI](https://www.npmjs.org/package/diff2html-cli)
-
-- Manually download and import
-  [diff2html.min.js](https://raw.githubusercontent.com/rtfpessoa/diff2html/master/dist/diff2html.min.js) into your page
 
 ## Setup
 
@@ -106,17 +100,15 @@ they are here:
 ```
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/github.min.css" />
 <!--diff2html-css-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/scala.min.js"></script>
 <!--diff2html-js-ui-->
 <script>
-    $(document).ready(function() {
-        var diff2htmlUi = new Diff2HtmlUI();
-        //diff2html-fileListCloseable
-        //diff2html-synchronisedScroll
-        //diff2html-highlightCode
-      });
+  document.addEventListener("DOMContentLoaded", () => {
+    const targetElement = document.getElementById("diff");
+    const diff2htmlUi = new Diff2HtmlUI(targetElement);
+    //diff2html-fileListToggle
+    //diff2html-synchronisedScroll
+    //diff2html-highlightCode
+  });
 </script>
 ```
 
@@ -168,7 +160,7 @@ your changes following the guidelines described in `CONTRIBUTING.md`. I will try
 
 ## Developing
 
-Make some changes and then `node src/main.js` 😉
+Make some changes, `yarn build` and then `./bin/diff2html` 😉
 
 ## License
 

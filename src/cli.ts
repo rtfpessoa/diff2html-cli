@@ -4,7 +4,7 @@ import * as path from 'path';
 
 import * as clipboardy from 'clipboardy';
 import open = require('open');
-import { Diff2Html } from 'diff2html';
+import { parse, html, Diff2HtmlConfig } from 'diff2html';
 
 import * as http from './http-utils';
 import * as log from './logger';
@@ -26,10 +26,10 @@ function prepareHTML(diffHTMLContent: string, config: Configuration): string {
 
   const diff2htmlPath = path.join(path.dirname(require.resolve('diff2html')), '..');
 
-  const cssFilePath = path.resolve(diff2htmlPath, 'dist', 'diff2html.min.css');
+  const cssFilePath = path.resolve(diff2htmlPath, 'bundles', 'css', 'diff2html.min.css');
   const cssContent = utils.readFile(cssFilePath);
 
-  const jsUiFilePath = path.resolve(diff2htmlPath, 'dist', 'diff2html-ui.min.js');
+  const jsUiFilePath = path.resolve(diff2htmlPath, 'bundles', 'js', 'diff2html-ui-slim.min.js');
   const jsUiContent = utils.readFile(jsUiFilePath);
 
   /* HACK:
@@ -40,16 +40,16 @@ function prepareHTML(diffHTMLContent: string, config: Configuration): string {
     { searchValue: '<!--diff2html-css-->', replaceValue: `<style>\n${cssContent}\n</style>` },
     { searchValue: '<!--diff2html-js-ui-->', replaceValue: `<script>\n${jsUiContent}\n</script>` },
     {
-      searchValue: '//diff2html-fileListCloseable',
-      replaceValue: `diff2htmlUi.fileListCloseable("#diff", ${config.showFilesOpen});`,
+      searchValue: '//diff2html-fileListToggle',
+      replaceValue: `diff2htmlUi.fileListToggle(${config.showFilesOpen});`,
     },
     {
       searchValue: '//diff2html-synchronisedScroll',
-      replaceValue: `diff2htmlUi.synchronisedScroll("#diff", ${config.synchronisedScroll});`,
+      replaceValue: config.synchronisedScroll ? `diff2htmlUi.synchronisedScroll();` : '',
     },
     {
       searchValue: '//diff2html-highlightCode',
-      replaceValue: config.highlightCode ? `diff2htmlUi.highlightCode("#diff");` : '',
+      replaceValue: config.highlightCode ? `diff2htmlUi.highlightCode();` : '',
     },
     { searchValue: '<!--diff2html-diff-->', replaceValue: diffHTMLContent },
   ].reduce(
@@ -78,15 +78,15 @@ export async function getInput(inputType: InputType, inputArgs: string[], ignore
   }
 }
 
-export function getOutput(options: Diff2Html.Options, config: Configuration, input: string): string {
+export function getOutput(options: Diff2HtmlConfig, config: Configuration, input: string): string {
   if (config.htmlWrapperTemplate && !fs.existsSync(config.htmlWrapperTemplate)) {
     throw new Error(`Template ('${config.htmlWrapperTemplate}') not found!`);
   }
 
-  const diffJson = Diff2Html.getJsonFromDiff(input, options);
+  const diffJson = parse(input, options);
 
   if (config.formatType === 'html') {
-    const htmlContent = Diff2Html.getPrettyHtml(diffJson, { ...options, inputFormat: 'json' });
+    const htmlContent = html(diffJson, { ...options });
     return prepareHTML(htmlContent, config);
   } else if (config.formatType === 'json') {
     return JSON.stringify(diffJson);
