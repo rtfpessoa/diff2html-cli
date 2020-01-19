@@ -1,7 +1,7 @@
 {
   "name": "diff2html-cli",
   "version": "4.2.1",
-  "homepage": "https://www.github.com/rtfpessoa/diff2html-cli",
+  "homepage": "https://diff2html.xyz/index.html#cli",
   "description": "Fast Diff to colorized HTML",
   "keywords": [
     "git",
@@ -32,25 +32,36 @@
     "url": "https://www.github.com/rtfpessoa/diff2html-cli/issues"
   },
   "engines": {
-    "node": "8.* || >=10"
+    "node": ">=10.13"
   },
   "preferGlobal": true,
   "scripts": {
-    "prepare": "yarn run build",
-    "build": "tsc",
-    "lint": "eslint '*/**/*.{js,jsx,ts,tsx}'",
-    "style": "yarn run lint",
-    "test": "jest",
-    "coverage": "jest --collectCoverage",
-    "coverage-html": "yarn run coverage && open ./coverage/index.html",
-    "codacy": "cat ./coverage/lcov.info | codacy-coverage",
-    "preversion": "yarn run test",
-    "postversion": "git push && git push --tags"
+    "eslint": "eslint --ignore-path .gitignore \"**/*.{js,jsx,ts,tsx,json}\"",
+    "lint:check": "yarn run eslint",
+    "lint:fix": "yarn run eslint --fix",
+    "prettier": "prettier --ignore-path .gitignore '**/*.+(js|jsx|ts|tsx|json|css|html|md|mdx)'",
+    "format:check": "yarn run prettier --check",
+    "format:fix": "yarn run prettier --write",
+    "build": "yarn run build:es5",
+    "build:es5": "rm -rf lib; tsc -p tsconfig.json --outDir lib",
+    "build:toc-base": "markdown-toc --maxdepth 3 --bullets='-' -i",
+    "build:toc": "yarn run build:toc-base README.md",
+    "test": "is-ci 'test:coverage' 'test:watch'",
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watch",
+    "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --watch",
+    "coverage:open": "yarn run test:coverage && open ./coverage/index.html",
+    "coverage:push": "cat ./coverage/lcov.info | codacy-coverage",
+    "validate": "yarn run format:check && yarn run lint:check && yarn run build && yarn run test:coverage",
+    "fix": "yarn run format:fix && yarn run lint:fix",
+    "preversion": "yarn run validate",
+    "version": "git add -A package.json"
   },
   "bin": {
     "diff2html": "./bin/diff2html"
   },
-  "main": "./build/main.js",
+  "main": "./lib/diff2html.js",
+  "types": "./lib/diff2html.d.ts",
   "dependencies": {
     "clipboardy": "^2.1.0",
     "diff2html": "^2.12.1",
@@ -59,30 +70,34 @@
     "yargs": "^15.0.2"
   },
   "devDependencies": {
-    "@types/jest": "24.0.25",
-    "@types/node": "^13.1.2",
     "@types/request": "2.48.4",
-    "@typescript-eslint/eslint-plugin": "2.15.0",
+    "@types/jest": "24.9.0",
+    "@types/node": "13.1.8",
+    "@typescript-eslint/eslint-plugin": "2.16.0",
     "@typescript-eslint/parser": "2.16.0",
-    "codacy-coverage": "^3.4.0",
+    "codacy-coverage": "3.4.0",
     "eslint": "6.8.0",
     "eslint-config-prettier": "6.9.0",
-    "eslint-config-standard": "14.1.0",
     "eslint-plugin-import": "2.20.0",
     "eslint-plugin-jest": "23.6.0",
+    "eslint-plugin-json": "2.0.1",
     "eslint-plugin-node": "11.0.0",
-    "eslint-plugin-prettier": "3.1.2",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1",
+    "eslint-plugin-optimize-regex": "1.1.7",
+    "eslint-plugin-promise": "4.2.1",
+    "eslint-plugin-sonarjs": "0.5.0",
+    "husky": "4.0.10",
+    "is-ci-cli": "2.0.0",
     "jest": "24.9.0",
+    "lint-staged": "9.5.0",
+    "markdown-toc": "^1.2.0",
     "prettier": "1.19.1",
     "ts-jest": "24.3.0",
-    "typescript": "^3.5.3"
+    "typescript": "3.7.5"
   },
   "license": "MIT",
   "files": [
     "bin",
-    "build",
+    "lib",
     "template.html"
   ]
 }

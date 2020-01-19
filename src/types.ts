@@ -1,11 +1,11 @@
-export type StyleType = "line" | "side";
-export type SummaryType = "closed" | "open" | "hidden";
-export type DiffStyleType = "word" | "char";
-export type LineMatchingType = "lines" | "words" | "none";
-export type FormatType = "html" | "json";
-export type InputType = "file" | "command" | "stdin";
-export type OutputType = "preview" | "stdout";
-export type DiffyType = "browser" | "pbcopy" | "print";
+export type StyleType = 'line' | 'side';
+export type SummaryType = 'closed' | 'open' | 'hidden';
+export type DiffStyleType = 'word' | 'char';
+export type LineMatchingType = 'lines' | 'words' | 'none';
+export type FormatType = 'html' | 'json';
+export type InputType = 'file' | 'command' | 'stdin';
+export type OutputType = 'preview' | 'stdout';
+export type DiffyType = 'browser' | 'pbcopy' | 'print';
 
 export type Configuration = {
   synchronisedScroll: boolean;
