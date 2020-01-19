@@ -1,8 +1,8 @@
-import * as cli from "./cli";
-import { parseArgv } from "./configuration";
-import * as log from "./logger";
-import * as utils from "./utils";
-import * as yargs from "./yargs";
+import * as cli from './cli';
+import { parseArgv } from './configuration';
+import * as log from './logger';
+import * as utils from './utils';
+import * as yargs from './yargs';
 
 export async function main(): Promise<void> {
   try {
@@ -12,7 +12,7 @@ export async function main(): Promise<void> {
     const input = await cli.getInput(configuration.inputSource, argv.extraArguments, configuration.ignore);
 
     if (!input) {
-      log.error("The input is empty. Try again.");
+      log.error('The input is empty. Try again.');
       yargs.help();
       return;
     }
@@ -26,9 +26,9 @@ export async function main(): Promise<void> {
 
     if (configuration.outputDestinationFile) utils.writeFile(configuration.outputDestinationFile, output);
 
-    if (configuration.outputDestinationType === "preview") {
+    if (configuration.outputDestinationType === 'preview') {
       cli.preview(output, configuration.formatType);
-    } else if (configuration.outputDestinationType === "stdout") {
+    } else if (configuration.outputDestinationType === 'stdout') {
       log.print(output);
     }
   } catch (error) {

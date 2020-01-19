@@ -1,4 +1,4 @@
-import * as yargs from "yargs";
+import * as yargs from 'yargs';
 
 import {
   StyleType,
@@ -8,8 +8,8 @@ import {
   InputType,
   OutputType,
   DiffyType,
-  DiffStyleType
-} from "./types";
+  DiffStyleType,
+} from './types';
 
 export type Argv = {
   style: StyleType;
@@ -33,169 +33,169 @@ export type Argv = {
 export function setup(): Argv {
   const currentYear = new Date().getFullYear();
 
-  const styleChoices: StyleType[] = ["line", "side"];
-  const summaryChoices: SummaryType[] = ["closed", "open", "hidden"];
-  const diffStyleChoices: DiffStyleType[] = ["word", "char"];
-  const matchingChoices: LineMatchingType[] = ["lines", "words", "none"];
-  const formatChoices: FormatType[] = ["html", "json"];
-  const inputChoices: InputType[] = ["file", "command", "stdin"];
-  const outputChoices: OutputType[] = ["preview", "stdout"];
-  const diffyChoices: DiffyType[] = ["browser", "pbcopy", "print"];
+  const styleChoices: StyleType[] = ['line', 'side'];
+  const summaryChoices: SummaryType[] = ['closed', 'open', 'hidden'];
+  const diffStyleChoices: DiffStyleType[] = ['word', 'char'];
+  const matchingChoices: LineMatchingType[] = ['lines', 'words', 'none'];
+  const formatChoices: FormatType[] = ['html', 'json'];
+  const inputChoices: InputType[] = ['file', 'command', 'stdin'];
+  const outputChoices: OutputType[] = ['preview', 'stdout'];
+  const diffyChoices: DiffyType[] = ['browser', 'pbcopy', 'print'];
 
   const argv = yargs
-    .usage("Usage: diff2html [options] -- [diff args]")
+    .usage('Usage: diff2html [options] -- [diff args]')
     .options({
       style: {
-        alias: "s",
-        describe: "Output style",
+        alias: 's',
+        describe: 'Output style',
         nargs: 1,
-        type: "string",
+        type: 'string',
         choices: styleChoices,
-        default: "line"
-      }
+        default: 'line',
+      },
     })
     .options({
       synchronisedScroll: {
-        alias: "sc",
-        describe: "Synchronised horizontal scroll",
-        type: "boolean",
-        default: true
-      }
+        alias: 'sc',
+        describe: 'Synchronised horizontal scroll',
+        type: 'boolean',
+        default: true,
+      },
     })
     .options({
       highlightCode: {
-        alias: "hc",
-        describe: "Highlight Code",
-        type: "boolean",
-        default: true
-      }
+        alias: 'hc',
+        describe: 'Highlight Code',
+        type: 'boolean',
+        default: true,
+      },
     })
     .options({
       summary: {
-        alias: "su",
-        describe: "Show files summary",
-        type: "string",
+        alias: 'su',
+        describe: 'Show files summary',
+        type: 'string',
         choices: summaryChoices,
-        default: "closed"
-      }
+        default: 'closed',
+      },
     })
     .options({
       diff: {
-        alias: "d",
-        describe: "Diff style",
+        alias: 'd',
+        describe: 'Diff style',
         nargs: 1,
-        type: "string",
+        type: 'string',
         choices: diffStyleChoices,
-        default: "word"
-      }
+        default: 'word',
+      },
     })
     .options({
       matching: {
-        alias: "lm",
-        describe: "Diff line matching type",
+        alias: 'lm',
+        describe: 'Diff line matching type',
         nargs: 1,
-        type: "string",
+        type: 'string',
         choices: matchingChoices,
-        default: "none"
-      }
+        default: 'none',
+      },
     })
     .options({
       matchWordsThreshold: {
-        alias: "lmt",
-        describe: "Diff line matching word threshold",
+        alias: 'lmt',
+        describe: 'Diff line matching word threshold',
         nargs: 1,
-        type: "number",
-        default: 0.25
-      }
+        type: 'number',
+        default: 0.25,
+      },
     })
     .options({
       matchingMaxComparisons: {
-        alias: "lmm",
-        describe: "Diff line matching maximum line comparisons of a block of changes",
+        alias: 'lmm',
+        describe: 'Diff line matching maximum line comparisons of a block of changes',
         nargs: 1,
-        type: "number",
-        default: 1000
-      }
+        type: 'number',
+        default: 1000,
+      },
     })
     .options({
       format: {
-        alias: "f",
-        describe: "Output format",
+        alias: 'f',
+        describe: 'Output format',
         nargs: 1,
-        type: "string",
+        type: 'string',
         choices: formatChoices,
-        default: "html"
-      }
+        default: 'html',
+      },
     })
     .options({
       input: {
-        alias: "i",
-        describe: "Diff input source",
+        alias: 'i',
+        describe: 'Diff input source',
         nargs: 1,
-        type: "string",
+        type: 'string',
         choices: inputChoices,
-        default: "command"
-      }
+        default: 'command',
+      },
     })
     .options({
       output: {
-        alias: "o",
-        describe: "Output destination",
+        alias: 'o',
+        describe: 'Output destination',
         nargs: 1,
-        type: "string",
+        type: 'string',
         choices: outputChoices,
-        default: "preview"
-      }
+        default: 'preview',
+      },
     })
     .options({
       diffy: {
-        alias: "u",
-        describe: "Upload to diffy.org",
+        alias: 'u',
+        describe: 'Upload to diffy.org',
         nargs: 1,
-        type: "string",
-        choices: diffyChoices
-      }
+        type: 'string',
+        choices: diffyChoices,
+      },
     })
     .options({
       file: {
-        alias: "F",
-        describe: "Send output to file (overrides output option)",
+        alias: 'F',
+        describe: 'Send output to file (overrides output option)',
         nargs: 1,
-        type: "string"
-      }
+        type: 'string',
+      },
     })
     .options({
       htmlWrapperTemplate: {
-        alias: "hwt",
-        describe: "Use a custom template when generating markup",
+        alias: 'hwt',
+        describe: 'Use a custom template when generating markup',
         nargs: 1,
-        type: "string"
-      }
+        type: 'string',
+      },
     })
     .options({
       ignore: {
-        alias: "ig",
-        describe: "ignore a file",
+        alias: 'ig',
+        describe: 'ignore a file',
         nargs: 1,
-        type: "array"
-      }
+        type: 'array',
+      },
     })
     .example(
-      "diff2html -s line -f html -d word -i command -o preview -- -M HEAD~1",
-      "diff last commit, line by line, word comparison between lines," +
-        "previewed in the browser and input from git diff command"
+      'diff2html -s line -f html -d word -i command -o preview -- -M HEAD~1',
+      'diff last commit, line by line, word comparison between lines,' +
+        'previewed in the browser and input from git diff command',
     )
-    .example("diff2html -i file -- my-file-diff.diff", "reading the input from a file")
-    .example("diff2html -f json -o stdout -- -M HEAD~1", "print json format to stdout")
-    .example("diff2html -F my-pretty-diff.html -- -M HEAD~1", "print to file")
-    .example("diff2html --ig package-lock.json --ig yarn.lock", "ignore two particular files when generating the diff")
-    .help("h")
-    .alias("v", "version")
-    .alias("h", "help")
+    .example('diff2html -i file -- my-file-diff.diff', 'reading the input from a file')
+    .example('diff2html -f json -o stdout -- -M HEAD~1', 'print json format to stdout')
+    .example('diff2html -F my-pretty-diff.html -- -M HEAD~1', 'print to file')
+    .example('diff2html --ig package-lock.json --ig yarn.lock', 'ignore two particular files when generating the diff')
+    .help('h')
+    .alias('v', 'version')
+    .alias('h', 'help')
     .epilog(
       `© 2014-${currentYear} rtfpessoa
       For more information, check out https://diff2html.xyz/
-      For support, check out https://github.com/rtfpessoa/diff2html-cli`
+      For support, check out https://github.com/rtfpessoa/diff2html-cli`,
     )
     .strict(true)
     .recommendCommands().argv;
@@ -211,11 +211,11 @@ export function setup(): Argv {
     input: argv.input as InputType,
     output: argv.output as OutputType,
     diffy: argv.diffy as DiffyType,
-    ignore: (argv.ignore || []).map((e) => e.toString()),
-    extraArguments: argv._ || []
+    ignore: (argv.ignore || []).map(e => e.toString()),
+    extraArguments: argv._ || [],
   };
 }
 
 export function help(): void {
-  yargs.showHelp("log");
+  yargs.showHelp('log');
 }
