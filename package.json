@@ -44,8 +44,9 @@
     "format:fix": "yarn run prettier --write",
     "build": "yarn run build:es5",
     "build:es5": "rm -rf lib; tsc -p tsconfig.json --outDir lib",
-    "build:toc-base": "markdown-toc --maxdepth 3 --bullets='-' -i",
-    "build:toc": "yarn run build:toc-base README.md",
+    "gen": "yarn run gen:toc",
+    "gen:toc-base": "markdown-toc --maxdepth 3 --bullets='-' -i",
+    "gen:toc": "yarn run gen:toc-base README.md",
     "test": "is-ci 'test:coverage' 'test:watch'",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
@@ -62,6 +63,26 @@
   },
   "main": "./lib/diff2html.js",
   "types": "./lib/diff2html.d.ts",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.+(js|jsx|ts|tsx|json)": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ],
+    "**/*.+(css|html|md|mdx)": [
+      "prettier --write",
+      "git add"
+    ],
+    "README.md": [
+      "yarn run gen:toc-base",
+      "git add"
+    ]
+  },
   "dependencies": {
     "clipboardy": "^2.1.0",
     "diff2html": "3.0.0-master.df4481f",
