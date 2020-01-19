@@ -1,17 +1,18 @@
 {
   "compilerOptions": {
-    "outDir": "./build",
+    "outDir": "./lib",
     "target": "es5",
     "module": "commonjs",
+    "moduleResolution": "node",
+    "lib": ["es2015"],
     "allowJs": false,
+    "declaration": true,
+    "declarationMap": true,
     "strictNullChecks": true,
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,
     "alwaysStrict": true,
-    "declaration": true,
-    "declarationMap": true,
-    "moduleResolution": "node",
     "strict": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
@@ -19,7 +20,8 @@
     "noUnusedLocals": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true
   },
   "include": ["./src/*"],
   "exclude": ["node_modules", "./src/__tests__/*"]

@@ -3,7 +3,7 @@ import * as os from "os";
 import * as path from "path";
 
 import * as clipboardy from "clipboardy";
-import * as opn from "open";
+import open = require('open');
 import { Diff2Html } from "diff2html";
 
 import * as http from "./http-utils";
@@ -99,7 +99,7 @@ export function preview(content: string, format: string): void {
   const filename = `diff.${format}`;
   const filePath: string = path.resolve(os.tmpdir(), filename);
   utils.writeFile(filePath, content);
-  opn(filePath, { wait: false });
+  open(filePath, { wait: false });
 }
 
 export async function postToDiffy(diff: string, diffyOutput: DiffyType): Promise<string> {
@@ -111,7 +111,7 @@ export async function postToDiffy(diff: string, diffyOutput: DiffyType): Promise
   log.print(url);
 
   if (diffyOutput === "browser") {
-    opn(url);
+    open(url);
   } else if (diffyOutput === "pbcopy") {
     clipboardy.writeSync(url);
   }

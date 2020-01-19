@@ -15,6 +15,24 @@
 
 Diff to Html generates pretty HTML diffs from unified and git diff output in your terminal
 
+## Table of Contents
+
+<!-- toc -->
+
+- [Features](#features)
+- [Online Example](#online-example)
+- [Distributions](#distributions)
+- [Setup](#setup)
+- [Usage](#usage)
+  - [Custom HTML wrapper template](#custom-html-wrapper-template)
+  - [Examples:](#examples)
+- [Contributions](#contributions)
+- [Developing](#developing)
+- [License](#license)
+- [Thanks](#thanks)
+
+<!-- tocstop -->
+
 ## Features
 
 * Unified diff and Git diff input

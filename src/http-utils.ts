@@ -1,4 +1,4 @@
-import * as request from "request";
+import request from "request";
 
 export function put<T extends object>(url: string, payload: object): Promise<T> {
   return new Promise<T>((resolve, reject): void => {
