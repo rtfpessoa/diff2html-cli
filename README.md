@@ -24,8 +24,8 @@ Diff to Html generates pretty HTML diffs from unified and git diff output in you
 - [Setup](#setup)
 - [Usage](#usage)
   - [Custom HTML wrapper template](#custom-html-wrapper-template)
-  - [Examples:](#examples)
-- [Contributions](#contributions)
+  - [Examples](#examples)
+- [Contribute](#contribute)
 - [Developing](#developing)
 - [License](#license)
 - [Thanks](#thanks)
@@ -61,11 +61,13 @@ Diff to Html generates pretty HTML diffs from unified and git diff output in you
 
 ## Setup
 
-    npm install -g diff2html-cli
+```sh
+npm install -g diff2html-cli
+```
 
 ## Usage
 
-Usage: diff2html [options] -- [diff args]
+Usage: diff2html [ flags and/or options ] -- [git diff passthrough flags and options]
 
 | flag  | alias                    | description                                                                | choices                      | default   |
 | ----- | ------------------------ | -------------------------------------------------------------------------- | ---------------------------- | --------- |
@@ -73,17 +75,17 @@ Usage: diff2html [options] -- [diff args]
 | --sc  | --synchronisedScroll     | Synchronised horizontal scroll                                             | `true`, `false`              | `true`    |
 | --hc  | --highlightCode          | Highlight code                                                             | `true`, `false`              | `true`    |
 | --su  | --summary                | Show files summary                                                         | `closed`, `open`, `hidden`   | `closed`  |
-| --d   | --diffStyle              | Diff style                                                                 | `word`, `char`               | `word`    |
+| -d    | --diffStyle              | Diff style                                                                 | `word`, `char`               | `word`    |
 | --lm  | --matching               | Diff line matching type                                                    | `lines`, `words`, `none`     | `none`    |
 | --lmt | --matchWordsThreshold    | Diff line matching word threshold                                          |                              | `0.25`    |
 | --lmm | --matchingMaxComparisons | Diff line matching maximum line comparisons of a block of changes          | `2500`                       |
-| --hwt | --htmlWrapperTemplate    | Path to custom template to be rendered when using the `html` output format | _[string]_                   |
+| --hwt | --htmlWrapperTemplate    | Path to custom template to be rendered when using the `html` output format | `[string]`                   |
 | -f    | --format                 | Output format                                                              | `html`, `json`               | `html`    |
 | -i    | --input                  | Diff input source                                                          | `file`, `command`, `stdin`   | `command` |
 | -o    | --output                 | Output destination                                                         | `preview`, `stdout`          | `preview` |
 | -u    | --diffy                  | Upload to diffy.org                                                        | `browser`, `pbcopy`, `print` |           |
-| -F    | --file                   | Send output to file (overrides output option)                              | _[string]_                   |           |
-| --ig  | --ignore                 | Ignore particular files from the diff                                      | _[string]_                   |           |
+| -F    | --file                   | Send output to file (overrides output option)                              | `[string]`                   |           |
+| --ig  | --ignore                 | Ignore particular files from the diff                                      | `[string]`                   |           |
 | -v    | --version                | Show version number                                                        |                              |           |
 | -h    | --help                   | Show help                                                                  |                              |           |
 
@@ -97,13 +99,13 @@ they are here:
 
 - Inside the `<head>` tag
 
-```
+```html
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/github.min.css" />
 <!--diff2html-css-->
 <!--diff2html-js-ui-->
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const targetElement = document.getElementById("diff");
+  document.addEventListener('DOMContentLoaded', () => {
+    const targetElement = document.getElementById('diff');
     const diff2htmlUi = new Diff2HtmlUI(targetElement);
     //diff2html-fileListToggle
     //diff2html-synchronisedScroll
@@ -114,13 +116,13 @@ they are here:
 
 - Inside the `<body>` tag
 
-```
+```html
 <div id="diff">
   <!--diff2html-diff-->
 </div>
 ```
 
-### Examples:
+### Examples
 
 `diff2html -s line -f html -d word -i command -o preview -- -M HEAD~1`
 
@@ -153,7 +155,7 @@ they are here:
 
 _NOTE_: notice the `--` in the examples
 
-## Contributions
+## Contribute
 
 This is a developer friendly project, all the contributions are welcome. To contribute just send a pull request with
 your changes following the guidelines described in `CONTRIBUTING.md`. I will try to review them as soon as possible.
@@ -164,7 +166,7 @@ Make some changes, `yarn build` and then `./bin/diff2html` 😉
 
 ## License
 
-Copyright 2014-2019 Rodrigo Fernandes. Released under the terms of the MIT license.
+Copyright 2014-present Rodrigo Fernandes. Released under the terms of the MIT license.
 
 ## Thanks
 

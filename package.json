@@ -44,8 +44,9 @@
     "format:fix": "yarn run prettier --write",
     "build": "yarn run build:es5",
     "build:es5": "rm -rf lib; tsc -p tsconfig.json --outDir lib",
-    "build:toc-base": "markdown-toc --maxdepth 3 --bullets='-' -i",
-    "build:toc": "yarn run build:toc-base README.md",
+    "gen": "yarn run gen:toc",
+    "gen:toc-base": "markdown-toc --maxdepth 3 --bullets='-' -i",
+    "gen:toc": "yarn run gen:toc-base README.md",
     "test": "is-ci 'test:coverage' 'test:watch'",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
@@ -62,37 +63,54 @@
   },
   "main": "./lib/diff2html.js",
   "types": "./lib/diff2html.d.ts",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.+(js|jsx|ts|tsx|json)": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "**/*.+(css|html|md|mdx)": [
+      "prettier --write"
+    ],
+    "README.md": [
+      "yarn run gen:toc-base"
+    ]
+  },
   "dependencies": {
     "clipboardy": "^2.1.0",
-    "diff2html": "3.0.0-master.df4481f",
-    "open": "^7.0.0",
+    "diff2html": "3.0.0",
+    "open": "^7.0.2",
     "request": "^2.88.0",
     "yargs": "^15.0.2"
   },
   "devDependencies": {
     "@types/hogan.js": "^3.0.0",
-    "@types/jest": "24.9.0",
-    "@types/node": "13.1.8",
+    "@types/jest": "25.1.1",
+    "@types/node": "13.7.0",
     "@types/request": "2.48.4",
-    "@typescript-eslint/eslint-plugin": "2.16.0",
-    "@typescript-eslint/parser": "2.16.0",
+    "@typescript-eslint/eslint-plugin": "2.19.0",
+    "@typescript-eslint/parser": "2.19.0",
     "codacy-coverage": "3.4.0",
     "eslint": "6.8.0",
-    "eslint-config-prettier": "6.9.0",
-    "eslint-plugin-import": "2.20.0",
+    "eslint-config-prettier": "6.10.0",
+    "eslint-plugin-import": "2.20.1",
     "eslint-plugin-jest": "23.6.0",
     "eslint-plugin-json": "2.0.1",
     "eslint-plugin-node": "11.0.0",
     "eslint-plugin-optimize-regex": "1.1.7",
     "eslint-plugin-promise": "4.2.1",
     "eslint-plugin-sonarjs": "0.5.0",
-    "husky": "4.0.10",
+    "husky": "4.2.1",
     "is-ci-cli": "2.0.0",
-    "jest": "24.9.0",
-    "lint-staged": "9.5.0",
+    "jest": "25.1.0",
+    "lint-staged": "10.0.7",
     "markdown-toc": "^1.2.0",
     "prettier": "1.19.1",
-    "ts-jest": "24.3.0",
+    "ts-jest": "25.2.0",
     "typescript": "3.7.5"
   },
   "license": "MIT",
