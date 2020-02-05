@@ -26,10 +26,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://www.github.com/rtfpessoa/diff2html-cli.git"
+    "url": "git://github.com/rtfpessoa/diff2html-cli.git"
   },
   "bugs": {
-    "url": "https://www.github.com/rtfpessoa/diff2html-cli/issues"
+    "url": "https://github.com/rtfpessoa/diff2html-cli/issues"
   },
   "engines": {
     "node": ">=10.13"
