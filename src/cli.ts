@@ -73,7 +73,7 @@ export async function getInput(inputType: InputType, inputArgs: string[], ignore
     case 'stdin':
       return utils.readStdin();
 
-    default:
+    case 'command':
       return runGitDiff(inputArgs, ignore);
   }
 }

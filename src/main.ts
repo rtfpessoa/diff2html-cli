@@ -27,10 +27,12 @@ export async function main(): Promise<void> {
 
     if (configuration.outputDestinationFile) utils.writeFile(configuration.outputDestinationFile, output);
 
-    if (configuration.outputDestinationType === 'preview') {
-      cli.preview(output, configuration.formatType);
-    } else if (configuration.outputDestinationType === 'stdout') {
-      log.print(output);
+    switch (configuration.outputDestinationType) {
+      case 'preview':
+        return cli.preview(output, configuration.formatType);
+
+      case 'stdout':
+        return log.print(output);
     }
   } catch (error) {
     if (process.exitCode === undefined || process.exitCode === 0) {
