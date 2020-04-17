@@ -80,19 +80,21 @@ export async function getInput(inputType: InputType, inputArgs: string[], ignore
 
 export function getOutput(options: Diff2HtmlConfig, config: Configuration, input: string): string {
   if (config.htmlWrapperTemplate && !fs.existsSync(config.htmlWrapperTemplate)) {
+    process.exitCode = 4;
     throw new Error(`Template ('${config.htmlWrapperTemplate}') not found!`);
   }
 
   const diffJson = parse(input, options);
 
-  if (config.formatType === 'html') {
-    const htmlContent = html(diffJson, { ...options });
-    return prepareHTML(htmlContent, config);
-  } else if (config.formatType === 'json') {
-    return JSON.stringify(diffJson);
+  switch (config.formatType) {
+    case 'html': {
+      const htmlContent = html(diffJson, { ...options });
+      return prepareHTML(htmlContent, config);
+    }
+    case 'json': {
+      return JSON.stringify(diffJson);
+    }
   }
-
-  throw new Error(`Wrong output format '${config.formatType}'!`);
 }
 
 export function preview(content: string, format: string): void {

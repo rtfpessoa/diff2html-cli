@@ -12,6 +12,7 @@ export async function main(): Promise<void> {
     const input = await cli.getInput(configuration.inputSource, argv.extraArguments, configuration.ignore);
 
     if (!input) {
+      process.exitCode = 3;
       log.error('The input is empty. Try again.');
       yargs.help();
       return;
@@ -32,6 +33,9 @@ export async function main(): Promise<void> {
       log.print(output);
     }
   } catch (error) {
+    if (process.exitCode === undefined || process.exitCode === 0) {
+      process.exitCode = 1;
+    }
     log.error(error);
   }
 }
