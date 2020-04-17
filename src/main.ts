@@ -12,6 +12,7 @@ export async function main(): Promise<void> {
     const input = await cli.getInput(configuration.inputSource, argv.extraArguments, configuration.ignore);
 
     if (!input) {
+      process.exitCode = 3;
       log.error('The input is empty. Try again.');
       yargs.help();
       return;
@@ -26,12 +27,17 @@ export async function main(): Promise<void> {
 
     if (configuration.outputDestinationFile) utils.writeFile(configuration.outputDestinationFile, output);
 
-    if (configuration.outputDestinationType === 'preview') {
-      cli.preview(output, configuration.formatType);
-    } else if (configuration.outputDestinationType === 'stdout') {
-      log.print(output);
+    switch (configuration.outputDestinationType) {
+      case 'preview':
+        return cli.preview(output, configuration.formatType);
+
+      case 'stdout':
+        return log.print(output);
     }
   } catch (error) {
+    if (process.exitCode === undefined || process.exitCode === 0) {
+      process.exitCode = 1;
+    }
     log.error(error);
   }
 }

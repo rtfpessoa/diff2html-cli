@@ -73,26 +73,28 @@ export async function getInput(inputType: InputType, inputArgs: string[], ignore
     case 'stdin':
       return utils.readStdin();
 
-    default:
+    case 'command':
       return runGitDiff(inputArgs, ignore);
   }
 }
 
 export function getOutput(options: Diff2HtmlConfig, config: Configuration, input: string): string {
   if (config.htmlWrapperTemplate && !fs.existsSync(config.htmlWrapperTemplate)) {
+    process.exitCode = 4;
     throw new Error(`Template ('${config.htmlWrapperTemplate}') not found!`);
   }
 
   const diffJson = parse(input, options);
 
-  if (config.formatType === 'html') {
-    const htmlContent = html(diffJson, { ...options });
-    return prepareHTML(htmlContent, config);
-  } else if (config.formatType === 'json') {
-    return JSON.stringify(diffJson);
+  switch (config.formatType) {
+    case 'html': {
+      const htmlContent = html(diffJson, { ...options });
+      return prepareHTML(htmlContent, config);
+    }
+    case 'json': {
+      return JSON.stringify(diffJson);
+    }
   }
-
-  throw new Error(`Wrong output format '${config.formatType}'!`);
 }
 
 export function preview(content: string, format: string): void {
@@ -102,8 +104,30 @@ export function preview(content: string, format: string): void {
   open(filePath, { wait: false });
 }
 
+type CreateDiffResponse = { id: string };
+
+type ApiError = { error: string };
+
+function isCreateDiffResponse(obj: unknown): obj is CreateDiffResponse {
+  return (obj as CreateDiffResponse).id !== undefined;
+}
+
+function isApiError(obj: unknown): obj is ApiError {
+  return (obj as ApiError).error !== undefined;
+}
+
 export async function postToDiffy(diff: string, diffyOutput: DiffyType): Promise<string> {
-  const response = await http.put<{ id: string }>('https://diffy.org/api/diff/', { diff: diff });
+  const response = await http.put('https://diffy.org/api/diff/', { diff: diff });
+
+  if (!isCreateDiffResponse(response)) {
+    if (isApiError(response)) {
+      throw new Error(response.error);
+    } else {
+      throw new Error(
+        `Could not find 'id' of created diff in the response json.\nBody:\n\n${JSON.stringify(response, null, 2)}`,
+      );
+    }
+  }
 
   const url = `https://diffy.org/diff/${response.id}`;
 
