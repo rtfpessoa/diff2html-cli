@@ -23,7 +23,7 @@ Diff to Html generates pretty HTML diffs from unified and git diff output in you
 - [Distributions](#distributions)
 - [Setup](#setup)
 - [Usage](#usage)
-- [Exit Status Codes](#exit-status-codes)
+  - [Exit Status Codes](#exit-status-codes)
   - [Custom HTML wrapper template](#custom-html-wrapper-template)
   - [Examples](#examples)
 - [Contribute](#contribute)
@@ -90,13 +90,12 @@ Usage: diff2html [ flags and/or options ] -- [git diff passthrough flags and opt
 | -v    | --version                | Show version number                                                        |                              |           |
 | -h    | --help                   | Show help                                                                  |                              |           |
 
+### Exit Status Codes
 
-## Exit Status Codes
-
-* :tada: 0: Success
-* :dizzy_face: 1: Generic Error
-* :cold_sweat: 3: Input diff is empty
-* :cop: 4: Value of `--hwt | --htmlWrapperTemplate` is not a valid file
+- :tada: 0: Success
+- :dizzy_face: 1: Generic Error
+- :cold_sweat: 3: Input diff is empty
+- :cop: 4: Value of `--hwt | --htmlWrapperTemplate` is not a valid file
 
 ### Custom HTML wrapper template
 
