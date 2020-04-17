@@ -102,8 +102,30 @@ export function preview(content: string, format: string): void {
   open(filePath, { wait: false });
 }
 
+type CreateDiffResponse = { id: string };
+
+type ApiError = { error: string };
+
+function isCreateDiffResponse(obj: unknown): obj is CreateDiffResponse {
+  return (obj as CreateDiffResponse).id !== undefined;
+}
+
+function isApiError(obj: unknown): obj is ApiError {
+  return (obj as ApiError).error !== undefined;
+}
+
 export async function postToDiffy(diff: string, diffyOutput: DiffyType): Promise<string> {
-  const response = await http.put<{ id: string }>('https://diffy.org/api/diff/', { diff: diff });
+  const response = await http.put('https://diffy.org/api/diff/', { diff: diff });
+
+  if (!isCreateDiffResponse(response)) {
+    if (isApiError(response)) {
+      throw new Error(response.error);
+    } else {
+      throw new Error(
+        `Could not find 'id' of created diff in the response json.\nBody:\n\n${JSON.stringify(response, null, 2)}`,
+      );
+    }
+  }
 
   const url = `https://diffy.org/diff/${response.id}`;
 
