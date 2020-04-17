@@ -56,7 +56,7 @@
     "test:watch": "jest --watch",
     "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --watch",
     "coverage:open": "yarn run test:coverage && open ./coverage/index.html",
-    "coverage:push": "bash <(curl -Ls https://coverage.codacy.com/get.sh)",
+    "coverage:push": "curl -Ls https://coverage.codacy.com/get.sh | bash",
     "validate": "yarn run format:check && yarn run lint:check && yarn run build && yarn run test:coverage",
     "fix": "yarn run format:fix && yarn run lint:fix",
     "preversion": "yarn run validate",
