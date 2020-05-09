@@ -174,7 +174,7 @@ export function setup(): Argv {
     .option('ignore', {
       alias: 'ig',
       describe: 'ignore a file',
-      nargs: 1,
+      type: 'array',
       default: defaults.ignore,
     })
     .example(
@@ -185,7 +185,7 @@ export function setup(): Argv {
     .example('diff2html -i file -- my-file-diff.diff', 'reading the input from a file')
     .example('diff2html -f json -o stdout -- -M HEAD~1', 'print json format to stdout')
     .example('diff2html -F my-pretty-diff.html -- -M HEAD~1', 'print to file')
-    .example('diff2html --ig package-lock.json --ig yarn.lock', 'ignore two particular files when generating the diff')
+    .example('diff2html --ig package-lock.json yarn.lock', 'ignore two particular files when generating the diff')
     .help()
     .alias('help', 'h')
     .alias('help', '?')
