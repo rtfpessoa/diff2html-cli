@@ -1432,15 +1432,15 @@ diff-sequences@^25.2.6:
   resolved "https://registry.yarnpkg.com/diff-sequences/-/diff-sequences-25.2.6.tgz#5f467c00edd35352b7bca46d7927d60e687a76dd"
   integrity sha512-Hq8o7+6GaZeoFjtpgvRBUknSXNeJiCx7V9Fr94ZMljNiCr9n9L8H8aJqgWOQiDDGdyn29fRNcDdRVJ5fdyihfg==
 
-diff2html@3.1.6:
-  version "3.1.6"
-  resolved "https://registry.yarnpkg.com/diff2html/-/diff2html-3.1.6.tgz#4cc59cb8abeda00ba2d98047ffbb0c267cf1e423"
-  integrity sha512-XWceXI/tvT6YIHpO1kUY8y/fEDUdV3Du//0McAuK2/Fikc/MU2cyoFS5PXVuOFA5DO5otvPyeJmFan2iNUWkVg==
+diff2html@^3.1.9:
+  version "3.1.9"
+  resolved "https://registry.yarnpkg.com/diff2html/-/diff2html-3.1.9.tgz#c7b3046dcd0db0bc5ad4c99fedec5e39948b5660"
+  integrity sha512-LNGOF6tAze8p3gbm7UlXqgj3LrUk5zGuQs/WmiM3D+TXnMyg6tUPZapbWh3CnENacvMnL25VNNRj6DGnXoV0Jg==
   dependencies:
     diff "4.0.2"
     hogan.js "3.0.2"
   optionalDependencies:
-    highlight.js "9.18.1"
+    highlight.js "10.0.2"
 
 diff@4.0.2:
   version "4.0.2"
@@ -2238,10 +2238,10 @@ has@^1.0.3:
   dependencies:
     function-bind "^1.1.1"
 
-highlight.js@9.18.1:
-  version "9.18.1"
-  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-9.18.1.tgz#ed21aa001fe6252bb10a3d76d47573c6539fe13c"
-  integrity sha512-OrVKYz70LHsnCgmbXctv/bfuvntIKDz177h0Co37DQ5jamGZLVmoCVMtjMtNZY3X9DrCcKfklHPNeA0uPZhSJg==
+highlight.js@10.0.2:
+  version "10.0.2"
+  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-10.0.2.tgz#d2c732544f8f68bceaf0cefb4b0575bce8eddbee"
+  integrity sha512-2gMT2MHU6/2OjAlnaOE2LFdr9dwviDN3Q2lSw7Ois3/5uTtahbgYTkr4EPoY828ps+2eQWiixPTF8+phU6Ofkg==
 
 hogan.js@3.0.2:
   version "3.0.2"
