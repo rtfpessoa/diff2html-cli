@@ -1,5 +1,6 @@
 import fetch from 'node-fetch';
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export function put(url: string, payload: object): Promise<unknown> {
   return fetch(url, {
     method: 'PUT',
