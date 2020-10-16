@@ -94,24 +94,19 @@ jobs:
     docker:
       - image: node:10
 
-  build-node-11:
-    <<: *common-build
-    docker:
-      - image: node:11
-
   build-node-12:
     <<: *common-build
     docker:
       - image: node:12
 
-  build-node-13:
+  build-node-14:
     <<: *latest-build
     docker:
-      - image: node:13
+      - image: node:14
 
   tag_version:
     docker:
-      - image: node:13
+      - image: node:14
     working_directory: ~/workdir
     steps:
       - attach_workspace:
@@ -129,7 +124,7 @@ jobs:
 
   publish_cli:
     docker:
-      - image: node:13
+      - image: node:14
     working_directory: ~/workdir
     steps:
       - attach_workspace:
@@ -189,22 +184,18 @@ workflows:
       - build-node-10:
           requires:
             - checkout-and-version
-      - build-node-11:
-          requires:
-            - checkout-and-version
       - build-node-12:
           requires:
             - checkout-and-version
-      - build-node-13:
+      - build-node-14:
           requires:
             - checkout-and-version
       - publish_approval:
           type: approval
           requires:
             - build-node-10
-            - build-node-11
             - build-node-12
-            - build-node-13
+            - build-node-14
       - tag_version:
           requires:
             - publish_approval
