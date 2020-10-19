@@ -25,14 +25,16 @@ export async function main(): Promise<void> {
 
     const output = cli.getOutput(diff2htmlOptions, configuration, input);
 
-    if (configuration.outputDestinationFile) utils.writeFile(configuration.outputDestinationFile, output);
+    if (configuration.outputDestinationFile) {
+      utils.writeFile(configuration.outputDestinationFile, output);
+    } else {
+      switch (configuration.outputDestinationType) {
+        case 'preview':
+          return cli.preview(output, configuration.formatType);
 
-    switch (configuration.outputDestinationType) {
-      case 'preview':
-        return cli.preview(output, configuration.formatType);
-
-      case 'stdout':
-        return log.print(output);
+        case 'stdout':
+          return log.print(output);
+      }
     }
   } catch (error) {
     if (process.exitCode === undefined || process.exitCode === 0) {
