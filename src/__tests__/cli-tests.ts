@@ -24,13 +24,69 @@ describe('cli', () => {
       expect(readStdinSpy).toHaveBeenCalledWith();
     });
 
-    test('should readStdin when inputType is `command`', async () => {
-      const executeSpy = jest.spyOn(utils, 'execute').mockImplementationOnce(() => '');
+    describe('should execute command when inputType is `command`', () => {
+      test('should pass args to git command and add `--no-color` flag', async () => {
+        const executeSpy = jest.spyOn(utils, 'execute').mockImplementationOnce(() => '');
 
-      await cli.getInput('command', ['lol', 'foo'], []);
+        await cli.getInput('command', ['foo'], []);
 
-      expect(executeSpy).toHaveBeenCalledTimes(1);
-      expect(executeSpy).toHaveBeenCalledWith('git diff "lol" "foo" --no-color ');
+        expect(executeSpy).toHaveBeenCalledTimes(1);
+        expect(executeSpy).toHaveBeenCalledWith('git', ['diff', '--no-color', 'foo']);
+      });
+
+      test('should not add `--no-color` flag if already in args', async () => {
+        const executeSpy = jest.spyOn(utils, 'execute').mockImplementationOnce(() => '');
+
+        await cli.getInput('command', ['--no-color'], []);
+
+        expect(executeSpy).toHaveBeenCalledTimes(1);
+        expect(executeSpy).toHaveBeenCalledWith('git', ['diff', '--no-color']);
+      });
+
+      test('should add default flags if no args are provided', async () => {
+        const executeSpy = jest.spyOn(utils, 'execute').mockImplementationOnce(() => '');
+
+        await cli.getInput('command', [], []);
+
+        expect(executeSpy).toHaveBeenCalledTimes(1);
+        expect(executeSpy).toHaveBeenCalledWith('git', ['diff', '--no-color', '-M', '-C', 'HEAD']);
+      });
+
+      describe('when receiving paths to ignore', () => {
+        test('should add the `--` separator if it is not already in args', async () => {
+          const executeSpy = jest.spyOn(utils, 'execute').mockImplementationOnce(() => '');
+
+          await cli.getInput('command', ['foo'], ['some/path']);
+
+          expect(executeSpy).toHaveBeenCalledTimes(1);
+          expect(executeSpy).toHaveBeenCalledWith('git', ['diff', '--no-color', 'foo', '--', ':(exclude)some/path']);
+        });
+
+        test('should not add `--` flag if it is already in args', async () => {
+          const executeSpy = jest.spyOn(utils, 'execute').mockImplementationOnce(() => '');
+
+          await cli.getInput('command', ['foo', '--', 'other/path'], ['some/path']);
+
+          expect(executeSpy).toHaveBeenCalledTimes(1);
+          expect(executeSpy).toHaveBeenCalledWith('git', [
+            'diff',
+            '--no-color',
+            'foo',
+            '--',
+            'other/path',
+            ':(exclude)some/path',
+          ]);
+        });
+      });
+
+      test('should not add `--` flag when there are no paths to ignore', async () => {
+        const executeSpy = jest.spyOn(utils, 'execute').mockImplementationOnce(() => '');
+
+        await cli.getInput('command', ['bar'], []);
+
+        expect(executeSpy).toHaveBeenCalledTimes(1);
+        expect(executeSpy).toHaveBeenCalledWith('git', ['diff', '--no-color', 'bar']);
+      });
     });
   });
 

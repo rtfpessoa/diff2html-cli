@@ -13,7 +13,7 @@ describe('utils', () => {
 
   test('should execute command in shell', () => {
     const echoedValue = 'echoed string';
-    const result = utils.execute(`echo "${echoedValue}"`);
+    const result = utils.execute('echo', [echoedValue]);
 
     expect(result).toBe(`${echoedValue}\n`);
   });
