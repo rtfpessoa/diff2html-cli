@@ -28,8 +28,8 @@ export function writeFile(filePath: string, content: string): void {
   return fs.writeFileSync(filePath, content);
 }
 
-export function execute(cmd: string): string {
-  return childProcess.execSync(cmd).toString('utf8');
+export function execute(executable: string, args: string[]): string {
+  return childProcess.spawnSync(executable, args, { encoding: 'utf8' }).stdout;
 }
 
 export function replaceExactly(value: string, searchValue: string, replaceValue: string): string {

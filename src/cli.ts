@@ -11,14 +11,31 @@ import * as log from './logger';
 import { Configuration, InputType, DiffyType } from './types';
 import * as utils from './utils';
 
+const defaultArgs = ['-M', '-C', 'HEAD'];
+
+function generateGitDiffArgs(gitArgsArr: string[], ignore: string[]): string[] {
+  const gitDiffArgs: string[] = ['diff'];
+
+  if (!gitArgsArr.includes('--no-color')) gitDiffArgs.push('--no-color');
+
+  if (gitArgsArr.length === 0) Array.prototype.push.apply(gitDiffArgs, defaultArgs);
+
+  Array.prototype.push.apply(gitDiffArgs, gitArgsArr);
+
+  if (ignore.length > 0) {
+    if (!gitArgsArr.includes('--')) gitDiffArgs.push('--');
+    Array.prototype.push.apply(
+      gitDiffArgs,
+      ignore.map(path => `:(exclude)${path}`),
+    );
+  }
+
+  return gitDiffArgs;
+}
+
 function runGitDiff(gitArgsArr: string[], ignore: string[]): string {
-  const baseArgs = gitArgsArr.length > 0 ? gitArgsArr.map(arg => `"${arg}"`) : ['-M', '-C', 'HEAD'];
-  const colorArgs = gitArgsArr.indexOf('--no-color') < 0 ? ['--no-color'] : [];
-  const ignoreArgs = ignore.map(file => `":(exclude)${file}"`);
-
-  const diffCommand = `git diff ${baseArgs.join(' ')} ${colorArgs.join(' ')} ${ignoreArgs.join(' ')}`;
-
-  return utils.execute(diffCommand);
+  const gitDiffArgs = generateGitDiffArgs(gitArgsArr, ignore);
+  return utils.execute('git', gitDiffArgs);
 }
 
 function prepareHTML(diffHTMLContent: string, config: Configuration): string {
