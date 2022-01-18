@@ -36,7 +36,7 @@
     "url": "https://github.com/rtfpessoa/diff2html-cli/issues"
   },
   "engines": {
-    "node": ">=10.13"
+    "node": ">=12"
   },
   "preferGlobal": true,
   "scripts": {
@@ -86,7 +86,7 @@
   },
   "dependencies": {
     "clipboardy": "^2.3.0",
-    "diff2html": "^3.1.9",
+    "diff2html": "^3.4.14",
     "node-fetch": "^2.6.0",
     "open": "^7.0.3",
     "yargs": "^16.1.0"

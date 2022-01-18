@@ -70,25 +70,30 @@ npm install -g diff2html-cli
 
 Usage: diff2html [ flags and/or options ] -- [git diff passthrough flags and options]
 
-| flag  | alias                    | description                                                                | choices                      | default   |
-| ----- | ------------------------ | -------------------------------------------------------------------------- | ---------------------------- | --------- |
-| -s    | --style                  | Output style                                                               | `line`, `side`               | `line`    |
-| --sc  | --synchronisedScroll     | Synchronised horizontal scroll                                             | `true`, `false`              | `true`    |
-| --hc  | --highlightCode          | Highlight code                                                             | `true`, `false`              | `true`    |
-| --su  | --summary                | Show files summary                                                         | `closed`, `open`, `hidden`   | `closed`  |
-| -d    | --diffStyle              | Diff style                                                                 | `word`, `char`               | `word`    |
-| --lm  | --matching               | Diff line matching type                                                    | `lines`, `words`, `none`     | `none`    |
-| --lmt | --matchWordsThreshold    | Diff line matching word threshold                                          |                              | `0.25`    |
-| --lmm | --matchingMaxComparisons | Diff line matching maximum line comparisons of a block of changes          | `2500`                       |
-| --hwt | --htmlWrapperTemplate    | Path to custom template to be rendered when using the `html` output format | `[string]`                   |
-| -f    | --format                 | Output format                                                              | `html`, `json`               | `html`    |
-| -i    | --input                  | Diff input source                                                          | `file`, `command`, `stdin`   | `command` |
-| -o    | --output                 | Output destination                                                         | `preview`, `stdout`          | `preview` |
-| -u    | --diffy                  | Upload to diffy.org                                                        | `browser`, `pbcopy`, `print` |           |
-| -F    | --file                   | Send output to file (overrides output option)                              | `[string]`                   |           |
-| --ig  | --ignore                 | Ignore particular files from the diff                                      | `[string]`                   |           |
-| -v    | --version                | Show version number                                                        |                              |           |
-| -h    | --help                   | Show help                                                                  |                              |           |
+| flag  | alias                             | description                                                                                        | choices                      | default   |
+| ----- | --------------------------------- | -------------------------------------------------------------------------------------------------- | ---------------------------- | --------- |
+| -s    | --style                           | Output style                                                                                       | `line`, `side`               | `line`    |
+| --sc  | --synchronisedScroll              | Synchronised horizontal scroll                                                                     | `true`, `false`              | `true`    |
+| --hc  | --highlightCode                   | Highlight code                                                                                     | `true`, `false`              | `true`    |
+| --su  | --summary                         | Show files summary                                                                                 | `closed`, `open`, `hidden`   | `closed`  |
+| -d    | --diffStyle                       | Diff style                                                                                         | `word`, `char`               | `word`    |
+| --lm  | --matching                        | Diff line matching type                                                                            | `lines`, `words`, `none`     | `none`    |
+| --lmt | --matchWordsThreshold             | Diff line matching word threshold                                                                  |                              | `0.25`    |
+| --lmm | --matchingMaxComparisons          | Diff line matching maximum line comparisons of a block of changes                                  |                              | `2500`    |
+|       | --diffMaxChanges                  | Number of changed lines after which a file diff is deemed as too big and not displayed             |                              |           |
+|       | --diffMaxLineLength               | Number of characters in a diff line after which a file diff is deemed as too big and not displayed |                              |           |
+|       | --renderNothingWhenEmpty          | Render nothing if the diff shows no change in its comparison                                       |                              | `false`   |
+|       | --maxLineSizeInBlockForComparison | Maximum number of characters of the bigger line in a block to apply comparison                     |                              | `200`     |
+|       | --maxLineLengthHighlight          | Maximum number of characters in a line to apply highlight                                          |                              | `10000`   |
+| --hwt | --htmlWrapperTemplate             | Path to custom template to be rendered when using the `html` output format                         | `[string]`                   |
+| -f    | --format                          | Output format                                                                                      | `html`, `json`               | `html`    |
+| -i    | --input                           | Diff input source                                                                                  | `file`, `command`, `stdin`   | `command` |
+| -o    | --output                          | Output destination                                                                                 | `preview`, `stdout`          | `preview` |
+| -u    | --diffy                           | Upload to diffy.org                                                                                | `browser`, `pbcopy`, `print` |           |
+| -F    | --file                            | Send output to file (overrides output option)                                                      | `[string]`                   |           |
+| --ig  | --ignore                          | Ignore particular files from the diff                                                              | `[string]`                   |           |
+| -v    | --version                         | Show version number                                                                                |                              |           |
+| -h    | --help                            | Show help                                                                                          |                              |           |
 
 ### Exit Status Codes
 

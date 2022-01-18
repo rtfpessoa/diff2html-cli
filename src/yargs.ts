@@ -20,6 +20,11 @@ export type Argv = {
   matching: LineMatchingType;
   matchWordsThreshold: number;
   matchingMaxComparisons: number;
+  diffMaxChanges?: number;
+  diffMaxLineLength?: number;
+  renderNothingWhenEmpty: boolean;
+  maxLineSizeInBlockForComparison: number;
+  maxLineLengthHighlight: number;
   format: FormatType;
   input: InputType;
   output: OutputType;
@@ -39,6 +44,9 @@ const defaults: Argv = {
   matching: 'none',
   matchWordsThreshold: 0.25,
   matchingMaxComparisons: 1000,
+  renderNothingWhenEmpty: false,
+  maxLineSizeInBlockForComparison: 200,
+  maxLineLengthHighlight: 10000,
   format: 'html',
   input: 'command',
   output: 'preview',
@@ -128,6 +136,33 @@ export function setup(): Argv {
       nargs: 1,
       type: 'number',
       default: defaults.matchingMaxComparisons,
+    })
+    .option('diffMaxChanges', {
+      describe: 'Number of changed lines after which a file diff is deemed as too big and not displayed',
+      nargs: 1,
+      type: 'number',
+    })
+    .option('diffMaxLineLength', {
+      describe: 'Number of characters in a diff line after which a file diff is deemed as too big and not displayed',
+      nargs: 1,
+      type: 'number',
+    })
+    .option('renderNothingWhenEmpty', {
+      describe: 'Render nothing if the diff shows no change in its comparison',
+      type: 'boolean',
+      default: defaults.renderNothingWhenEmpty,
+    })
+    .option('maxLineSizeInBlockForComparison', {
+      describe: 'Maximum number of characters of the bigger line in a block to apply comparison',
+      nargs: 1,
+      type: 'number',
+      default: defaults.maxLineSizeInBlockForComparison,
+    })
+    .option('maxLineLengthHighlight', {
+      describe: 'Maximum number of characters in a line to apply highlight',
+      nargs: 1,
+      type: 'number',
+      default: defaults.maxLineLengthHighlight,
     })
     .option('format', {
       alias: 'f',
