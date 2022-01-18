@@ -26,6 +26,11 @@ export function parseArgv(argv: Argv): [Diff2HtmlConfig, Configuration] {
     drawFileList: argv.summary !== 'hidden',
     matchWordsThreshold: argv.matchWordsThreshold,
     matchingMaxComparisons: argv.matchingMaxComparisons,
+    diffMaxChanges: argv.diffMaxChanges,
+    diffMaxLineLength: argv.diffMaxLineLength,
+    renderNothingWhenEmpty: argv.renderNothingWhenEmpty,
+    maxLineSizeInBlockForComparison: argv.maxLineSizeInBlockForComparison,
+    maxLineLengthHighlight: argv.maxLineLengthHighlight,
   };
 
   const defaultWrapperTemplate = path.resolve(__dirname, '..', 'template.html');
