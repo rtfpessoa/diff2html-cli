@@ -87,7 +87,7 @@
   "dependencies": {
     "clipboardy": "^2.3.0",
     "diff2html": "^3.4.14",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^3.1.1",
     "open": "^7.0.3",
     "yargs": "^16.1.0"
   },
