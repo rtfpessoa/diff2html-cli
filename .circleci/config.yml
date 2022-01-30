@@ -83,7 +83,6 @@ jobs:
           path: coverage
       - store_test_results:
           path: coverage
-      - run: yarn run coverage:push
       - persist_to_workspace:
           root: ~/workdir
           paths:
