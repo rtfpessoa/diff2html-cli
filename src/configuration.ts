@@ -33,6 +33,8 @@ export function parseArgv(argv: Argv): [Diff2HtmlConfig, Configuration] {
     maxLineLengthHighlight: argv.maxLineLengthHighlight,
   };
 
+  const defaultPageTitle = 'Diff to HTML by rtfpessoa';
+  const defaultPageHeader = 'Diff to HTML by <a href="https://github.com/rtfpessoa">rtfpessoa</a>';
   const defaultWrapperTemplate = path.resolve(__dirname, '..', 'template.html');
   const configuration: Configuration = {
     showFilesOpen: argv.summary === 'open' || false,
@@ -44,6 +46,8 @@ export function parseArgv(argv: Argv): [Diff2HtmlConfig, Configuration] {
     inputSource: argv.input,
     diffyType: argv.diffy,
     htmlWrapperTemplate: argv.htmlWrapperTemplate || defaultWrapperTemplate,
+    pageTitle: argv.pageTitle || defaultPageTitle,
+    pageHeader: argv.pageTitle || defaultPageHeader,
     ignore: argv.ignore || [],
   };
 

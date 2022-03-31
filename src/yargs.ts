@@ -31,6 +31,7 @@ export type Argv = {
   diffy?: DiffyType;
   file?: string;
   htmlWrapperTemplate?: string;
+  pageTitle?: string;
   ignore?: string[];
   extraArguments: string[];
 };
@@ -54,6 +55,7 @@ const defaults: Argv = {
   diffy: undefined,
   file: undefined,
   htmlWrapperTemplate: undefined,
+  pageTitle: undefined,
   extraArguments: [],
 };
 
@@ -205,6 +207,13 @@ export function setup(): Argv {
       nargs: 1,
       type: 'string',
       default: defaults.htmlWrapperTemplate,
+    })
+    .option('title', {
+      alias: 't',
+      describe: 'Page title for HTML output',
+      nargs: 1,
+      type: 'string',
+      default: defaults.pageTitle,
     })
     .option('ignore', {
       alias: 'ig',

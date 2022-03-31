@@ -49,11 +49,15 @@ function prepareHTML(diffHTMLContent: string, config: Configuration): string {
   const jsUiFilePath = path.resolve(diff2htmlPath, 'bundles', 'js', 'diff2html-ui-slim.min.js');
   const jsUiContent = utils.readFile(jsUiFilePath);
 
+  const pageTitle = config.pageTitle;
+  const pageHeader = config.pageHeader;
+
   /* HACK:
    *   Replace needs to receive a function as the second argument to perform an exact replacement.
    *     This will avoid the replacements from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_string_as_a_parameter
    */
   return [
+    { searchValue: '<!--diff2html-title-->', replaceValue: pageTitle },
     { searchValue: '<!--diff2html-css-->', replaceValue: `<style>\n${cssContent}\n</style>` },
     { searchValue: '<!--diff2html-js-ui-->', replaceValue: `<script>\n${jsUiContent}\n</script>` },
     {
@@ -68,6 +72,7 @@ function prepareHTML(diffHTMLContent: string, config: Configuration): string {
       searchValue: '//diff2html-highlightCode',
       replaceValue: config.highlightCode ? `diff2htmlUi.highlightCode();` : '',
     },
+    { searchValue: '<!--diff2html-header-->', replaceValue: pageHeader },
     { searchValue: '<!--diff2html-diff-->', replaceValue: diffHTMLContent },
   ].reduce(
     (previousValue, replacement) =>
