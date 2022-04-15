@@ -17,5 +17,7 @@ export type Configuration = {
   inputSource: InputType;
   diffyType?: DiffyType;
   htmlWrapperTemplate: string;
+  pageTitle: string;
+  pageHeader: string;
   ignore: string[];
 };

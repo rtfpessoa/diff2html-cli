@@ -86,6 +86,7 @@ Usage: diff2html [ flags and/or options ] -- [git diff passthrough flags and opt
 |       | --maxLineSizeInBlockForComparison | Maximum number of characters of the bigger line in a block to apply comparison                     |                              | `200`     |
 |       | --maxLineLengthHighlight          | Maximum number of characters in a line to apply highlight                                          |                              | `10000`   |
 | --hwt | --htmlWrapperTemplate             | Path to custom template to be rendered when using the `html` output format                         | `[string]`                   |
+| -t    | --title                           | Page title for `html` output                                                                       | `[string]`                   |
 | -f    | --format                          | Output format                                                                                      | `html`, `json`               | `html`    |
 | -i    | --input                           | Diff input source                                                                                  | `file`, `command`, `stdin`   | `command` |
 | -o    | --output                          | Output destination                                                                                 | `preview`, `stdout`          | `preview` |
