@@ -65,6 +65,10 @@ function prepareHTML(diffHTMLContent: string, config: Configuration): string {
       replaceValue: `diff2htmlUi.fileListToggle(${config.showFilesOpen});`,
     },
     {
+      searchValue: '//diff2html-fileContentToggle',
+      replaceValue: config.fileContentToggle ? `diff2htmlUi.fileContentToggle();` : '',
+    },
+    {
       searchValue: '//diff2html-synchronisedScroll',
       replaceValue: config.synchronisedScroll ? `diff2htmlUi.synchronisedScroll();` : '',
     },

@@ -8,6 +8,7 @@ export type OutputType = 'preview' | 'stdout';
 export type DiffyType = 'browser' | 'pbcopy' | 'print';
 
 export type Configuration = {
+  fileContentToggle: boolean;
   synchronisedScroll: boolean;
   showFilesOpen: boolean;
   highlightCode: boolean;

@@ -38,6 +38,7 @@ export function parseArgv(argv: Argv): [Diff2HtmlConfig, Configuration] {
   const defaultWrapperTemplate = path.resolve(__dirname, '..', 'template.html');
   const configuration: Configuration = {
     showFilesOpen: argv.summary === 'open' || false,
+    fileContentToggle: argv.fileContentToggle,
     synchronisedScroll: argv.synchronisedScroll,
     highlightCode: argv.highlightCode,
     formatType: argv.format,
