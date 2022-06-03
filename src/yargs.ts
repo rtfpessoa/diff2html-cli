@@ -13,6 +13,7 @@ import {
 
 export type Argv = {
   style: StyleType;
+  fileContentToggle: boolean;
   synchronisedScroll: boolean;
   highlightCode: boolean;
   diffStyle: DiffStyleType;
@@ -38,6 +39,7 @@ export type Argv = {
 
 const defaults: Argv = {
   style: 'line',
+  fileContentToggle: true,
   synchronisedScroll: true,
   highlightCode: true,
   summary: 'closed',
@@ -92,6 +94,12 @@ export function setup(): Argv {
       nargs: 1,
       choices: choices.style,
       default: defaults.style,
+    })
+    .option('fileContentToggle', {
+      alias: 'fct',
+      describe: 'Show viewed checkbox to toggle file content',
+      type: 'boolean',
+      default: defaults.fileContentToggle,
     })
     .option('synchronisedScroll', {
       alias: 'sc',

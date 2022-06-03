@@ -73,6 +73,7 @@ Usage: diff2html [ flags and/or options ] -- [git diff passthrough flags and opt
 | flag  | alias                             | description                                                                                        | choices                      | default   |
 | ----- | --------------------------------- | -------------------------------------------------------------------------------------------------- | ---------------------------- | --------- |
 | -s    | --style                           | Output style                                                                                       | `line`, `side`               | `line`    |
+| --fct | --fileContentToggle               | Adds a viewed checkbox to toggle file content                                                      | `true`, `false`              | `true`    |
 | --sc  | --synchronisedScroll              | Synchronised horizontal scroll                                                                     | `true`, `false`              | `true`    |
 | --hc  | --highlightCode                   | Highlight code                                                                                     | `true`, `false`              | `true`    |
 | --su  | --summary                         | Show files summary                                                                                 | `closed`, `open`, `hidden`   | `closed`  |
