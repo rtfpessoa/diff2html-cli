@@ -46,8 +46,8 @@ export function parseArgv(argv: Argv): [Diff2HtmlConfig, Configuration] {
     inputSource: argv.input,
     diffyType: argv.diffy,
     htmlWrapperTemplate: argv.htmlWrapperTemplate || defaultWrapperTemplate,
-    pageTitle: argv.pageTitle || defaultPageTitle,
-    pageHeader: argv.pageTitle || defaultPageHeader,
+    pageTitle: argv.title || defaultPageTitle,
+    pageHeader: argv.title || defaultPageHeader,
     ignore: argv.ignore || [],
   };
 
