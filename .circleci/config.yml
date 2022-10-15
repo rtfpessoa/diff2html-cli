@@ -88,11 +88,6 @@ jobs:
           paths:
             - '*'
 
-  build-node-12:
-    <<: *common-build
-    docker:
-      - image: node:12
-
   build-node-14:
     <<: *common-build
     docker:
@@ -102,6 +97,11 @@ jobs:
     <<: *latest-build
     docker:
       - image: node:16
+
+  build-node-18:
+    <<: *common-build
+    docker:
+      - image: node:18
 
   tag_version:
     docker:
@@ -180,21 +180,21 @@ workflows:
   validate-and-publish:
     jobs:
       - checkout-and-version
-      - build-node-12:
-          requires:
-            - checkout-and-version
       - build-node-14:
           requires:
             - checkout-and-version
       - build-node-16:
           requires:
             - checkout-and-version
+      - build-node-18:
+          requires:
+            - checkout-and-version
       - publish_approval:
           type: approval
           requires:
-            - build-node-12
             - build-node-14
             - build-node-16
+            - build-node-18
       - tag_version:
           requires:
             - publish_approval

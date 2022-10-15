@@ -2,7 +2,7 @@ import fs from 'fs';
 import os from 'os';
 import path from 'path';
 
-import * as clipboardy from 'clipboardy';
+import clipboardy from 'clipboardy';
 import open = require('open');
 import { parse, html, Diff2HtmlConfig } from 'diff2html';
 

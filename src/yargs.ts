@@ -83,10 +83,10 @@ const choices: ArgvChoices = {
   diffy: ['browser', 'pbcopy', 'print'],
 };
 
-export function setup(): Argv {
+export async function setup(): Promise<Argv> {
   const currentYear = new Date().getFullYear();
 
-  const argv = yargs
+  const argv = await yargs
     .usage('Usage: diff2html [options] -- [diff args]')
     .option('style', {
       alias: 's',
@@ -254,7 +254,7 @@ export function setup(): Argv {
   return {
     ...argv,
     ignore: argv.ignore || [],
-    extraArguments: argv._,
+    extraArguments: argv._.map(e => e.toString()),
   };
 }
 
