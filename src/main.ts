@@ -6,7 +6,7 @@ import * as yargs from './yargs';
 
 export async function main(): Promise<void> {
   try {
-    const argv = yargs.setup();
+    const argv = await yargs.setup();
     const [diff2htmlOptions, configuration] = parseArgv(argv);
 
     const input = await cli.getInput(configuration.inputSource, argv.extraArguments, configuration.ignore);
@@ -40,6 +40,8 @@ export async function main(): Promise<void> {
     if (process.exitCode === undefined || process.exitCode === 0) {
       process.exitCode = 1;
     }
-    log.error(error);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const anyError = error as any;
+    log.error(anyError);
   }
 }
