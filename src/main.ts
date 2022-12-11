@@ -11,7 +11,7 @@ export async function main(): Promise<void> {
 
     const input = await cli.getInput(configuration.inputSource, argv.extraArguments, configuration.ignore);
 
-    if (!input) {
+    if (!input && !diff2htmlOptions.renderNothingWhenEmpty) {
       process.exitCode = 3;
       log.error('The input is empty. Try again.');
       yargs.help();
