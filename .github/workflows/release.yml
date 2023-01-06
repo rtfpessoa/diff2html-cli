@@ -1,0 +1,12 @@
+name: release
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  test-and-publish:
+    uses: ./.github/workflows/test-and-publish.yml
+    with:
+      environment: production
+    secrets: inherit
