@@ -1,15 +1,18 @@
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
+
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
 
 import clipboardy from 'clipboardy';
-import open = require('open');
+import open from 'open';
 import { parse, html, Diff2HtmlConfig } from 'diff2html';
 
-import * as http from './http-utils';
-import * as log from './logger';
-import { Configuration, InputType, DiffyType } from './types';
-import * as utils from './utils';
+import { put } from './http-utils.js';
+import * as log from './logger.js';
+import { Configuration, InputType, DiffyType } from './types.js';
+import * as utils from './utils.js';
 
 const defaultArgs = ['-M', '-C', 'HEAD'];
 
@@ -143,7 +146,7 @@ function isApiError(obj: unknown): obj is ApiError {
 }
 
 export async function postToDiffy(diff: string, diffyOutput: DiffyType): Promise<string> {
-  const response = await http.put('https://diffy.org/api/diff/', { diff: diff });
+  const response = await put('https://diffy.org/api/diff/', { diff: diff });
 
   if (!isCreateDiffResponse(response)) {
     if (isApiError(response)) {

@@ -1,13 +1,35 @@
-import * as cli from '../cli';
-import * as http from '../http-utils';
-import * as utils from '../utils';
+import { jest } from '@jest/globals';
 
-beforeEach(() => jest.clearAllMocks());
+let cli: typeof import('../cli');
+
+const readFileSpy: jest.Mock<() => string> = jest.fn();
+const readStdinSpy: jest.Mock<() => Promise<string>> = jest.fn();
+const writeFileSpy: jest.Mock<(filePath: string, content: string) => void> = jest.fn();
+const executeSpy: jest.Mock<(executable: string, args: string[]) => string> = jest.fn();
+jest.unstable_mockModule('../utils', async () => ({
+  readFile: readFileSpy,
+  readStdin: readStdinSpy,
+  execute: executeSpy,
+  writeFile: writeFileSpy,
+}));
+
+const putSpy: jest.Mock<(url: string, payload: object) => Promise<unknown>> = jest.fn();
+jest.unstable_mockModule('../http-utils', async () => ({
+  put: putSpy,
+}));
+
+beforeEach(async () => {
+  cli = await import('../cli');
+});
+
+afterEach(() => {
+  jest.clearAllMocks();
+});
 
 describe('cli', () => {
   describe('getInput', () => {
     test('should readFile when inputType is `file`', async () => {
-      const readFileSpy = jest.spyOn(utils, 'readFile').mockImplementationOnce(() => 'contents');
+      readFileSpy.mockReturnValue('contents');
 
       await cli.getInput('file', ['lol', 'foo'], []);
 
@@ -16,7 +38,7 @@ describe('cli', () => {
     });
 
     test('should readStdin when inputType is `stdin`', async () => {
-      const readStdinSpy = jest.spyOn(utils, 'readStdin').mockImplementationOnce(() => Promise.resolve('contents'));
+      readStdinSpy.mockReturnValue(Promise.resolve('contents'));
 
       await cli.getInput('stdin', ['lol'], []);
 
@@ -26,7 +48,7 @@ describe('cli', () => {
 
     describe('should execute command when inputType is `command`', () => {
       test('should pass args to git command and add `--no-color` flag', async () => {
-        const executeSpy = jest.spyOn(utils, 'execute').mockImplementationOnce(() => '');
+        executeSpy.mockReturnValue('');
 
         await cli.getInput('command', ['foo'], []);
 
@@ -35,7 +57,7 @@ describe('cli', () => {
       });
 
       test('should not add `--no-color` flag if already in args', async () => {
-        const executeSpy = jest.spyOn(utils, 'execute').mockImplementationOnce(() => '');
+        executeSpy.mockReturnValue('');
 
         await cli.getInput('command', ['--no-color'], []);
 
@@ -44,7 +66,7 @@ describe('cli', () => {
       });
 
       test('should add default flags if no args are provided', async () => {
-        const executeSpy = jest.spyOn(utils, 'execute').mockImplementationOnce(() => '');
+        executeSpy.mockReturnValue('');
 
         await cli.getInput('command', [], []);
 
@@ -54,7 +76,7 @@ describe('cli', () => {
 
       describe('when receiving paths to ignore', () => {
         test('should add the `--` separator if it is not already in args', async () => {
-          const executeSpy = jest.spyOn(utils, 'execute').mockImplementationOnce(() => '');
+          executeSpy.mockReturnValue('');
 
           await cli.getInput('command', ['foo'], ['some/path']);
 
@@ -63,7 +85,7 @@ describe('cli', () => {
         });
 
         test('should not add `--` flag if it is already in args', async () => {
-          const executeSpy = jest.spyOn(utils, 'execute').mockImplementationOnce(() => '');
+          executeSpy.mockReturnValue('');
 
           await cli.getInput('command', ['foo', '--', 'other/path'], ['some/path']);
 
@@ -80,7 +102,7 @@ describe('cli', () => {
       });
 
       test('should not add `--` flag when there are no paths to ignore', async () => {
-        const executeSpy = jest.spyOn(utils, 'execute').mockImplementationOnce(() => '');
+        executeSpy.mockReturnValue('');
 
         await cli.getInput('command', ['bar'], []);
 
@@ -91,9 +113,8 @@ describe('cli', () => {
   });
 
   describe('preview', () => {
-    test('should call `utils.writeFile`', () => {
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      const writeFileSpy = jest.spyOn(utils, 'writeFile').mockImplementationOnce(() => {});
+    test('should call `utils.writeFile`', async () => {
+      writeFileSpy.mockReturnValue();
 
       cli.preview('a', 'b');
 
@@ -103,7 +124,7 @@ describe('cli', () => {
 
   describe('postToDiffy', () => {
     test('should call `http.put`', async () => {
-      const putSpy = jest.spyOn(http, 'put').mockImplementationOnce(() => Promise.resolve({ id: 'foo' }));
+      putSpy.mockReturnValue(Promise.resolve({ id: 'foo' }));
 
       await cli.postToDiffy('a', 'print');
 

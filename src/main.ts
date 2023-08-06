@@ -1,8 +1,8 @@
-import * as cli from './cli';
-import { parseArgv } from './configuration';
-import * as log from './logger';
-import * as utils from './utils';
-import * as yargs from './yargs';
+import * as cli from './cli.js';
+import { parseArgv } from './configuration.js';
+import * as log from './logger.js';
+import * as utils from './utils.js';
+import * as yargs from './yargs.js';
 
 export async function main(): Promise<void> {
   try {
@@ -14,7 +14,6 @@ export async function main(): Promise<void> {
     if (!input && !diff2htmlOptions.renderNothingWhenEmpty) {
       process.exitCode = 3;
       log.error('The input is empty. Try again.');
-      yargs.help();
       return;
     }
 

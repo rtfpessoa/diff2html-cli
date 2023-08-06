@@ -36,7 +36,7 @@
     "url": "https://github.com/rtfpessoa/diff2html-cli/issues"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=16"
   },
   "preferGlobal": true,
   "scripts": {
@@ -46,15 +46,14 @@
     "prettier": "prettier --ignore-path .gitignore '**/*.+(js|jsx|ts|tsx|json|css|html|md|mdx)'",
     "format:check": "yarn run prettier --check",
     "format:fix": "yarn run prettier --write",
-    "build": "yarn run build:es5",
-    "build:es5": "rm -rf lib; tsc -p tsconfig.json --outDir lib",
+    "build": "rm -rf lib; tsc -p tsconfig.json --outDir lib",
     "gen": "yarn run gen:toc",
     "gen:toc-base": "markdown-toc --maxdepth 3 --bullets='-' -i",
     "gen:toc": "yarn run gen:toc-base README.md",
     "test": "is-ci 'test:coverage' 'test:watch'",
-    "test:coverage": "jest --coverage",
-    "test:watch": "jest --watch",
-    "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --watch",
+    "test:coverage": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --coverage",
+    "test:watch": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --watch",
+    "test:debug": "node --experimental-vm-modules --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --watch",
     "coverage:open": "yarn run test:coverage && open ./coverage/index.html",
     "validate": "yarn run format:check && yarn run lint:check && yarn run build && yarn run test:coverage",
     "fix": "yarn run format:fix && yarn run lint:fix",
@@ -62,8 +61,9 @@
     "version": "git add -A package.json",
     "prepare": "husky install"
   },
+  "type": "module",
   "bin": {
-    "diff2html": "./bin/diff2html"
+    "diff2html": "./bin/diff2html.js"
   },
   "main": "./lib/diff2html.js",
   "types": "./lib/diff2html.d.ts",
@@ -80,37 +80,44 @@
     ]
   },
   "dependencies": {
-    "clipboardy": "^2.3.0",
+    "clipboardy": "^3.0.0",
     "diff2html": "^3.4.19",
-    "node-fetch": "^2.6.7",
-    "open": "^8.4.0",
+    "node-fetch": "^3.3.2",
+    "open": "^9.1.0",
     "yargs": "^17.6.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.22.9",
+    "@babel/preset-env": "^7.22.9",
+    "@babel/preset-typescript": "^7.22.5",
+    "@jest/globals": "^29.6.2",
     "@types/hogan.js": "^3.0.1",
-    "@types/jest": "29.1.2",
-    "@types/node": "18.11.0",
+    "@types/jest": "^29.5.3",
+    "@types/node": "20.4.8",
     "@types/node-fetch": "^2.6.2",
     "@types/request": "2.48.8",
-    "@typescript-eslint/eslint-plugin": "5.40.0",
-    "@typescript-eslint/parser": "5.40.0",
-    "eslint": "8.25.0",
-    "eslint-config-prettier": "8.5.0",
-    "eslint-plugin-import": "2.26.0",
-    "eslint-plugin-jest": "27.1.2",
+    "@typescript-eslint/eslint-plugin": "6.2.1",
+    "@typescript-eslint/parser": "6.2.1",
+    "babel-jest": "^29.6.2",
+    "eslint": "8.46.0",
+    "eslint-config-prettier": "9.0.0",
+    "eslint-import-resolver-typescript": "^3.5.5",
+    "eslint-plugin-import": "2.28.0",
+    "eslint-plugin-jest": "27.2.3",
     "eslint-plugin-json": "3.1.0",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-optimize-regex": "1.2.1",
-    "eslint-plugin-promise": "6.1.0",
-    "eslint-plugin-sonarjs": "0.16.0",
-    "husky": "8.0.1",
+    "eslint-plugin-promise": "6.1.1",
+    "eslint-plugin-sonarjs": "0.20.0",
+    "husky": "8.0.3",
     "is-ci-cli": "2.2.0",
-    "jest": "29.2.0",
-    "lint-staged": "13.0.3",
+    "jest": "29.6.2",
+    "lint-staged": "13.2.3",
     "markdown-toc": "^1.2.0",
-    "prettier": "2.7.1",
-    "ts-jest": "29.0.3",
-    "typescript": "4.8.4"
+    "prettier": "3.0.1",
+    "ts-jest": "^29.1.1",
+    "ts-node": "^10.9.1",
+    "typescript": "5.1.6"
   },
   "license": "MIT",
   "files": [
