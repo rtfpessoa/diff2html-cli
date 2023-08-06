@@ -9,7 +9,7 @@ import {
   OutputType,
   DiffyType,
   DiffStyleType,
-} from './types';
+} from './types.js';
 
 export type Argv = {
   style: StyleType;
@@ -86,7 +86,7 @@ const choices: ArgvChoices = {
 export async function setup(): Promise<Argv> {
   const currentYear = new Date().getFullYear();
 
-  const argv = await yargs
+  const argv = await yargs()
     .usage('Usage: diff2html [options] -- [diff args]')
     .option('style', {
       alias: 's',
@@ -254,10 +254,6 @@ export async function setup(): Promise<Argv> {
   return {
     ...argv,
     ignore: argv.ignore?.map(String) || [],
-    extraArguments: argv._.map(e => e.toString()),
+    extraArguments: argv._.map(String),
   };
-}
-
-export function help(): void {
-  yargs.showHelp('log');
 }

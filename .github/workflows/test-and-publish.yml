@@ -52,7 +52,7 @@ jobs:
     needs: [version]
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [18.x, 20.x]
     steps:
       - uses: actions/checkout@v3
         with:
@@ -64,8 +64,8 @@ jobs:
           cache: 'yarn'
       - name: Log environment setup
         run: |
-            node -v
-            yarn -v
+          node -v
+          yarn -v
       - name: Install dependencies
         run: yarn install --ignore-engines
       - name: Build library
@@ -87,13 +87,13 @@ jobs:
         run: echo "version=$(cat .version)" >> $GITHUB_ENV
       - name: Configure Git
         run: |
-            git config user.email "gh-actions@users.noreply.github.com"
-            git config user.name "GitHub Actions"
+          git config user.email "gh-actions@users.noreply.github.com"
+          git config user.name "GitHub Actions"
       - name: Tag commit
         uses: tvdias/github-tagger@v0.0.1
         with:
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          tag: "${{ env.version }}"
+          repo-token: '${{ secrets.GITHUB_TOKEN }}'
+          tag: '${{ env.version }}'
       - name: Install dependencies
         run: yarn
       - uses: actions/setup-node@v3
@@ -104,18 +104,18 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-            rm -f .npmrc
-            touch .npmrc
-            echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" >> .npmrc
-            echo "registry=https://registry.npmjs.org/" >> .npmrc
-            echo "access=public" >> .npmrc
-            echo "save-exact=true" >> .npmrc
-            yarn config set version-tag-prefix ""
-            yarn config set version-git-message "Release version %s"
+          rm -f .npmrc
+          touch .npmrc
+          echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" >> .npmrc
+          echo "registry=https://registry.npmjs.org/" >> .npmrc
+          echo "access=public" >> .npmrc
+          echo "save-exact=true" >> .npmrc
+          yarn config set version-tag-prefix ""
+          yarn config set version-git-message "Release version %s"
       - name: Version package
         run: |
-            # Update version in packages to publish
-            yarn version --non-interactive --new-version $(cat .version)
+          # Update version in packages to publish
+          yarn version --non-interactive --new-version $(cat .version)
       - name: Publish to NPM
         run: yarn publish --tag $(cat .tag) --non-interactive --new-version $(cat .version)
       - uses: actions/setup-node@v3
@@ -126,23 +126,23 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-            rm -f .npmrc
-            touch .npmrc
-            echo "//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}" >> .npmrc
-            echo "@rtfpessoa:registry=https://npm.pkg.github.com/" >> .npmrc
-            echo "access=public" >> .npmrc
-            echo "save-exact=true" >> .npmrc
-            yarn config set version-tag-prefix ""
-            yarn config set version-git-message "Release version %s"
+          rm -f .npmrc
+          touch .npmrc
+          echo "//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}" >> .npmrc
+          echo "@rtfpessoa:registry=https://npm.pkg.github.com/" >> .npmrc
+          echo "access=public" >> .npmrc
+          echo "save-exact=true" >> .npmrc
+          yarn config set version-tag-prefix ""
+          yarn config set version-git-message "Release version %s"
       - name: Version package
         run: |
-            # Update version in packages to publish
-            yarn version --non-interactive --new-version $(cat .version)
+          # Update version in packages to publish
+          yarn version --non-interactive --new-version $(cat .version)
       - name: Publish to GPR
         run: |
-            # HACK: Override npm package name to be able to publish in GitHub
-            sed -i 's/^  "name":.*/  "name": "@rtfpessoa\/diff2html-cli",/g' package.json
-            echo "Going to publish version $(cat .version) to GitHub"
-            yarn publish --tag $(cat .tag) --non-interactive --new-version $(cat .version)
-            # HACK: Restore npm package name
-            sed -i 's/^  "name":.*/  "name": "diff2html-cli",/g' package.json
+          # HACK: Override npm package name to be able to publish in GitHub
+          sed -i 's/^  "name":.*/  "name": "@rtfpessoa\/diff2html-cli",/g' package.json
+          echo "Going to publish version $(cat .version) to GitHub"
+          yarn publish --tag $(cat .tag) --non-interactive --new-version $(cat .version)
+          # HACK: Restore npm package name
+          sed -i 's/^  "name":.*/  "name": "diff2html-cli",/g' package.json

@@ -33,18 +33,15 @@ module.exports = {
   ],
   plugins: ['@typescript-eslint', 'json', 'promise', 'import', 'node', 'sonarjs', 'jest', 'optimize-regex'],
   rules: {
-    // Enable
     'optimize-regex/optimize-regex': 'error',
-    // Hack: For some reason we need pass again the extensions
-    'node/no-missing-import': [
-      'error',
-      {
-        tryExtensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
-      },
-    ],
-    // Disable
-    // https://github.com/benmosher/eslint-plugin-import/issues/1446
-    'import/named': 'off',
+    'import/no-unresolved': 'error',
+    'node/no-missing-import': 'off',
+    // 'node/no-missing-import': [
+    //   'error',
+    //   {
+    //     tryExtensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
+    //   },
+    // ],
     // We don't need this since we are using transpilation
     'node/no-unsupported-features/es-syntax': 'off',
     'no-process-exit': 'off',
@@ -52,5 +49,14 @@ module.exports = {
     'sonarjs/no-duplicate-string': 'off',
     // Too verbose
     'sonarjs/cognitive-complexity': 'off',
+  },
+  settings: {
+    // This loads <rootdir>/tsconfig.json to eslint
+    'import/resolver': {
+      typescript: { alwaysTryTypes: true },
+    },
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts', '.tsx'],
+    },
   },
 };

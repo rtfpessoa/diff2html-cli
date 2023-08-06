@@ -1,9 +1,12 @@
-import path from 'path';
+import { dirname, resolve } from 'path';
+import { fileURLToPath } from 'url';
 
-import { Configuration } from './types';
-import { Argv } from './yargs';
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+import { Configuration } from './types.js';
+import { Argv } from './yargs.js';
 import { Diff2HtmlConfig } from 'diff2html';
-import { OutputFormatType, DiffStyleType, LineMatchingType } from 'diff2html/lib/types';
+import { OutputFormatType, DiffStyleType, LineMatchingType } from 'diff2html/lib/types.js';
 
 export function parseArgv(argv: Argv): [Diff2HtmlConfig, Configuration] {
   const diff2htmlOptions: Diff2HtmlConfig = {
@@ -35,7 +38,7 @@ export function parseArgv(argv: Argv): [Diff2HtmlConfig, Configuration] {
 
   const defaultPageTitle = 'Diff to HTML by rtfpessoa';
   const defaultPageHeader = 'Diff to HTML by <a href="https://github.com/rtfpessoa">rtfpessoa</a>';
-  const defaultWrapperTemplate = path.resolve(__dirname, '..', 'template.html');
+  const defaultWrapperTemplate = resolve(__dirname, '..', 'template.html');
   const configuration: Configuration = {
     showFilesOpen: argv.summary === 'open' || false,
     fileContentToggle: argv.fileContentToggle,
