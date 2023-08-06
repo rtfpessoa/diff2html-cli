@@ -86,7 +86,7 @@ const choices: ArgvChoices = {
 export async function setup(): Promise<Argv> {
   const currentYear = new Date().getFullYear();
 
-  const argv = await yargs()
+  const argv = await yargs(process.argv.slice(2))
     .usage('Usage: diff2html [options] -- [diff args]')
     .option('style', {
       alias: 's',
