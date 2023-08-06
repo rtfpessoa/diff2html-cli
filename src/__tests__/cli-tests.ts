@@ -26,6 +26,8 @@ afterEach(() => {
   jest.clearAllMocks();
 });
 
+process.argv = ['node', 'diff2html.js', '-i', 'stdin', '--', 'test'];
+
 describe('cli', () => {
   describe('getInput', () => {
     test('should readFile when inputType is `file`', async () => {

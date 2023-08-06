@@ -27,10 +27,10 @@ const jestConfig: JestConfigWithTsJest = {
   coveragePathIgnorePatterns: ['/node_modules/', 'src/__tests__/'],
   coverageThreshold: {
     global: {
-      statements: 19,
-      branches: 10,
-      functions: 33,
-      lines: 19,
+      statements: 75,
+      branches: 53,
+      functions: 63,
+      lines: 75,
     },
   },
 };
