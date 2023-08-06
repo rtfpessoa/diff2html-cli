@@ -253,7 +253,7 @@ export async function setup(): Promise<Argv> {
 
   return {
     ...argv,
-    ignore: argv.ignore || [],
+    ignore: argv.ignore?.map(String) || [],
     extraArguments: argv._.map(e => e.toString()),
   };
 }
