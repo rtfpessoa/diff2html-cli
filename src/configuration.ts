@@ -34,6 +34,7 @@ export function parseArgv(argv: Argv): [Diff2HtmlConfig, Configuration] {
     renderNothingWhenEmpty: argv.renderNothingWhenEmpty,
     maxLineSizeInBlockForComparison: argv.maxLineSizeInBlockForComparison,
     maxLineLengthHighlight: argv.maxLineLengthHighlight,
+    colorScheme: argv.colorScheme,
   };
 
   const defaultPageTitle = 'Diff to HTML by rtfpessoa';

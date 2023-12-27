@@ -50,6 +50,7 @@ describe('cli', () => {
         maxLineSizeInBlockForComparison: 200,
         outputFormat: 'line-by-line',
         renderNothingWhenEmpty: false,
+        colorScheme: 'auto',
       },
       {
         diffyType: undefined,
