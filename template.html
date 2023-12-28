@@ -1,39 +1,36 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title><!--diff2html-title--></title>
 
-<head>
-  <meta charset="utf-8" />
-  <title><!--diff2html-title--></title>
-
-  <!--
+    <!--
       Diff to HTML (template.html)
       Author: rtfpessoa
     -->
 
-  <link rel="stylesheet" href="https://diff2html.xyz/demo.css?3b34d507487da05dfc0c" />
+    <link rel="stylesheet" href="https://diff2html.xyz/demo.css?3b34d507487da05dfc0c" />
 
-  <!--diff2html-css-->
+    <!--diff2html-css-->
 
-  <!--diff2html-js-ui-->
+    <!--diff2html-js-ui-->
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const targetElement = document.getElementById('diff');
-      const diff2htmlUi = new Diff2HtmlUI(targetElement);
-      //diff2html-fileListToggle
-      //diff2html-fileContentToggle
-      //diff2html-synchronisedScroll
-      //diff2html-highlightCode
-    });
-  </script>
-</head>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const targetElement = document.getElementById('diff');
+        const diff2htmlUi = new Diff2HtmlUI(targetElement);
+        //diff2html-fileListToggle
+        //diff2html-fileContentToggle
+        //diff2html-synchronisedScroll
+        //diff2html-highlightCode
+      });
+    </script>
+  </head>
+  <body style="text-align: center; font-family: 'Source Sans Pro', sans-serif">
+    <h1><!--diff2html-header--></h1>
 
-<body style="text-align: center; font-family: 'Source Sans Pro', sans-serif">
-  <h1><!--diff2html-header--></h1>
-
-  <div id="diff">
-    <!--diff2html-diff-->
-  </div>
-</body>
-
+    <div id="diff">
+      <!--diff2html-diff-->
+    </div>
+  </body>
 </html>
