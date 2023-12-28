@@ -118,6 +118,12 @@ export async function setup(): Promise<Argv> {
       type: 'boolean',
       default: defaults.highlightCode,
     })
+    .option('colorScheme', {
+      alias: 'cs',
+      describe: 'Color scheme of HTML output',
+      choices: choices.colorScheme,
+      default: defaults.colorScheme,
+    })
     .option('summary', {
       alias: 'su',
       describe: 'Show files summary',
@@ -233,12 +239,6 @@ export async function setup(): Promise<Argv> {
       describe: 'ignore a file',
       type: 'array',
       default: defaults.ignore,
-    })
-    .option('colorScheme', {
-      alias: 'cs',
-      describe: 'Color scheme of HTML output',
-      choices: choices.colorScheme,
-      default: defaults.colorScheme,
     })
     .example(
       'diff2html -s line -f html -d word -i command -o preview -- -M HEAD~1',
