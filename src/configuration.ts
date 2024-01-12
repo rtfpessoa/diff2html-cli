@@ -14,18 +14,18 @@ export function parseArgv(argv: Argv): [Diff2HtmlConfig, Configuration] {
       argv.style === 'side'
         ? OutputFormatType.SIDE_BY_SIDE
         : argv.style === 'line'
-        ? OutputFormatType.LINE_BY_LINE
-        : undefined,
+          ? OutputFormatType.LINE_BY_LINE
+          : undefined,
     diffStyle:
       argv.diffStyle === 'char' ? DiffStyleType.CHAR : argv.diffStyle === 'word' ? DiffStyleType.WORD : undefined,
     matching:
       argv.matching === 'lines'
         ? LineMatchingType.LINES
         : argv.matching === 'words'
-        ? LineMatchingType.WORDS
-        : argv.matching === 'none'
-        ? LineMatchingType.NONE
-        : undefined,
+          ? LineMatchingType.WORDS
+          : argv.matching === 'none'
+            ? LineMatchingType.NONE
+            : undefined,
     drawFileList: argv.summary !== 'hidden',
     matchWordsThreshold: argv.matchWordsThreshold,
     matchingMaxComparisons: argv.matchingMaxComparisons,
