@@ -74,6 +74,7 @@ Usage: diff2html [ flags and/or options ] -- [git diff passthrough flags and opt
 | --fct | --fileContentToggle               | Adds a viewed checkbox to toggle file content                                                      | `true`, `false`              | `true`    |
 | --sc  | --synchronisedScroll              | Synchronised horizontal scroll                                                                     | `true`, `false`              | `true`    |
 | --hc  | --highlightCode                   | Highlight code                                                                                     | `true`, `false`              | `true`    |
+| --cs  | --colorScheme                     | Color scheme                                                                                       | `auto`, `dark`, `light`      | `auto`    |
 | --su  | --summary                         | Show files summary                                                                                 | `closed`, `open`, `hidden`   | `closed`  |
 | -d    | --diffStyle                       | Diff style                                                                                         | `word`, `char`               | `word`    |
 | --lm  | --matching                        | Diff line matching type                                                                            | `lines`, `words`, `none`     | `none`    |

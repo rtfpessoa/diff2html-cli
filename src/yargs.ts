@@ -1,4 +1,5 @@
 import yargs from 'yargs';
+import { ColorSchemeType } from 'diff2html/lib/types.js';
 
 import {
   StyleType,
@@ -35,6 +36,7 @@ export type Argv = {
   title?: string;
   ignore?: string[];
   extraArguments: string[];
+  colorScheme: ColorSchemeType;
 };
 
 const defaults: Argv = {
@@ -59,6 +61,7 @@ const defaults: Argv = {
   htmlWrapperTemplate: undefined,
   title: undefined,
   extraArguments: [],
+  colorScheme: ColorSchemeType.AUTO,
 };
 
 type ArgvChoices = {
@@ -70,6 +73,7 @@ type ArgvChoices = {
   input: ReadonlyArray<InputType>;
   output: ReadonlyArray<OutputType>;
   diffy: ReadonlyArray<DiffyType>;
+  colorScheme: ReadonlyArray<ColorSchemeType>;
 };
 
 const choices: ArgvChoices = {
@@ -81,6 +85,7 @@ const choices: ArgvChoices = {
   input: ['file', 'command', 'stdin'],
   output: ['preview', 'stdout'],
   diffy: ['browser', 'pbcopy', 'print'],
+  colorScheme: [ColorSchemeType.AUTO, ColorSchemeType.DARK, ColorSchemeType.LIGHT],
 };
 
 export async function setup(): Promise<Argv> {
@@ -112,6 +117,12 @@ export async function setup(): Promise<Argv> {
       describe: 'Highlight Code',
       type: 'boolean',
       default: defaults.highlightCode,
+    })
+    .option('colorScheme', {
+      alias: 'cs',
+      describe: 'Color scheme of HTML output',
+      choices: choices.colorScheme,
+      default: defaults.colorScheme,
     })
     .option('summary', {
       alias: 'su',
