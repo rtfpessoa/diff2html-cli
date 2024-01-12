@@ -4,7 +4,7 @@
   "compilerOptions": {
     "moduleResolution": "NodeNext",
     "target": "ESNext",
-    "module": "ESNext",
+    "module": "NodeNext",
     "lib": ["ESNext"],
     "jsx": "preserve",
     "rootDir": "src",
