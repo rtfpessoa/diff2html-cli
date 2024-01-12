@@ -13,8 +13,51 @@ import { put } from './http-utils.js';
 import * as log from './logger.js';
 import { Configuration, InputType, DiffyType } from './types.js';
 import * as utils from './utils.js';
+import { ColorSchemeType } from 'diff2html/lib/types.js';
 
 const defaultArgs = ['-M', '-C', 'HEAD'];
+
+const lightGitHubTheme = `<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" />`;
+const darkGitHubTheme = `<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />`;
+const autoGitHubTheme = `<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="screen and (prefers-color-scheme: light)" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="screen and (prefers-color-scheme: dark)" />`;
+
+const lightBaseStyle = `<style>
+body {
+  background-color: var(--d2h-bg-color);
+}
+h1 {
+  color: var(--d2h-light-color);
+}
+</style>`;
+
+const darkBaseStyle = `<style>
+body {
+  background-color: rgb(13, 17, 23);
+}
+h1 {
+  color: var(--d2h-dark-color);
+}
+</style>`;
+
+const autoBaseStyle = `<style>
+@media screen and (prefers-color-scheme: light) {
+  body {
+    background-color: var(--d2h-bg-color);
+  }
+  h1 {
+    color: var(--d2h-light-color);
+  }
+}
+@media screen and (prefers-color-scheme: dark) {
+  body {
+    background-color: rgb(13, 17, 23);
+  }
+  h1 {
+    color: var(--d2h-dark-color);
+  }
+}
+</style>`;
 
 function generateGitDiffArgs(gitArgsArr: string[], ignore: string[]): string[] {
   const gitDiffArgs: string[] = ['diff'];
@@ -41,7 +84,7 @@ function runGitDiff(gitArgsArr: string[], ignore: string[]): string {
   return utils.execute('git', gitDiffArgs);
 }
 
-function prepareHTML(diffHTMLContent: string, config: Configuration): string {
+function prepareHTML(diffHTMLContent: string, config: Configuration, colorScheme?: ColorSchemeType): string {
   const template = utils.readFile(config.htmlWrapperTemplate);
 
   const diff2htmlPath = path.join(path.dirname(require.resolve('diff2html')), '..');
@@ -55,13 +98,21 @@ function prepareHTML(diffHTMLContent: string, config: Configuration): string {
   const pageTitle = config.pageTitle;
   const pageHeader = config.pageHeader;
 
+  const gitHubTheme =
+    colorScheme === 'light' ? lightGitHubTheme : colorScheme === 'dark' ? darkGitHubTheme : autoGitHubTheme;
+
+  const baseStyle = colorScheme === 'light' ? lightBaseStyle : colorScheme === 'dark' ? darkBaseStyle : autoBaseStyle;
+
   /* HACK:
    *   Replace needs to receive a function as the second argument to perform an exact replacement.
    *     This will avoid the replacements from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_string_as_a_parameter
    */
   return [
     { searchValue: '<!--diff2html-title-->', replaceValue: pageTitle },
-    { searchValue: '<!--diff2html-css-->', replaceValue: `<style>\n${cssContent}\n</style>` },
+    {
+      searchValue: '<!--diff2html-css-->',
+      replaceValue: `${baseStyle}\n${gitHubTheme}\n<style>\n${cssContent}\n</style>`,
+    },
     { searchValue: '<!--diff2html-js-ui-->', replaceValue: `<script>\n${jsUiContent}\n</script>` },
     {
       searchValue: '//diff2html-fileListToggle',
@@ -118,7 +169,7 @@ export function getOutput(options: Diff2HtmlConfig, config: Configuration, input
   switch (config.formatType) {
     case 'html': {
       const htmlContent = html(diffJson, { ...options });
-      return prepareHTML(htmlContent, config);
+      return prepareHTML(htmlContent, config, options.colorScheme);
     }
     case 'json': {
       return JSON.stringify(diffJson);
